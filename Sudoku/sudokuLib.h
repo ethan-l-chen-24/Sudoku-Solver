@@ -15,8 +15,8 @@
 
 /******************* printTable() ******************/
 /*
- * Function used to create a new index struct
- * It creates a hashtable with the given size
+ * Prints a hashtable to stdout
+ * if in style mode, it stylizes the grid with | and _ to show the 3x3 boxes
 */
 void printTable(int** table, int dimension, bool style);
 
