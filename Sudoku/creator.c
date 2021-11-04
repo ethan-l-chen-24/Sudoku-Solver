@@ -14,7 +14,11 @@
 #include <string.h>
 #include "sudokuLib.h"
 
-/******************* generateTable ******************/
+/******************* local function ***********************/
+
+void randomize(int** table);
+
+/******************* generateTable() ******************/
 /* see creator.h for more information */
 int** generateTable() {
     int** table;                                        // the board
@@ -44,9 +48,13 @@ int** generateTable() {
         }
     }
 
-    // swap the rows and columns of the table
-
-    
-
+    randomize(table);
     return table;
 }
+
+/******************* randomize() ******************/
+/* see creator.h for more information */
+
+void randomize(int** table) {
+    
+} 
