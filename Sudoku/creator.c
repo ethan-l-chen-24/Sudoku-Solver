@@ -12,15 +12,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "sudokuLib.h"
 
 /******************* generateTable ******************/
 /* see creator.h for more information */
-int generateTable() {
+void generateTable() {
     int** table;                                        // the board
     int val[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};            // an array of value to input
-    int ind = -3;                                        // the index of the val array
+    int ind = -3;                                       // the index of the val array
 
+    // generate a generic table
     // looping through the rows
     for (int row = 0; row < 9; row++) {
 
@@ -43,5 +44,5 @@ int generateTable() {
         }
     }
 
-    return 0;
+    // swap the rows and columns of the table
 }
