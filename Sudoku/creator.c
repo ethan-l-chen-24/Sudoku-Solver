@@ -13,15 +13,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-/******************* create ******************/
+
+/******************* generateTable ******************/
 /* see creator.h for more information */
-int create(char* difficulty) {
-    // if creating on easy mode
-    if (strcmp(difficulty, "easy")) {
-
-    }
-    // if creating on hard mode
-    else {
-
-    }
+int generateTable() {
+    
 }
