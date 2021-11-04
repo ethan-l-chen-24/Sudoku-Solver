@@ -30,7 +30,7 @@ void validateParam(char* mode, char* difficulty) {
     }
 }
 
-int main(const int argc, const char* argv[]) {
+int main(const int argc, char* argv[]) {
     // for now, checks if number of command-line arguments is 3
     if (argc != 3) {
         fprintf(stderr, "Incorrect number of arguments. Usage: ./sudoku mode difficulty\n");

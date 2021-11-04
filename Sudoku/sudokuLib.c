@@ -26,7 +26,7 @@ void printTable(int** table, int dimension, bool style)
         // loop through every cell
         for(int i = 0; i < dimension; i ++) {
             for(int j = 0; j < dimension; j++) {
-                printf("%s ", table[i][j]); // print the number
+                printf("%d ", table[i][j]); // print the number
             }
 
             // print to next line
@@ -44,7 +44,7 @@ void printTable(int** table, int dimension, bool style)
         // loop through every cell
         for(int i = 0; i < dimension; i ++) {
             for(int j = 0; j < dimension; j++) {
-                printf("%s ", table[i][j]); // print the number
+                printf("%d ", table[i][j]); // print the number
 
                 // every three columns print a vertical bar
                 columnCount++;
