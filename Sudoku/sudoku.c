@@ -16,7 +16,7 @@
 #include "solver.h"
 
 void validateParam(char* mode, char* difficulty);
-int createTable(char* difficulty);
+void createTable(char* difficulty);
 
 void validateParam(char* mode, char* difficulty) {
     if (strcmp(mode, "create") != 0 && strcmp(mode, "solve") != 0) {
@@ -44,25 +44,14 @@ int main(const int argc, const char* argv[]) {
 
     // if the mode is to create
     if (strcmp(mode, "create") == 0) {
-        // pass difficulty parameter to creater
-        if (createTable(difficulty) != 0) {  // create returns 0 on error
-            fprintf(stderr, "Error creating sudoku board.\n");
-            return 2;
-        }
+        // pass difficulty parameter to creator
+        createTable(difficulty);
+        
     }
-
 }
 
 // creates the sudoku board
-int createTable(char* difficulty) {
-    // generate a basic table
-
-    // if creating on easy mode
-    if (strcmp(difficulty, "easy")) {
-
-    }
-    // if creating on hard mode
-    else {
-
-    }
+void createTable(char* difficulty) {
+    // generate a table
+    int** table = generateTable();
 }
