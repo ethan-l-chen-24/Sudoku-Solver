@@ -2,13 +2,13 @@
 #
 # Ethan Chen, Bansharee Ireen, Jeffrey Jiang, November 2021
 
-OBJS = sudoku.o creator.o solver.o  sudokuLib.o unittest.o
+OBJS = sudoku.o creator.o solver.o  sudokuTable.o unittest.o
 LIBS =
 
 # uncomment the following to turn on verbose memory logging
-TESTING = #-DMEMTEST
+TESTING = # -DUNITTEST #-DMEMTEST
 
-CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../lib
+CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50-given.a
 CC = gcc
 MAKE = make
 
@@ -21,11 +21,11 @@ sudoku: $(OBJS)
 unittest: $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
 
-sudoku.o: creator.h solver.h
-creator.o: creator.h 
-solver.o: solver.h sudokuLib.h
-sudokuLib.o: sudokuLib.h
-unittest.o: creator.h solver.h sudokuLib.h 
+sudoku.o: creator.h solver.h sudokuTable.h
+creator.o: creator.h sudokuTable.h
+solver.o: solver.h sudokuTable.h
+sudokuTable.o: sudokuTable.h
+unittest.o: creator.h solver.h sudokuTable.h
 
 .PHONY: all run test valgrind clean utest
 

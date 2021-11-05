@@ -9,7 +9,11 @@
  * CS50, Fall 2021
  */
 
+#ifdef UNITTEST
+
 int main(int argc, char const *argv[])
 {
     return 0;
 }
+
+#endif

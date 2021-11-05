@@ -9,6 +9,9 @@
  * CS50 Fall, 2021
  */
 
+#include <stdbool.h>
+
+typedef struct sudokuTable sudokuTable_t;
 
 /******************* sudokuTable_new ******************/
 /*
@@ -55,7 +58,7 @@ void sudokuTable_set(sudokuTable_t* sudoku, int row, int col, int val);
  * according to the rules of sudoku
  * 
  */
-void sudokuTable_get(sudokuTable_t* sudoku, int row, int col);
+int sudokuTable_get(sudokuTable_t* sudoku, int row, int col);
 
 /******************* sudokuTable_set ******************/
 /*
@@ -68,3 +71,13 @@ void sudokuTable_get(sudokuTable_t* sudoku, int row, int col);
  * 
  */
 void sudokuTable_delete(sudokuTable_t* sudoku);
+
+/******************* printTable() ******************/
+/*
+ * Prints a hashtable to stdout
+ * if in style mode, it stylizes the grid with | and _ to show the 3x3 boxes
+ * 
+ * Caller provides:
+ *  valid pointer to a sudokuTable, boolean for advanced or simple style
+*/
+void printTable(sudokuTable_t* sudoku, bool style);

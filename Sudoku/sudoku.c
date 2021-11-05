@@ -12,8 +12,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include "creator.h"
 #include "solver.h"
+#include "sudokuTable.h"
 
 void validateParam(char* mode, char* difficulty);
 void createTable(char* difficulty);
@@ -53,5 +55,6 @@ int main(const int argc, char* argv[]) {
 // creates the sudoku board
 void createTable(char* difficulty) {
     // generate a table
-    int** table = generateTable();
+    sudokuTable_t* sudoku = generateTable();
+    printTable(sudoku, true);
 }
