@@ -23,7 +23,7 @@ int main(){
     int arr[9][9] = 
     {
         {5,3,0,0,7,0,0,0,0},
-        {6,0,0,1,9,5,0,0,0},
+        {6,0,0,1,9,5,0,0,0} ,
         {0,9,8,0,0,0,0,6,0},
         {8,0,0,0,6,0,0,0,3},
         {4,0,0,8,0,3,0,0,1},
@@ -64,6 +64,7 @@ void solveSudoku(sudokuTable_t* sudoku)
     bool col[9][10];
     bool boxes[3][3][10];
     int num=0;
+    bool invalid = false;
     
     for(int i=0;i<9;i++){
         for(int j=0;j<10;j++){
@@ -82,12 +83,21 @@ void solveSudoku(sudokuTable_t* sudoku)
         for(int j=0;j<9;j++){
             if(board[i][j]==0) continue;
             num=board[i][j];
-            row[i][num]=true;
-            col[j][num]=true;
-            boxes[i/3][j/3][num]=true;
+            if(row[i][num]) invalid=true;
+            else row[i][num] = true;
+
+            if(col[j][num]) invalid =true;
+            else col[j][num]=true;
+
+            if(boxes[i/3][j/3]) invalid =true;
+            else boxes[i/3][j/3][num]=true;
         }
     }
-    backtrack(board,0,0,row,col,boxes);
+    if(!invalid) backtrack(board,0,0,row,col,boxes);
+    else printf("Invalid board\n");
+    
+
+
 }//end solve
 
 bool backtrack(sudokuTable_t* sudoku, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]){
@@ -119,3 +129,8 @@ bool backtrack(sudokuTable_t* sudoku, int r, int c,  bool row[9][10], bool col[9
     
     return false;
 }//end backtrack
+
+
+
+
+
