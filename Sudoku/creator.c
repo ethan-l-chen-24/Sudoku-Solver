@@ -12,11 +12,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "sudokuLib.h"
+#include <stdbool.h>
+#include "sudokuTable.h"
 
 /******************* local function ***********************/
 
-void randomize(int** table);
+void randomize(sudokuTable_t* sudoku);
 
 /******************* generateTable() ******************/
 /* see creator.h for more information */
@@ -58,8 +59,9 @@ int** generateTable() {
  * only swaps rows and columns within the same "group"
  * groups are represented by indices 0-2, 3-5, and 6-8 for both rows and columns
 */
-void randomize(int** table) {
+void randomize(sudokuTable_t* sudoku) {
     
+    int** table;
     // loop through every group of 3
     for(int rowGroup = 0; rowGroup < 9; rowGroup += 3) {
         for(int colGroup = 0; colGroup < 9; colGroup += 3) {
@@ -85,8 +87,8 @@ void randomize(int** table) {
             randRow2 += rowGroup;
 
             // swap the row and columns randomly generated
-            swapColumn(table, 9, randCol1, randCol2);
-            swapRow(table, 9, randRow1, randRow2);
+            swapColumn(table, randCol1, randCol2);
+            swapRow(table, randRow1, randRow2);
             
         }
     }
