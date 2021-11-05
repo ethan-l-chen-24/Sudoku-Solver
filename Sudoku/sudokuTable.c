@@ -37,8 +37,8 @@ sudokuTable_t* sudokuTable_new(int dimension) {
         // allocate memory for the table
         int** matrix = calloc(dimension, sizeof(int*));
 
-        for(int i = 0; i < 9; i++) {
-            int* row = calloc(9, sizeof(int));
+        for(int i = 0; i < dimension; i++) {
+            int* row = calloc(dimension, sizeof(int));
             matrix[i] = row;
         }
 
@@ -87,21 +87,8 @@ void sudokuTable_delete(sudokuTable_t* sudoku) {
     }
 }
 
-// local functions for defensive programming
-/////////////// idk if we need this level of error checking, but writing them just in case
-
-// checks if the value to be inserted into the table can be inserted
-static bool validVal(sudokuTable_t* sudoku, int val) {
-    return (val >= 0 && val <= sudoku->dimension);
-}
-
-// checks if the value for row or column is within the acceptable range
-static bool validInd(sudokuTable_t* sudoku, int ind) {
-    return (ind >= 0 && ind < sudoku->dimension);
-}
-
 /******************* printTable() ******************/
-/* see sudokuLib.h for more information */
+/* see sudokuTable.h.h for more information */
 void printTable(sudokuTable_t* sudoku, bool style)
 {
     if(sudoku == NULL) return;
@@ -155,6 +142,46 @@ void printTable(sudokuTable_t* sudoku, bool style)
             printf("\n|");
         }
     }
+}
+
+/******************* swapRow() ******************/
+/* see sudokuLib.h for more information */
+void swapRow(sudokuTable_t* sudoku, int row1, int row2)
+{
+
+    // loop through every column
+    for(int col = 0; col < 9; col++) {
+        int val1 = sudokuTable_get(sudoku, row1, col);
+        int val2 = sudokuTable_get(sudoku, row2, col);
+        sudokuTable_set(sudoku, row2, col, val1);
+        sudokuTable_set(sudoku, row1, col, val2);
+    }
+}
+
+/******************* swapColumn() ******************/
+/* see sudokuLib.h for more information */
+void swapColumn(sudokuTable_t* sudoku, int col1, int col2) 
+{   
+    // loop through every row
+    for(int row = 0; row < 9; row++) {
+        int val1 = sudokuTable_get(sudoku, row, col1);
+        int val2 = sudokuTable_get(sudoku, row, col2);
+        sudokuTable_set(sudoku, row, col2, val1);
+        sudokuTable_set(sudoku, row, col1, val2);
+    }
+}
+
+// local functions for defensive programming
+/////////////// idk if we need this level of error checking, but writing them just in case
+
+// checks if the value to be inserted into the table can be inserted
+static bool validVal(sudokuTable_t* sudoku, int val) {
+    return (val >= 0 && val <= sudoku->dimension);
+}
+
+// checks if the value for row or column is within the acceptable range
+static bool validInd(sudokuTable_t* sudoku, int ind) {
+    return (ind >= 0 && ind < sudoku->dimension);
 }
 
 /******************* swapRow() ******************/

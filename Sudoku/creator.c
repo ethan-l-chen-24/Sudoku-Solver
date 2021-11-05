@@ -18,8 +18,6 @@
 /******************* local function ***********************/
 
 static void randomize(sudokuTable_t* sudoku);
-static void swapRow(sudokuTable_t* sudoku, int row1, int row2);
-static void swapColumn(sudokuTable_t* sudoku, int col1, int col2);
 
 /******************* generateTable() ******************/
 /* see creator.h for more information */
@@ -93,30 +91,3 @@ void randomize(sudokuTable_t* sudoku) {
     }
 
 } 
-
-/******************* swapRow() ******************/
-/* see sudokuLib.h for more information */
-static void swapRow(sudokuTable_t* sudoku, int row1, int row2)
-{
-
-    // loop through every column
-    for(int col = 0; col < 9; col++) {
-        int val1 = sudokuTable_get(sudoku, row1, col);
-        int val2 = sudokuTable_get(sudoku, row2, col);
-        sudokuTable_set(sudoku, row2, col, val1);
-        sudokuTable_set(sudoku, row1, col, val2);
-    }
-}
-
-/******************* swapColumn() ******************/
-/* see sudokuLib.h for more information */
-static void swapColumn(sudokuTable_t* sudoku, int col1, int col2) 
-{   
-    // loop through every row
-    for(int row = 0; row < 9; row++) {
-        int val1 = sudokuTable_get(sudoku, row, col1);
-        int val2 = sudokuTable_get(sudoku, row, col2);
-        sudokuTable_set(sudoku, row, col2, val1);
-        sudokuTable_set(sudoku, row, col1, val2);
-    }
-}
