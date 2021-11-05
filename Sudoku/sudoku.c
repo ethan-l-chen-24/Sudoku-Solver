@@ -32,6 +32,8 @@ void validateParam(char* mode, char* difficulty) {
     }
 }
 
+#ifndef UNITTEST
+
 int main(const int argc, char* argv[]) {
     // for now, checks if number of command-line arguments is 3
     if (argc != 3) {
@@ -51,6 +53,8 @@ int main(const int argc, char* argv[]) {
         
     }
 }
+
+#endif
 
 // creates the sudoku board
 void createTable(char* difficulty) {

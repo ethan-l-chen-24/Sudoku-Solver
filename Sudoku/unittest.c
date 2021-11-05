@@ -15,50 +15,52 @@
 #include "solver.h"
 #include "sudokuTable.h"
 
-//#ifdef UNITTEST
+#ifdef UNITTEST
 
 int test1() 
 {
     int failed = 0;
 
     sudokuTable_t* sudoku = sudokuTable_new(9);
-    sudokuTable_set(sudoku, 0, 0, 3);
-    sudokuTable_set(sudoku, 0, 1, 5);
-    sudokuTable_set(sudoku, 0, 2, 7);
-    sudokuTable_set(sudoku, 1, 0, 2);
-    sudokuTable_set(sudoku, 1, 1, 8);
-    sudokuTable_set(sudoku, 1, 2, 4);
-    sudokuTable_set(sudoku, 2, 0, 9);
-    sudokuTable_set(sudoku, 2, 1, 1);
-    sudokuTable_set(sudoku, 2, 2, 6);
+    sudokuTable_set(sudoku, 0, 3, 3);
+    sudokuTable_set(sudoku, 0, 4, 5);
+    sudokuTable_set(sudoku, 0, 5, 7);
+    sudokuTable_set(sudoku, 1, 3, 2);
+    sudokuTable_set(sudoku, 1, 4, 8);
+    sudokuTable_set(sudoku, 1, 5, 4);
+    sudokuTable_set(sudoku, 2, 3, 9);
+    sudokuTable_set(sudoku, 2, 4, 1);
+    sudokuTable_set(sudoku, 2, 5, 6);
 
     if(sudoku == NULL) failed++;
-    if(sudokuTable_get(sudoku, 0, 0) != 3) failed++; 
-    if(sudokuTable_get(sudoku, 0, 1) != 5) failed++; 
-    if(sudokuTable_get(sudoku, 2, 0) != 9) failed++;
+    if(sudokuTable_get(sudoku, 0, 3) != 3) failed++; 
+    if(sudokuTable_get(sudoku, 0, 4) != 5) failed++; 
+    if(sudokuTable_get(sudoku, 2, 3) != 9) failed++;
+
+    swapRow(sudoku, 0, 1);
+    if(sudokuTable_get(sudoku, 1, 4) != 5) failed++;
+    if(sudokuTable_get(sudoku, 0, 5) != 4) failed++;
+    swapRow(sudoku, 0, 1);
+
+    swapColumn(sudoku, 3, 5);
+    if(sudokuTable_get(sudoku, 2, 3) != 6) failed++;
+    if(sudokuTable_get(sudoku, 0, 5) != 3) failed++;
+    swapColumn(sudoku, 3, 5);
 
     sudokuTable_delete(sudoku);
-    if(sudoku != NULL) failed++; 
-    swapRow(sudoku, 0, 1);
-    swapRow(sudoku, 0, 2);
-    swapRow(sudoku, 1, 2);
 
     return failed;
 }
 
 int test2() 
 {
-    
-}
+    int failed = 0;
+    sudokuTable_t* sudoku = generateTable();
+    if(sudoku == NULL) failed++;
 
-int test3() 
-{
-    
-}
+    sudokuTable_delete(sudoku);
 
-int test4() 
-{
-    
+    return failed;
 }
 
 int main(int argc, char const *argv[])
@@ -75,33 +77,12 @@ int main(int argc, char const *argv[])
         totalFailed++;
     }
 
-    int failed = 0;
-    printf("Welcome to Unit Testing\n");
+    failed = 0;
     failed += test2();
     if (failed == 0) {
         printf("Test 2 passed\n");
     } else {
         printf("Test 2 failed!\n");
-        totalFailed++;
-    }
-
-    int failed = 0;
-    printf("Welcome to Unit Testing\n");
-    failed += test3();
-    if (failed == 0) {
-        printf("Test 3 passed\n");
-    } else {
-        printf("Test 3 failed!\n");
-        totalFailed++;
-    }
-
-    int failed = 0;
-    printf("Welcome to Unit Testing\n");
-    failed += test4();
-    if (failed == 0) {
-        printf("Test 4 passed\n");
-    } else {
-        printf("Test 4 failed!\n");
         totalFailed++;
     }
 
