@@ -88,8 +88,8 @@ void sudokuTable_delete(sudokuTable_t* sudoku) {
 }
 
 /******************* printTable() ******************/
-/* see sudokuTable.h.h for more information */
-void printTable(sudokuTable_t* sudoku, bool style)
+/* see sudokuTable.h for more information */
+void sudokuTable_print(sudokuTable_t* sudoku, bool style)
 {
     if(sudoku == NULL) return;
 
@@ -103,9 +103,9 @@ void printTable(sudokuTable_t* sudoku, bool style)
     if(!style) {
 
         // loop through every cell
-        for(int i = 0; i < dimension; i ++) {
-            for(int j = 0; j < dimension; j++) {
-                printf("%d ", table[i][j]); // print the number
+        for(int row = 0; row < dimension; row++) {
+            for(int col = 0; col < dimension; col++) {
+                printf("%d ", table[row][col]); // print the number
             }
 
             // print to next line
@@ -118,17 +118,17 @@ void printTable(sudokuTable_t* sudoku, bool style)
         int columnCount = 0;
 
         printRowBar();
-        printf("|");
+        printf("| ");
 
         // loop through every cell
-        for(int i = 0; i < dimension; i ++) {
-            for(int j = 0; j < dimension; j++) {
-                printf("%d ", table[i][j]); // print the number
+        for(int row = 0; row < dimension; row++) {
+            for(int col = 0; col < dimension; col++) {
+                printf("%d ", table[row][col]); // print the number
 
                 // every three columns print a vertical bar
                 columnCount++;
                 if (columnCount % 3 == 0) {
-                    printf("|");
+                    printf("| ");
                 }
             }
 
@@ -136,10 +136,14 @@ void printTable(sudokuTable_t* sudoku, bool style)
             rowCount++;
             if(rowCount % 3 == 0) {
                 printRowBar();
-            }
 
-            // print next line
-            printf("\n|");
+                if(rowCount != 9) {
+                    printf("| ");
+                }
+                
+            } else {
+                printf("\n| ");
+            }
         }
     }
 }
@@ -187,5 +191,5 @@ static bool validInd(sudokuTable_t* sudoku, int ind) {
 /******************* swapRow() ******************/
 /* print a long row bar _______________________ */
 static void printRowBar(void) {
-    printf("___________\n");
+    printf("\n ----------------------- \n");
 }

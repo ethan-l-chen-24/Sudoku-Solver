@@ -60,5 +60,5 @@ int main(const int argc, char* argv[]) {
 void createTable(char* difficulty) {
     // generate a table
     sudokuTable_t* sudoku = generateTable();
-    printTable(sudoku, true);
+    sudokuTable_print(sudoku, true);
 }

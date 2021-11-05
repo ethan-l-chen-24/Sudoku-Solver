@@ -32,6 +32,8 @@ int test1()
     sudokuTable_set(sudoku, 2, 4, 1);
     sudokuTable_set(sudoku, 2, 5, 6);
 
+    sudokuTable_print(sudoku, true);
+
     if(sudoku == NULL) failed++;
     if(sudokuTable_get(sudoku, 0, 3) != 3) failed++; 
     if(sudokuTable_get(sudoku, 0, 4) != 5) failed++; 
@@ -65,6 +67,7 @@ int test2()
 
 int main(int argc, char const *argv[])
 {
+    srand(time(NULL));
     int totalFailed = 0;
 
     int failed = 0;

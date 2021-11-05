@@ -80,7 +80,7 @@ void sudokuTable_delete(sudokuTable_t* sudoku);
  * Caller provides:
  *  valid pointer to a sudokuTable, boolean for advanced or simple style
 */
-void printTable(sudokuTable_t* sudoku, bool style);
+void sudokuTable_print(sudokuTable_t* sudoku, bool style);
 
 /******************* swapRow() ******************/
 /* 

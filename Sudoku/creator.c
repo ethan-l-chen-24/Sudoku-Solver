@@ -26,27 +26,26 @@ sudokuTable_t* generateTable() {
     int val[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};            // an array of value to input
     int ind = -3;                                       // the index of the val array
 
-    // generate a generic table
-    // looping through the rows
-    for (int row = 0; row < 9; row++) {
-
-        // check if last index was 9, reset to 0
-        if (ind  == 9) {
-            ind = 0;
-        }
-        ind += 3;   // each row starts at val 3 indices after the last row's val
-
-        // looping through the columns of each row
+    
+    int start = 1;
+     for (int row = 0; row < 9; row++) {
+         int val = start;
         for (int col = 0; col < 9; col++) {
-
-            // if we reach the end of the val array
-            if (ind == 9) {
-                ind = 0;                // start from the begining
+            if(val == 10) {
+                val = 1;
             }
-            sudokuTable_set(sudoku, row, col, val[ind]);
-            ind++;                      // increment index
+            sudokuTable_set(sudoku, row, col, val);
+            val++;                      // increment index
+        }
+        start += 3;
+        if(start > 9) {
+            start -= 8;
         }
     }
+
+    #ifdef UNITTEST
+        sudokuTable_print(sudoku, true);
+    #endif
 
     randomize(sudoku);
     return sudoku;
@@ -89,5 +88,4 @@ void randomize(sudokuTable_t* sudoku) {
             
         }
     }
-
 } 
