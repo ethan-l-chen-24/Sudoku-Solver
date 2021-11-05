@@ -18,8 +18,6 @@
 /******************* local function ***********************/
 
 static void randomize(sudokuTable_t* sudoku);
-static void swapRow(sudokuTable_t* sudoku, int row1, int row2);
-static void swapColumn(sudokuTable_t* sudoku, int col1, int col2);
 
 /******************* generateTable() ******************/
 /* see creator.h for more information */
@@ -28,27 +26,26 @@ sudokuTable_t* generateTable() {
     int val[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};            // an array of value to input
     int ind = -3;                                       // the index of the val array
 
-    // generate a generic table
-    // looping through the rows
-    for (int row = 0; row < 9; row++) {
-
-        // check if last index was 9, reset to 0
-        if (ind  == 9) {
-            ind = 0;
-        }
-        ind += 3;   // each row starts at val 3 indices after the last row's val
-
-        // looping through the columns of each row
+    
+    int start = 1;
+     for (int row = 0; row < 9; row++) {
+         int val = start;
         for (int col = 0; col < 9; col++) {
-
-            // if we reach the end of the val array
-            if (ind == 9) {
-                ind = 0;                // start from the begining
+            if(val == 10) {
+                val = 1;
             }
-            sudokuTable_set(sudoku, row, col, val[ind]);
-            ind++;                      // increment index
+            sudokuTable_set(sudoku, row, col, val);
+            val++;                      // increment index
+        }
+        start += 3;
+        if(start > 9) {
+            start -= 8;
         }
     }
+
+    #ifdef UNITTEST
+        sudokuTable_print(sudoku, true);
+    #endif
 
     randomize(sudoku);
     return sudoku;
@@ -91,32 +88,4 @@ void randomize(sudokuTable_t* sudoku) {
             
         }
     }
-
 } 
-
-/******************* swapRow() ******************/
-/* see sudokuLib.h for more information */
-static void swapRow(sudokuTable_t* sudoku, int row1, int row2)
-{
-
-    // loop through every column
-    for(int col = 0; col < 9; col++) {
-        int val1 = sudokuTable_get(sudoku, row1, col);
-        int val2 = sudokuTable_get(sudoku, row2, col);
-        sudokuTable_set(sudoku, row2, col, val1);
-        sudokuTable_set(sudoku, row1, col, val2);
-    }
-}
-
-/******************* swapColumn() ******************/
-/* see sudokuLib.h for more information */
-static void swapColumn(sudokuTable_t* sudoku, int col1, int col2) 
-{   
-    // loop through every row
-    for(int row = 0; row < 9; row++) {
-        int val1 = sudokuTable_get(sudoku, row, col1);
-        int val2 = sudokuTable_get(sudoku, row, col2);
-        sudokuTable_set(sudoku, row, col2, val1);
-        sudokuTable_set(sudoku, row, col1, val2);
-    }
-}

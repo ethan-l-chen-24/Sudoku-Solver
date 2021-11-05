@@ -80,4 +80,22 @@ void sudokuTable_delete(sudokuTable_t* sudoku);
  * Caller provides:
  *  valid pointer to a sudokuTable, boolean for advanced or simple style
 */
-void printTable(sudokuTable_t* sudoku, bool style);
+void sudokuTable_print(sudokuTable_t* sudoku, bool style);
+
+/******************* swapRow() ******************/
+/* 
+ * swaps two rows in a sudoku table
+ *
+ * Caller provides:
+ *  valid pointer to a sudokuTable, two rows (in no particular order) to swap all values in
+*/
+void swapRow(sudokuTable_t* sudoku, int row1, int row2);
+
+/******************* swapColumn() ******************/
+/* 
+ * swaps two columns in a sudoku table
+ *
+ * Caller provides:
+ *  valid pointer to a sudokuTable, two columns (in no particular order) to swap all values in
+*/
+void swapColumn(sudokuTable_t* sudoku, int col1, int col2);

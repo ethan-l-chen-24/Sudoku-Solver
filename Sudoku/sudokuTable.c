@@ -37,6 +37,11 @@ sudokuTable_t* sudokuTable_new(int dimension) {
         // allocate memory for the table
         int** matrix = calloc(dimension, sizeof(int*));
 
+        for(int i = 0; i < dimension; i++) {
+            int* row = calloc(dimension, sizeof(int));
+            matrix[i] = row;
+        }
+
         // assign data members
         sudoku->table = matrix;
         sudoku->dimension = dimension;
@@ -70,10 +75,103 @@ int sudokuTable_get(sudokuTable_t* sudoku, int row, int col) {
 /* see sudokuTable.h for more information */
 void sudokuTable_delete(sudokuTable_t* sudoku) {
     if (sudoku != NULL) {
+        // free each row
+        for(int i = 0; i < 9; i++) {
+            free(sudoku->table[i]);
+        }
+
         // free the table data member first
         free(sudoku->table);
         // finally, free the struct itself
         free(sudoku);
+    }
+}
+
+/******************* printTable() ******************/
+/* see sudokuTable.h for more information */
+void sudokuTable_print(sudokuTable_t* sudoku, bool style)
+{
+    if(sudoku == NULL) return;
+
+    // get the table and dimension from the struct
+    int** table = sudoku->table;
+    int dimension = sudoku->dimension;
+
+    if(table == NULL) return;
+
+    // simple style, just the numbers
+    if(!style) {
+
+        // loop through every cell
+        for(int row = 0; row < dimension; row++) {
+            for(int col = 0; col < dimension; col++) {
+                printf("%d ", table[row][col]); // print the number
+            }
+
+            // print to next line
+            printf("\n");
+        }
+    } else {
+
+    // complex style, includes | and _ to explicitly show 3x3 boxes
+        int rowCount = 0;
+        int columnCount = 0;
+
+        printRowBar();
+        printf("| ");
+
+        // loop through every cell
+        for(int row = 0; row < dimension; row++) {
+            for(int col = 0; col < dimension; col++) {
+                printf("%d ", table[row][col]); // print the number
+
+                // every three columns print a vertical bar
+                columnCount++;
+                if (columnCount % 3 == 0) {
+                    printf("| ");
+                }
+            }
+
+            // every three rows print a full row of underscores
+            rowCount++;
+            if(rowCount % 3 == 0) {
+                printRowBar();
+
+                if(rowCount != 9) {
+                    printf("| ");
+                }
+                
+            } else {
+                printf("\n| ");
+            }
+        }
+    }
+}
+
+/******************* swapRow() ******************/
+/* see sudokuLib.h for more information */
+void swapRow(sudokuTable_t* sudoku, int row1, int row2)
+{
+
+    // loop through every column
+    for(int col = 0; col < 9; col++) {
+        int val1 = sudokuTable_get(sudoku, row1, col);
+        int val2 = sudokuTable_get(sudoku, row2, col);
+        sudokuTable_set(sudoku, row2, col, val1);
+        sudokuTable_set(sudoku, row1, col, val2);
+    }
+}
+
+/******************* swapColumn() ******************/
+/* see sudokuLib.h for more information */
+void swapColumn(sudokuTable_t* sudoku, int col1, int col2) 
+{   
+    // loop through every row
+    for(int row = 0; row < 9; row++) {
+        int val1 = sudokuTable_get(sudoku, row, col1);
+        int val2 = sudokuTable_get(sudoku, row, col2);
+        sudokuTable_set(sudoku, row, col2, val1);
+        sudokuTable_set(sudoku, row, col1, val2);
     }
 }
 
@@ -90,63 +188,8 @@ static bool validInd(sudokuTable_t* sudoku, int ind) {
     return (ind >= 0 && ind < sudoku->dimension);
 }
 
-/******************* printTable() ******************/
-/* see sudokuLib.h for more information */
-void printTable(sudokuTable_t* sudoku, bool style)
-{
-    // get the table and dimension from the struct
-    int** table = sudoku->table;
-    int dimension = sudoku->dimension;
-
-    if(table == NULL) return;
-
-    // simple style, just the numbers
-    if(!style) {
-
-        // loop through every cell
-        for(int i = 0; i < dimension; i ++) {
-            for(int j = 0; j < dimension; j++) {
-                printf("%d ", table[i][j]); // print the number
-            }
-
-            // print to next line
-            printf("\n");
-        }
-    } else {
-
-    // complex style, includes | and _ to explicitly show 3x3 boxes
-        int rowCount = 0;
-        int columnCount = 0;
-
-        printRowBar();
-        printf("|");
-
-        // loop through every cell
-        for(int i = 0; i < dimension; i ++) {
-            for(int j = 0; j < dimension; j++) {
-                printf("%d ", table[i][j]); // print the number
-
-                // every three columns print a vertical bar
-                columnCount++;
-                if (columnCount % 3 == 0) {
-                    printf("|");
-                }
-            }
-
-            // every three rows print a full row of underscores
-            rowCount++;
-            if(rowCount % 3 == 0) {
-                printRowBar();
-            }
-
-            // print next line
-            printf("\n|");
-        }
-    }
-}
-
 /******************* swapRow() ******************/
 /* print a long row bar _______________________ */
 static void printRowBar(void) {
-    printf("___________\n");
+    printf("\n ----------------------- \n");
 }
