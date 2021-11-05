@@ -37,6 +37,11 @@ sudokuTable_t* sudokuTable_new(int dimension) {
         // allocate memory for the table
         int** matrix = calloc(dimension, sizeof(int*));
 
+        for(int i = 0; i < 9; i++) {
+            int* row = calloc(9, sizeof(int));
+            matrix[i] = row;
+        }
+
         // assign data members
         sudoku->table = matrix;
         sudoku->dimension = dimension;
@@ -70,6 +75,11 @@ int sudokuTable_get(sudokuTable_t* sudoku, int row, int col) {
 /* see sudokuTable.h for more information */
 void sudokuTable_delete(sudokuTable_t* sudoku) {
     if (sudoku != NULL) {
+        // free each row
+        for(int i = 0; i < 9; i++) {
+            free(sudoku->table[i]);
+        }
+
         // free the table data member first
         free(sudoku->table);
         // finally, free the struct itself
@@ -94,6 +104,8 @@ static bool validInd(sudokuTable_t* sudoku, int ind) {
 /* see sudokuLib.h for more information */
 void printTable(sudokuTable_t* sudoku, bool style)
 {
+    if(sudoku == NULL) return;
+
     // get the table and dimension from the struct
     int** table = sudoku->table;
     int dimension = sudoku->dimension;
