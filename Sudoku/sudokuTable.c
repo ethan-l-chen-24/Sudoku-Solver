@@ -12,7 +12,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <ctype.h>
 #include "sudokuTable.h"
+#include "file.h"
 
 // local functions
 static bool validVal(sudokuTable_t* sudoku, int val);
@@ -55,6 +57,36 @@ sudokuTable_t* sudokuTable_new(int dimension) {
 sudokuTable_t* sudokuTable_board(sudokuTable_t* sudoku) {
     if(sudoku == NULL) return NULL;
     else return sudoku->table;
+}
+
+/******************* sudokuTable_load ******************/
+/* see sudokuTable.h for more information */
+sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
+    if(fp == NULL) return NULL;
+
+
+    sudokuTable_t* sudoku = sudokuTable_new(9);
+    char c;
+    int row = 0;
+    while(!feof(fp)) {
+        int col = 0;
+        while((c = fgetc(fp)) != '\n') {
+            if(isdigit(c)) {
+
+                if(col >= 9 || row >= 9) {
+                    sudokuTable_delete(sudoku);
+                    fprintf(stderr, "Error: format of input file is incorrect\n");
+                    return NULL;
+                }
+                
+                sudokuTable_set(sudoku, row, col, atoi(c));
+                col++;
+            }
+        }
+
+        row++;
+        col = 0;
+    }
 }
 
 /******************* sudokuTable_set ******************/
