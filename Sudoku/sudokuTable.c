@@ -11,7 +11,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "sudokuTable.h"
+
+// local functions
+bool validVal(sudokuTable_t* sudoku, int val);
+bool validInd(sudokuTable_t* sudoku, int ind);
 
 // global types
 typedef struct sudokuTable {
@@ -42,7 +47,7 @@ sudokuTable_t* sudokuTable_new(int dimension) {
 /******************* sudokuTable_set ******************/
 /* see sudokuTable.h for more information */
 void sudokuTable_set(sudokuTable_t* sudoku, int row, int col, int val) {
-    if (sudoku != NULL) {
+    if (sudoku != NULL && validInd(sudoku, row) && validInd(sudoku, col) && validVal(sudoku, val)) {
         int** table = sudoku->table;
         table[row][col] = val;
     }
@@ -52,7 +57,7 @@ void sudokuTable_set(sudokuTable_t* sudoku, int row, int col, int val) {
 ////////////////// idk if we need this but wrote it here cause idk
 /* see sudokuTable.h for more information */
 void sudokuTable_get(sudokuTable_t* sudoku, int row, int col) {
-    if (sudoku != NULL) {
+    if (sudoku != NULL && validInd(sudoku, row) && validInd(sudoku, col)) {
         int** table = sudoku->table;
         return table[row][col];
     }
@@ -67,4 +72,17 @@ void sudokuTable_delete(sudokuTable_t* sudoku) {
         // finally, free the struct itself
         free(sudoku);
     }
+}
+
+// local functions for defensive programming
+/////////////// idk if we need this level of error checking, but writing them just in case
+
+// checks if the value to be inserted into the table can be inserted
+bool validVal(sudokuTable_t* sudoku, int val) {
+    return (val >= 0 && val <= sudoku->dimension);
+}
+
+// checks if the value for row or column is within the acceptable range
+bool validInd(sudokuTable_t* sudoku, int ind) {
+    return (ind >= 0 && ind < sudoku->dimension);
 }
