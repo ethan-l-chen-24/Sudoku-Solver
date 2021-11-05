@@ -31,6 +31,18 @@ typedef struct sudokuTable sudokuTable_t;
  */
 sudokuTable_t* sudokuTable_new(int dimension);
 
+/******************* sudokuTable_board ******************/
+/*
+ * return the sudokuBoards board
+ *
+ * Caller provides:
+ *  valid pointer to a sudokuTable
+ * 
+ * We return:
+ *  a pointer to the new sudoku table; return NULL on error
+ */
+sudokuTable_t* sudokuTable_board(sudokuTable_t* sudoku);
+
 /******************* sudokuTable_set ******************/
 /*
  * Sets the value of an individual cell to value provided
