@@ -12,10 +12,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include "sudokuTable.h"
 
 //function prootypes
-void solveSudoku(int board[9][9]);
-bool backtrack(int board[9][9], int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
+void solveSudoku(sudokuTable_t* sudoku);
+bool backtrack(sudokuTable_t* sudoku, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
 
 
 int main(){
@@ -56,7 +57,9 @@ int main(){
 }//end main
 
 
-void solveSudoku(int board[9][9]){
+void solveSudoku(sudokuTable_t* sudoku)
+{
+    int** board = sudokuTable_board(sudoku);
     bool row[9][10];
     bool col[9][10];
     bool boxes[3][3][10];
@@ -87,7 +90,8 @@ void solveSudoku(int board[9][9]){
     backtrack(board,0,0,row,col,boxes);
 }//end solve
 
-bool backtrack(int board[9][9], int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]){
+bool backtrack(sudokuTable_t* sudoku, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]){
+    int** board = sudokuTable_board(sudoku);
     if(c==9){
         c=0;
         r++;
