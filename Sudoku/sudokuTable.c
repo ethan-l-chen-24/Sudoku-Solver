@@ -57,10 +57,12 @@ void sudokuTable_set(sudokuTable_t* sudoku, int row, int col, int val) {
 /******************* sudokuTable_get ******************/
 ////////////////// idk if we need this but wrote it here cause idk
 /* see sudokuTable.h for more information */
-void sudokuTable_get(sudokuTable_t* sudoku, int row, int col) {
+int sudokuTable_get(sudokuTable_t* sudoku, int row, int col) {
     if (sudoku != NULL && validInd(sudoku, row) && validInd(sudoku, col)) {
         int** table = sudoku->table;
         return table[row][col];
+    } else {
+        return 0;
     }
 }
 
@@ -147,38 +149,4 @@ void printTable(sudokuTable_t* sudoku, bool style)
 /* print a long row bar _______________________ */
 static void printRowBar(void) {
     printf("___________\n");
-}
-
-/******************* swapRow() ******************/
-/* see sudokuLib.h for more information */
-void swapRow(sudokuTable_t* sudoku, int row1, int row2)
-{
-    // get the table and dimension from the struct
-    int** table = sudoku->table;
-    int dimension = sudoku->dimension;
-
-    // loop through every column
-    int save;
-    for(int col = 0; col < dimension; col++) {
-        save = table[row1][col]; // save the row cell
-        table[row1][col] = table[row2][col]; // swap the two values in each row
-        table[row2][col] = save;
-    }
-}
-
-/******************* swapColumn() ******************/
-/* see sudokuLib.h for more information */
-void swapColumn(sudokuTable_t* sudoku, int col1, int col2) 
-{
-    // get the table and dimension from the struct
-    int** table = sudoku->table;
-    int dimension = sudoku->dimension;
-    
-    // loop through every row
-    int save;
-    for(int row = 0; row < dimension; row++) {
-        save = table[row][col1]; // save the column cell
-        table[row][col1] = table[row][col2]; // swap the two values in each column
-        table[row][col2] = save;
-    }
 }

@@ -9,6 +9,8 @@
  * CS50 Fall, 2021
  */
 
+#include <stdbool.h>
+
 typedef struct sudokuTable sudokuTable_t;
 
 /******************* sudokuTable_new ******************/
@@ -56,7 +58,7 @@ void sudokuTable_set(sudokuTable_t* sudoku, int row, int col, int val);
  * according to the rules of sudoku
  * 
  */
-void sudokuTable_get(sudokuTable_t* sudoku, int row, int col);
+int sudokuTable_get(sudokuTable_t* sudoku, int row, int col);
 
 /******************* sudokuTable_set ******************/
 /*
@@ -79,22 +81,3 @@ void sudokuTable_delete(sudokuTable_t* sudoku);
  *  valid pointer to a sudokuTable, boolean for advanced or simple style
 */
 void printTable(sudokuTable_t* sudoku, bool style);
-
-/******************* swapRow() ******************/
-/*
- * swaps two rows in a sudoku table
- *
- * Caller provides:
- *  valid pointer to a sudoku table, two row numbers to be swapped 
- *  (order is irrelevant)
-*/
-void swapRow(sudokuTable_t* sudoku, int row1, int row2);
-
-/******************* swapColumn() ******************/
-/*
- * Swaps two columns in a sudokou table
- * Caller provides:
- *  valid pointer to a sudoku table, two row numbers to be swapped 
- *  (order is irrelevant)
-*/
-void swapColumn(sudokuTable_t* sudoku, int col1, int col2);

@@ -6,9 +6,9 @@ OBJS = sudoku.o creator.o solver.o  sudokuTable.o unittest.o
 LIBS =
 
 # uncomment the following to turn on verbose memory logging
-TESTING = #-DMEMTEST
+TESTING = # -DUNITTEST #-DMEMTEST
 
-CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../lib
+CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50-given.a
 CC = gcc
 MAKE = make
 

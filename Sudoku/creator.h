@@ -10,10 +10,12 @@
 #ifndef __CREATOR
 #define __CREATOR
 
+#include "sudokuTable.h"
+
 /******************* generateTable ******************/
 /* 
  * generates a completely solved sudoku table
  */
-int** generateTable();
+sudokuTable_t* generateTable();
 
 #endif
