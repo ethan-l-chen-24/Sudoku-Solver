@@ -1,3 +1,18 @@
+/*
+ *
+ *
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include "sudokuTable.h"
 
 /******************* solveSudoku ******************/
 /*
