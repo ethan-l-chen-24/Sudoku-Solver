@@ -45,14 +45,20 @@ sudokuTable_t* generateTable() {
             
     }//end outer for
     
-    int n=37;
+    int n=numFilled;
     int x=0;
     int y=0;
+
     while(n>0){
+        //generate random coordiates on the sudoku board
         x = rand()%9;
         y = rand()%9;
+
+        //generate a random number between 1-9
         num = (rand() % 9) +1;
         
+
+        //if we can the insertion of the random number into the random coordinate is valid, then do it
         if(!row[x][num] && !col[y][num] && !boxes[x/3][y/3][num] && !board[x][y]){
             row[x][num]=true;
             col[y][num]=true;
