@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "creator.h"
 #include "sudokuTable.h"
 
 /******************* generateTable() ******************/
