@@ -19,8 +19,8 @@
 
 //for direction: 1 means increasing order (use by default), -1 means decreasing order
 void solveSudoku(sudokuTable_t* sudoku, int direction);
-bool backtrack(sudokuTable_t* sudoku, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
-bool backtrackRev(sudokuTable_t* sudoku, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
+bool backtrack(int** board, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
+bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
 bool checkUniqueness(sudokuTable_t* sudoku);
 
 int main(){
@@ -124,9 +124,7 @@ void solveSudoku(sudokuTable_t* sudoku, int direction){
 
 //backtracking algo: it will recur along columns first, and then move along the rows. 
 /* see solver.h for more information */
-bool backtrack(sudokuTable_t* sudoku, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]){
-    int** board = sudokuTable_board(sudoku);
-    
+bool backtrack(int** board, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]){    
     //if we succesfully filled a whole column
     if(c==9){
         c=0;
@@ -174,8 +172,7 @@ bool backtrack(sudokuTable_t* sudoku, int r, int c,  bool row[9][10], bool col[9
 }//end backtrack
 
 /* see solver.h for more information */
-bool backtrackRev(sudokuTable_t* sudoku, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]){
-    int** board = sudokuTable_board(sudoku);
+bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]){
     if(c==9){
         c=0;
         r++;
