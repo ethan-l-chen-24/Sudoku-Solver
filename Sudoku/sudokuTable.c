@@ -39,6 +39,7 @@ sudokuTable_t* sudokuTable_new(int dimension) {
         // allocate memory for the table
         int** matrix = calloc(dimension, sizeof(int*));
 
+        // alocating memory for each cell
         for(int i = 0; i < dimension; i++) {
             int* row = calloc(dimension, sizeof(int));
             matrix[i] = row;
@@ -104,7 +105,6 @@ void sudokuTable_set(sudokuTable_t* sudoku, int row, int col, int val) {
 }
 
 /******************* sudokuTable_get ******************/
-////////////////// idk if we need this but wrote it here cause idk
 /* see sudokuTable.h for more information */
 int sudokuTable_get(sudokuTable_t* sudoku, int row, int col) {
     if (sudoku != NULL && validInd(sudoku, row) && validInd(sudoku, col)) {
@@ -133,8 +133,7 @@ void sudokuTable_delete(sudokuTable_t* sudoku) {
 
 /******************* printTable() ******************/
 /* see sudokuTable.h for more information */
-void sudokuTable_print(sudokuTable_t* sudoku, bool style)
-{
+void sudokuTable_print(sudokuTable_t* sudoku, bool style) {
     if(sudoku == NULL) return;
 
     // get the table and dimension from the struct
@@ -194,8 +193,7 @@ void sudokuTable_print(sudokuTable_t* sudoku, bool style)
 
 /******************* swapRow() ******************/
 /* see sudokuLib.h for more information */
-void swapRow(sudokuTable_t* sudoku, int row1, int row2)
-{
+void swapRow(sudokuTable_t* sudoku, int row1, int row2) {
 
     // loop through every column
     for(int col = 0; col < 9; col++) {
@@ -208,8 +206,7 @@ void swapRow(sudokuTable_t* sudoku, int row1, int row2)
 
 /******************* swapColumn() ******************/
 /* see sudokuLib.h for more information */
-void swapColumn(sudokuTable_t* sudoku, int col1, int col2) 
-{   
+void swapColumn(sudokuTable_t* sudoku, int col1, int col2) {   
     // loop through every row
     for(int row = 0; row < 9; row++) {
         int val1 = sudokuTable_get(sudoku, row, col1);
@@ -220,8 +217,6 @@ void swapColumn(sudokuTable_t* sudoku, int col1, int col2)
 }
 
 // local functions for defensive programming
-/////////////// idk if we need this level of error checking, but writing them just in case
-
 // checks if the value to be inserted into the table can be inserted
 static bool validVal(sudokuTable_t* sudoku, int val) {
     return (val >= 0 && val <= sudoku->dimension);
