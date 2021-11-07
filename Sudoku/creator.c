@@ -23,10 +23,7 @@ static void randomize(sudokuTable_t* sudoku);
 /******************* generateTable() ******************/
 /* see creator.h for more information */
 sudokuTable_t* generateTable() {
-    sudokuTable_t* sudoku = sudokuTable_new(9);                                   // the board
-    int val[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};            // an array of value to input
-    int ind = -3;                                       // the index of the val array
-
+    sudokuTable_t* sudoku = sudokuTable_new(9);         // the board
     
     int start = 1;
      for (int row = 0; row < 9; row++) {
