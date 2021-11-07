@@ -39,16 +39,6 @@ int test1()
     if(sudokuTable_get(sudoku, 0, 4) != 5) failed++; 
     if(sudokuTable_get(sudoku, 2, 3) != 9) failed++;
 
-    swapRow(sudoku, 0, 1);
-    if(sudokuTable_get(sudoku, 1, 4) != 5) failed++;
-    if(sudokuTable_get(sudoku, 0, 5) != 4) failed++;
-    swapRow(sudoku, 0, 1);
-
-    swapColumn(sudoku, 3, 5);
-    if(sudokuTable_get(sudoku, 2, 3) != 6) failed++;
-    if(sudokuTable_get(sudoku, 0, 5) != 3) failed++;
-    swapColumn(sudoku, 3, 5);
-
     sudokuTable_delete(sudoku);
 
     return failed;
