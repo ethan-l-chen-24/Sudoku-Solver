@@ -56,6 +56,20 @@ int test2()
     return failed;
 }
 
+int test_load() {
+    int failed = 0;
+    FILE* fp = fopen("table1", "r");
+    if (fp != NULL) {
+        sudokuTable_t* table = sudokuTable_load(fp, 9);
+    }
+
+    // print the table we just loaded
+    sudokuTable_print(table, true);
+    sudokuTable_delete(sudoku);
+
+    return failed;
+}
+
 int main(int argc, char const *argv[])
 {
     srand(time(NULL));

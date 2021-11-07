@@ -93,6 +93,8 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
         row++;
         col = 0;
     }
+    
+    return sudoku;
 }
 
 /******************* sudokuTable_set ******************/
