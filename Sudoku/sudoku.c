@@ -59,6 +59,6 @@ int main(const int argc, char* argv[]) {
 // creates the sudoku board
 void createTable(char* difficulty) {
     // generate a table
-    sudokuTable_t* sudoku = generateTable();
+    sudokuTable_t* sudoku = generateTable(25);
     sudokuTable_print(sudoku, true);
 }
