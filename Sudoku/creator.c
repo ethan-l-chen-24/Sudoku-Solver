@@ -17,7 +17,7 @@
 
 /******************* generateTable() ******************/
 /* see creator.h for more information */
-sudokuTable_t* generateTable() {
+sudokuTable_t* generateTable(int numFilled) {
     return NULL;
 }
 

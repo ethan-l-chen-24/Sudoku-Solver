@@ -14,8 +14,14 @@
 
 /******************* generateTable ******************/
 /* 
- * generates a completely solved sudoku table
+ * generates a sudoku table with a unique solution
+ *
+ * Caller provides:
+ *  the number of spots to be filled with numbers
+ * 
+ * We return:
+ *  a pointer to the new sudoku table; return NULL on error
  */
-sudokuTable_t* generateTable();
+sudokuTable_t* generateTable(int numFilled);
 
 #endif

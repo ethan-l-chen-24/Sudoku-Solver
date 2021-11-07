@@ -58,6 +58,7 @@ int test2()
 {
     int failed = 0;
     sudokuTable_t* sudoku = generateTable();
+    sudokuTable_print(sudoku);
     if(sudoku == NULL) failed++;
 
     sudokuTable_delete(sudoku);
