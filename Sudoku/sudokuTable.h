@@ -43,6 +43,22 @@ sudokuTable_t* sudokuTable_new(int dimension);
  */
 sudokuTable_t* sudokuTable_board(sudokuTable_t* sudoku);
 
+/******************* sudokuTable_load ******************/
+/*
+ * Create a new sudoku table from stdin in one of two formats
+ *
+ * Caller provides:
+ *  valid file that is currently open and being read that contains a sudoku table, 
+ *  an int dimension to read the sudoku table into
+ * 
+ * We return:
+ *  a pointer to the new sudoku table; return NULL on error
+ * 
+ * Caller is responsible for later freeing the memory allocated,
+ * typically by calling sudokuTable_delete
+ */
+sudokuTable_t* sudokuTable_load(FILE* fp, int dimension);
+
 /******************* sudokuTable_set ******************/
 /*
  * Sets the value of an individual cell to value provided
