@@ -19,6 +19,51 @@
 /******************* generateTable() ******************/
 /* see creator.h for more information */
 sudokuTable_t* generateTable() {
-    return NULL;
-}
+    sudokuTable_t* sudoku = sudokuTable_new(9);
+    int** board = sudokuTable_board(sudoku);
+    bool row[9][10];
+    bool col[9][10];
+    bool boxes[3][3][10];
+    int num=0;
+    
+    //initalizing everything to false
+    for(int i=0;i<9;i++){
+        for(int j=0;j<10;j++){
+            row[i][j]=false;
+            col[i][j]=false;
+        }//end inner for
+    }//end for
+    
+    //initalizing everything to false
+    for(int i=0;i<3;i++){
+        for(int j=0;j<3;j++){
+            for(int k=0;k<10;k++){
+                boxes[i][j][k]=false;
+            }//end inner for
+                
+        }//end middle for
+            
+    }//end outer for
+    
+    int n=37;
+    int x=0;
+    int y=0;
+    while(n>0){
+        x = rand()%9;
+        y = rand()%9;
+        num = (rand() % 9) +1;
+        
+        if(!row[x][num] && !col[y][num] && !boxes[x/3][y/3][num] && !board[x][y]){
+            row[x][num]=true;
+            col[y][num]=true;
+            boxes[x/3][y/3][num]=true;
+            board[x][y] = num;
+            n--;
+        }//end if
+        
+
+    }//end while
+
+    return sudoku;
+}//end generateTable
 
