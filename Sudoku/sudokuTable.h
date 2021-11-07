@@ -33,7 +33,7 @@ sudokuTable_t* sudokuTable_new(int dimension);
 
 /******************* sudokuTable_board ******************/
 /*
- * return the sudokuBoards board
+ * Return the sudokuBoards board
  *
  * Caller provides:
  *  valid pointer to a sudokuTable
@@ -96,7 +96,7 @@ void sudokuTable_print(sudokuTable_t* sudoku, bool style);
 
 /******************* swapRow() ******************/
 /* 
- * swaps two rows in a sudoku table
+ * Swaps two rows in a sudoku table
  *
  * Caller provides:
  *  valid pointer to a sudokuTable, two rows (in no particular order) to swap all values in
@@ -105,7 +105,7 @@ void swapRow(sudokuTable_t* sudoku, int row1, int row2);
 
 /******************* swapColumn() ******************/
 /* 
- * swaps two columns in a sudoku table
+ * Swaps two columns in a sudoku table
  *
  * Caller provides:
  *  valid pointer to a sudokuTable, two columns (in no particular order) to swap all values in
