@@ -18,7 +18,7 @@
 
 /******************* generateTable() ******************/
 /* see creator.h for more information */
-sudokuTable_t* generateTable() {
+sudokuTable_t* generateTable(int numFilled) {
     sudokuTable_t* sudoku = sudokuTable_new(9);
     int** board = sudokuTable_board(sudoku);
     bool row[9][10];
