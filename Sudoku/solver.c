@@ -24,18 +24,18 @@ bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], 
 bool checkUniqueness(sudokuTable_t* sudoku);
 
 int main(){
-    int arr[9][9] = 
-    {
-        {5,3,0,0,7,0,0,0,0},
-        {6,0,0,1,9,5,0,0,0} ,
-        {0,9,8,0,0,0,0,6,0},
-        {8,0,0,0,6,0,0,0,3},
-        {4,0,0,8,0,3,0,0,1},
-        {7,0,0,0,2,0,0,0,6},
-        {0,6,0,0,0,0,2,8,0},
-        {0,0,0,4,1,9,0,0,5},
-        {0,0,0,0,8,0,0,7,9}
-    };
+    // int arr[9][9] = 
+    // {
+    //     {5,3,0,0,7,0,0,0,0},
+    //     {6,0,0,1,9,5,0,0,0} ,
+    //     {0,9,8,0,0,0,0,6,0},
+    //     {8,0,0,0,6,0,0,0,3},
+    //     {4,0,0,8,0,3,0,0,1},
+    //     {7,0,0,0,2,0,0,0,6},
+    //     {0,6,0,0,0,0,2,8,0},
+    //     {0,0,0,4,1,9,0,0,5},
+    //     {0,0,0,0,8,0,0,7,9}
+    // };
 
     // int arr[9][9] = 
     // {
@@ -208,11 +208,18 @@ bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], 
 /* see solver.h for more information */
 bool checkUniqueness(sudokuTable_t* sudoku){
     int** table1 = sudokuTable_board(sudoku);
-    int** table2 = sudokuTable_board(sudoku);
+    sudokuTable_t* s2 = sudokuTable_new(9);
+    for(int i=0;i<9;i++){
+        for(int j=0;j<9;j++){
+            sudokuTable_set(s2, i, j, table1[i][j]);
+        }//end inner for
+    }//end for
+    int** table2 = sudokuTable_board(s2);
+    
     
     //get two sudoku boards, one with foward and the other with rev backtrack 
-    solveSudoku(table1, 1);
-    solveSudoku(table2, -1);
+    solveSudoku(sudoku, 1);
+    solveSudoku(s2, -1);
     
     //if they're not the same, then we have diff solutions
     for(int i=0;i<0;i++){
@@ -225,6 +232,8 @@ bool checkUniqueness(sudokuTable_t* sudoku){
     }//end outer for
 
     //otherwise they're the same
+
+    sudokuTable_delete(s2);
     return true;
 
 }//end checkUniqueness
