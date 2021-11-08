@@ -79,7 +79,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
                     return NULL;
                 }
 
-                sudokuTable_set(sudoku, row, col, atoi(c));
+                sudokuTable_set(sudoku, row, col, (int) c - '0');
                 col++;
             }
         }
