@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "creator.h"
 #include "solver.h"
 #include "sudokuTable.h"
@@ -47,8 +48,8 @@ int test1()
 int test2() 
 {
     int failed = 0;
-    sudokuTable_t* sudoku = generateTable();
-    sudokuTable_print(sudoku);
+    sudokuTable_t* sudoku = generateTable(25);
+    sudokuTable_print(sudoku, true);
     if(sudoku == NULL) failed++;
 
     sudokuTable_delete(sudoku);
@@ -59,13 +60,14 @@ int test2()
 int test_load() {
     int failed = 0;
     FILE* fp = fopen("table1", "r");
+    sudokuTable_t* table;
     if (fp != NULL) {
-        sudokuTable_t* table = sudokuTable_load(fp, 9);
+        table = sudokuTable_load(fp, 9);
     }
 
     // print the table we just loaded
-    sudokuTable_print(table, true);
-    sudokuTable_delete(sudoku);
+    if(table != NULL) sudokuTable_print(table, true);
+    sudokuTable_delete(table);
 
     return failed;
 }
