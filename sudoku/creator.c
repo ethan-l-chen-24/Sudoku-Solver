@@ -33,7 +33,7 @@ sudokuTable_t* generateUniqueTable(int numFilled) {
 /* see creator.h for more information */
 sudokuTable_t* generate(int numFilled) {
     sudokuTable_t* sudoku = sudokuTable_new(9);
-    if(sudoku == NULL) return;
+    if(sudoku == NULL) return NULL;
     
     int** board = sudokuTable_board(sudoku);
     bool row[9][10];
