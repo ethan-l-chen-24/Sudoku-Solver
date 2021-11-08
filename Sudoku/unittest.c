@@ -59,26 +59,41 @@ int test2()
 
 int test_load() {
     int failed = 0;
-    char ch;
+    // char ch;
+
+    sudokuTable_t* sudoku = generateUniqueTable(9);
+    printf("Printing the original sudoku into table1.txt...\n");
+    sudokuTable_print(sudoku, true);
+    fflush(stdout);
+
+    if(sudoku == NULL) failed++;
+
     FILE* fp = fopen("table1.txt", "r");
-
-    // printf("Printing the original table...\n");
-    // while (fscanf(fp, "%c", &ch) != NULL) {
-    //     printf("%c", ch);
-    // }
-    // printf("\n");
-
     sudokuTable_t* table;
     if (fp != NULL) {
         table = sudokuTable_load(fp, 9);
     }
 
-    // print the table we just loaded
-    printf("Printing the loaded table using sudokuTable_print...\n");
-    if (table != NULL) {
-        sudokuTable_print(table, true);
+    if (table == NULL) failed++;
+    else {
+        int** ogBoard = sudokuTable_board(sudoku);
+        int** loadedBoard = sudokuTable_board(table);
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (ogBoard[i][j] != loadedBoard[i][j]) failed++;
+            }
+        }
     }
-    printf("\n");
+
+    // print the table we just loaded
+    // printf("Printing the table from table1.txt...\n");
+    // if (table != NULL) {
+    //     sudokuTable_print(table, true);
+    // }
+    // printf("\n");
+
+    sudokuTable_delete(sudoku);
     sudokuTable_delete(table);
 
     return failed;
@@ -88,9 +103,18 @@ int main(int argc, char const *argv[])
 {
     srand(time(NULL));
     int totalFailed = 0;
+    printf("Welcome to Unit Testing\n");
 
     int failed = 0;
-    printf("Welcome to Unit Testing\n");
+    failed += test_load();
+    if (failed == 0) {
+        printf("Test load passed\n");
+    } else {
+        printf("Test load failed!\n");
+        totalFailed++;
+    }
+
+    failed = 0;
     failed += test1();
     if (failed == 0) {
         printf("Test 1 passed\n");
@@ -107,17 +131,6 @@ int main(int argc, char const *argv[])
         printf("Test 2 failed!\n");
         totalFailed++;
     }
-
-    test_load();
-
-    // failed = 0;
-    // failed += test_load();
-    // if (failed == 0) {
-    //     printf("Test 3 passed\n");
-    // } else {
-    //     printf("Test 3 failed!\n");
-    //     totalFailed++;
-    // }
 
     if(totalFailed > 0) {
         fprintf(stderr, "Unit testing failed T_T\n");
