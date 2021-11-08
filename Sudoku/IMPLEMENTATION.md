@@ -16,11 +16,9 @@ A struct to hold a sudoku table, represented by an `int** table` data member of 
 1. Loads in a sudoku table from sudoku struct
 2. Create `boolean` matrices `row`, `col`, and `boxes` to keep track of whether a particular cell contains a particular number
 3. Initialize all entries in matrices to false
-4. While we have not generated the specified amount of numbers 
-    1. Randomly generate a coordinate on the sudoku table along with a randomly generated integer between 1 and 9. 
-    5. Return the sudoku board with the generated sudoku board. 
-
-
+4. While we have not generated the specified amount of numbers
+    1. Randomly generate a coordinate on the sudoku table along with a randomly generated integer between 1 and 9
+5. Return the sudoku board with the generated sudoku board
 
 ### Psuedocode for `solver.c`
 
@@ -81,19 +79,23 @@ A struct to hold a sudoku table, represented by an `int** table` data member of 
 ### Psuedocode for `sudoku.c`
 
 `main`
+
 1. Validate there are exactly 3 arguments, otherwise throw error
-2. Validate each parameter using `validateParam` 
+2. Validate each parameter using `validateParam`
 3. If in create mode, call `createTable`, otherwise call `solveTable`
 
 `validateParam`
+
 1. Check that the `mode` param is equal to either _”create”_ or _”solve”_, otherwise throw errors
 2. Check that the `difficulty` param is equal to either _”easy”_ or _”hard”_, otherwise throw errors
 
 `createTable`
+
 1. Create a new `sudokuTable_t* sudoku` using `generateTable` described in `creator.h`
 2. On that `sudokuTable_t* sudoku` call `sudokuTable_print` described in `sudokuTable.h`
 
 `solveTable`
+
 1. Load the `sudokuTable_t* sudoku` using `sudokuTable_load` described in `sudokuTable.h`
 2. On the `sudokuTable_t* sudoku` call `solveSudoku` described in `solver.h`
 3. Call `sudokuTable_print` described in `sudokuTable.h` to print the solved board
@@ -101,6 +103,7 @@ A struct to hold a sudoku table, represented by an `int** table` data member of 
 ### Pseudocode for `sudokuTable.c`
 
 `sudokuTable_new`
+
 1. Allocate memory for `sudokuTable_t* sudoku` the size of a `sudokuTable_t`
 2. Allocate memory for an integer 2D array `int** matrix`, and allocate memory for `int*` arrays that can hold `dimension` ints each
 3. Insert those arrays into `matrix` at each of the 9 indices
@@ -108,9 +111,11 @@ A struct to hold a sudoku table, represented by an `int** table` data member of 
 5. Return `sudoku`
 
 `sudokuTable_board`
+
 1. Return the `table` or `sudokuTable_t* sudoku` given as a parameter
 
 `sudokuTable_load`
+
 1. Create a new `sudokuTable_t* sudoku` using `sudokuTable_new`
 2. Set variables `row` and `col` to 0
 3. While not reading the end of `FILE* fp`
@@ -122,27 +127,31 @@ A struct to hold a sudoku table, represented by an `int** table` data member of 
     4. Set `col` to 0
 
 `sudokuTable_set`
+
 1. Grab the `int**` table from `sudokuTable_t* sudoku`
 2. Set the value at `row`, `col` to `val`
 
 `sudokuTable_get`
+
 1. Grab the `int**` table from `sudokuTable_t* sudoku`
 2. Return the value at `row`, `col`
 
 `sudokuTable_delete`
+
 1. Loop through all of the rows in the `int** table` of `sudokuTable_t* sudoku`
     1. Free the memory of each row
 2. Free the `table`
 3. Free the `sudoku`
 
 `sudokuTable_print`
+
 1. Grab the `int**` table from `sudokuTable_t* sudoku`
 2. If `style` is false
-    1. Loop through every `row` 
+    1. Loop through every `row`
         1. Loop through every `column`
             1. Print the value of the cell at `row`, `col`
         2. Print a linebreak
-3. Else 
+3. Else
     1. Create a `rowCount` and `columnCount` variables to keep track of which row and column we are on
     2. Loop through every `row`
         1. Loop through every `column`
@@ -152,7 +161,6 @@ A struct to hold a sudoku table, represented by an `int** table` data member of 
         2. Increment `rowCount`
         3. If `rowCount` is divisible by three, `printRowBar`
         4. Else print a linebreak followed by `|`
-
 
 ## Function Prototypes
 
@@ -180,6 +188,7 @@ static void printRowBar(void);
 ```
 
 ### Functions for `sudoku.c`
+
 ```c
 void validateParam(char* mode, char* difficulty);
 void createTable(char* difficulty);
