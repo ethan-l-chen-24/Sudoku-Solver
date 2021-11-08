@@ -14,7 +14,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 #include "sudokuTable.h"
-#include "file.h"
+#include "../libcs50/file.h"
 
 // local functions
 static bool validVal(sudokuTable_t* sudoku, int val);
@@ -79,7 +79,10 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
                     return NULL;
                 }
 
-                sudokuTable_set(sudoku, row, col, atoi(c));
+                char* cCopy;
+                strcpy(cCopy, c);
+
+                sudokuTable_set(sudoku, row, col, atoi(cCopy));
                 col++;
             }
         }
