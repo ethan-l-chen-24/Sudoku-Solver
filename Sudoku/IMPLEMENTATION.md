@@ -17,8 +17,8 @@ A struct to hold a sudoku table, represented by an `int** table` data member of 
 2. Create `boolean` matrices `row`, `col`, and `boxes` to keep track of whether a particular cell contains a particular number
 3. Initialize all entries in matrices to false
 4. While we have not generated the specified amount of numbers 
-1. Randomly generate a coordinate on the sudoku table along with a randomly generated integer between 1 and 9. 
-5. Return the sudoku board with the generated sudoku board. 
+    1. Randomly generate a coordinate on the sudoku table along with a randomly generated integer between 1 and 9. 
+    5. Return the sudoku board with the generated sudoku board. 
 
 
 
@@ -26,132 +26,132 @@ A struct to hold a sudoku table, represented by an `int** table` data member of 
 
 `solveSudoku`
 
-Grab the `board` from the `sudokuTable_t* sudoku` parameter
-Create `boolean` matrices `row`, `col`, and `boxes` to keep track of whether a particular cell contains a particular number
-Create `int num` to hold the number in any cell
-Loop through the cell of the matrices to initialize them as false
-Loop through row and columns of `board`
-If cell is empty, `continue` to next cell
-Set `num` to the number at the cell
-Check for invalid entries at row, column, and a 3x3 box
-If not invalid, set the value of the `boolean` matrices at that cell to true
-If not invalid,
-If `direction` parameter is set to 1, use `backtrack` to set a valid number in each cell on the board
-Else, use `backtrackRev` to grab another solved board
-Else, print error message saying the board is invalid
+1. Grab the `board` from the `sudokuTable_t* sudoku` parameter
+2. Create `boolean` matrices `row`, `col`, and `boxes` to keep track of whether a particular cell contains a particular number
+3. Create `int num` to hold the number in any cell
+4. Loop through the cell of the matrices to initialize them as false
+5. Loop through row and columns of `board`
+    1. If cell is empty, `continue` to next cell
+    2. Set `num` to the number at the cell
+    3. Check for invalid entries at row, column, and a 3x3 box
+    4. If not invalid, set the value of the `boolean` matrices at that cell to true
+6. If not invalid,
+7. If `direction` parameter is set to 1, use `backtrack` to set a valid number in each cell on the board
+    1. Else, use `backtrackRev` to grab another solved board
+    2. Else, print error message saying the board is invalid
 
 `backTrack`
 
-Check if parameter `int c` is at max number of columns
-Set the column `c` to 0
-Move to next row
-`return true` if parameter for row `int r` is at max number of rows
-If the current cell at row `r` and column `c` is empty
-Loop through all the possible values in increasing order
-Check if the number adheres to sudoku rules
-Set the `boolean` matrices `row`, `col`, and `boxes` to `true` for that cell
-Recursively move on to the next cell
-Reset the `boolean` matrices to false for the cell
-Else, if the there is already a number at the cell, recursively move on to the next cell
-`return false`
+1. Check if parameter `int c` is at max number of columns
+    1. Set the column `c` to 0
+    2. Move to next row
+    3. `return true` if parameter for row `int r` is at max number of rows
+2. If the current cell at row `r` and column `c` is empty
+    1. Loop through all the possible values in increasing order
+        1. Check if the number adheres to sudoku rules
+            1. Set the `boolean` matrices `row`, `col`, and `boxes` to `true` for that cell
+            2. Recursively move on to the next cell
+            3. Reset the `boolean` matrices to false for the cell
+3. Else, if the there is already a number at the cell, recursively move on to the next cell
+4. `return false`
 
 `backtrackRev`
 
-Check if parameter `int c` is at max number of columns
-Set the column `c` to 0
-Move to next row
-`return true` if parameter for row `int r` is at max number of rows
-If the current cell at row `r` and column `c` is empty
-Loop through all the possible values in decreasing order
-Check if the number adheres to sudoku rules
-Set the `boolean` matrices `row`, `col`, and `boxes` to `true` for that cell
-Recursively move on to the next cell
-Reset the `boolean` matrices to false for the cell
-Else, if the there is already a number at the cell, recursively move on to the next cell
-`return false`
+1. Check if parameter `int c` is at max number of columns
+    2. Set the column `c` to 0
+    3. Move to next row
+    4. `return true` if parameter for row `int r` is at max number of rows
+2. If the current cell at row `r` and column `c` is empty
+    1. Loop through all the possible values in decreasing order
+        1. Check if the number adheres to sudoku rules
+            1. Set the `boolean` matrices `row`, `col`, and `boxes` to `true` for that cell
+            2. Recursively move on to the next cell
+            3. Reset the `boolean` matrices to false for the cell
+3. Else, if the there is already a number at the cell, recursively move on to the next cell
+4. `return false`
 
 `checkUniqueness`
 
-Get two boards for the parameter `sudokuTable_t* sudoku`
-Solve both boards using `solveSudoku` with `direction` 1 and then `direction` -1
-Loop through the cells of the board
-Check if the solved boards are the same; if not, `return false`
-`return true`
+1. Get two boards for the parameter `sudokuTable_t* sudoku`
+2. Solve both boards using `solveSudoku` with `direction` 1 and then `direction` -1
+3. Loop through the cells of the board
+    1. Check if the solved boards are the same; if not, `return false`
+4. `return true`
 
 ### Psuedocode for `sudoku.c`
 
 `main`
-Validate there are exactly 3 arguments, otherwise throw error
-Validate each parameter using `validateParam` 
-If in create mode, call `createTable`, otherwise call `solveTable`
+1. Validate there are exactly 3 arguments, otherwise throw error
+2. Validate each parameter using `validateParam` 
+3. If in create mode, call `createTable`, otherwise call `solveTable`
 
 `validateParam`
-Check that the `mode` param is equal to either _”create”_ or _”solve”_, otherwise throw errors
-Check that the `difficulty` param is equal to either _”easy”_ or _”hard”_, otherwise throw errors
+1. Check that the `mode` param is equal to either _”create”_ or _”solve”_, otherwise throw errors
+2. Check that the `difficulty` param is equal to either _”easy”_ or _”hard”_, otherwise throw errors
 
 `createTable`
-Create a new `sudokuTable_t* sudoku` using `generateTable` described in `creator.h`
-On that `sudokuTable_t* sudoku` call `sudokuTable_print` described in `sudokuTable.h`
+1. Create a new `sudokuTable_t* sudoku` using `generateTable` described in `creator.h`
+2. On that `sudokuTable_t* sudoku` call `sudokuTable_print` described in `sudokuTable.h`
 
 `solveTable`
-Load the `sudokuTable_t* sudoku` using `sudokuTable_load` described in `sudokuTable.h`
-On the `sudokuTable_t* sudoku` call `solveSudoku` described in `solver.h`
- Call `sudokuTable_print` described in `sudokuTable.h` to print the solved board
+1. Load the `sudokuTable_t* sudoku` using `sudokuTable_load` described in `sudokuTable.h`
+2. On the `sudokuTable_t* sudoku` call `solveSudoku` described in `solver.h`
+3. Call `sudokuTable_print` described in `sudokuTable.h` to print the solved board
 
 ### Pseudocode for `sudokuTable.c`
 
 `sudokuTable_new`
-Allocate memory for `sudokuTable_t* sudoku` the size of a `sudokuTable_t`
-Allocate memory for an integer 2D array `int** matrix`, and allocate memory for `int*` arrays that can hold `dimension` ints each
-Insert those arrays into `matrix` at each of the 9 indices
-Set `matrix` as the table of `sudoku`, and parameter `dimension` as the dimension of `sudoku`
-Return `sudoku`
+1. Allocate memory for `sudokuTable_t* sudoku` the size of a `sudokuTable_t`
+2. Allocate memory for an integer 2D array `int** matrix`, and allocate memory for `int*` arrays that can hold `dimension` ints each
+3. Insert those arrays into `matrix` at each of the 9 indices
+4. Set `matrix` as the table of `sudoku`, and parameter `dimension` as the dimension of `sudoku`
+5. Return `sudoku`
 
 `sudokuTable_board`
-Return the `table` or `sudokuTable_t* sudoku` given as a parameter
+1. Return the `table` or `sudokuTable_t* sudoku` given as a parameter
 
 `sudokuTable_load`
-Create a new `sudokuTable_t* sudoku` using `sudokuTable_new`
-Set variables `row` and `col` to 0
-While not reading the end of `FILE* fp`
-While not reading the line-break character
-If the character is a digit
-Set the digit as the current `row` and `col` in the `sudoku`
-Increment `col`
-Increment `row`
-Set `col` to 0
+1. Create a new `sudokuTable_t* sudoku` using `sudokuTable_new`
+2. Set variables `row` and `col` to 0
+3. While not reading the end of `FILE* fp`
+    1. While not reading the line-break character
+    2. If the character is a digit
+        1. Set the digit as the current `row` and `col` in the `sudoku`
+        2. Increment `col`
+    3. Increment `row`
+    4. Set `col` to 0
 
 `sudokuTable_set`
-Grab the `int**` table from `sudokuTable_t* sudoku`
-Set the value at `row`, `col` to `val`
+1. Grab the `int**` table from `sudokuTable_t* sudoku`
+2. Set the value at `row`, `col` to `val`
 
 `sudokuTable_get`
-Grab the `int**` table from `sudokuTable_t* sudoku`
-Return the value at `row`, `col`
+1. Grab the `int**` table from `sudokuTable_t* sudoku`
+2. Return the value at `row`, `col`
 
 `sudokuTable_delete`
-Loop through all of the rows in the `int** table` of `sudokuTable_t* sudoku`
-Free the memory of each row
-Free the `table`
-Free the `sudoku`
+1. Loop through all of the rows in the `int** table` of `sudokuTable_t* sudoku`
+    1. Free the memory of each row
+2. Free the `table`
+3. Free the `sudoku`
 
 `sudokuTable_print`
-Grab the `int**` table from `sudokuTable_t* sudoku`
-If `style` is false
-Loop through every `row` 
-Loop through every `column`
-Print the value of the cell at `row`, `col`
-Print a linebreak
-Else 
-Create a `rowCount` and `columnCount` variables to keep track of which row and column we are on
-Loop through every `row`
-Loop through every `column`
-Print the value of the cell at `row`, `col`
-Increment `columnCount`
-If `columCount` is divisible by three, print a `|`
-Increment `rowCount`
-If `rowCount` is divisible by three, `printRowBar`
-Else print a linebreak followed by `|`
+1. Grab the `int**` table from `sudokuTable_t* sudoku`
+2. If `style` is false
+    1. Loop through every `row` 
+        1. Loop through every `column`
+            1. Print the value of the cell at `row`, `col`
+        2. Print a linebreak
+3. Else 
+    1. Create a `rowCount` and `columnCount` variables to keep track of which row and column we are on
+    2. Loop through every `row`
+        1. Loop through every `column`
+            1. Print the value of the cell at `row`, `col`
+            2. Increment `columnCount`
+            3. If `columCount` is divisible by three, print a `|`
+        2. Increment `rowCount`
+        3. If `rowCount` is divisible by three, `printRowBar`
+        4. Else print a linebreak followed by `|`
 
 
 ## Function Prototypes
