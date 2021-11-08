@@ -69,54 +69,10 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     char c;
     int row = 0;
     int col = 0;
-    int test = 0;
     bool rowBar = false;
 
-    // while (fp != NULL) {
-    //     c = fgetc(fp);
-    //     printf("character: %c\n", c);
-
-    //     if (c == '\n') {
-    //         if (col != 9 && !rowBar) {
-    //             printf("col: %d, row: %d\n", col, row);
-    //             sudokuTable_delete(sudoku);
-    //             fprintf(stderr, "Error: format of input file is incorrect\n");
-    //             return NULL;
-    //         }
-    //         // move to next row
-    //         if (!rowBar) {
-    //             row++;
-    //         }
-    //         // start from first column
-    //         col = 0;
-    //     }
-
-    //     if (!rowBar && c == '-') {
-    //         rowBar = true;
-    //         continue;
-    //     } else {
-    //         rowBar = false;
-    //     }
-
-    //     if (isdigit(c)) {
-    //         printf("digit: %c\n", c);
-
-    //         if(col >= 9 || row >= 9) {
-    //             printf("col: %d, row: %d\n", col, row);
-    //             sudokuTable_delete(sudoku);
-    //             fprintf(stderr, "Error 2: format of input file is incorrect\n");
-    //             return NULL;
-    //         }
-    //         sudokuTable_set(sudoku, row, col, (int) c - '0');
-
-    //         col++;
-    //     }
-
-    // }
-
     while(!feof(fp)) {
-        while((c = fgetc(fp)) != '\n') {
-            if (test == 66) break;
+        while((c = fgetc(fp)) != '\n' && c != EOF) {
             // if the line has one '-', the line should only contain the characters '-'
             if (!rowBar && c == '-') {
                 rowBar = true;  // set to true as line is rowBar
@@ -148,13 +104,11 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
             fprintf(stderr, "Error 2: format of input file is incorrect\n");
             return NULL;
         }
-        if (test == 66) break;
-        
+
         if (!rowBar) {
             row++;
         }
         col = 0;
-        test++;
     }
     
     return sudoku;
