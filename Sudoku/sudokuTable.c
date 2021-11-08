@@ -55,7 +55,7 @@ sudokuTable_t* sudokuTable_new(int dimension) {
 
 /******************* sudokuTable_board ******************/
 /* see sudokuTable.h for more information */
-sudokuTable_t* sudokuTable_board(sudokuTable_t* sudoku) {
+int** sudokuTable_board(sudokuTable_t* sudoku) {
     if(sudoku == NULL) return NULL;
     else return sudoku->table;
 }
@@ -78,11 +78,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
                     fprintf(stderr, "Error: format of input file is incorrect\n");
                     return NULL;
                 }
-
-                char* cCopy;
-                strcpy(cCopy, c);
-
-                sudokuTable_set(sudoku, row, col, atoi(cCopy));
+                sudokuTable_set(sudoku, row, col, c);
                 col++;
             }
         }
