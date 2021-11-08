@@ -41,7 +41,7 @@ sudokuTable_t* sudokuTable_new(int dimension);
  * We return:
  *  a pointer to the new sudoku table; return NULL on error
  */
-sudokuTable_t* sudokuTable_board(sudokuTable_t* sudoku);
+int** sudokuTable_board(sudokuTable_t* sudoku);
 
 /******************* sudokuTable_load ******************/
 /*
