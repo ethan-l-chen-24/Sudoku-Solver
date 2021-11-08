@@ -78,7 +78,8 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
                     fprintf(stderr, "Error: format of input file is incorrect\n");
                     return NULL;
                 }
-                sudokuTable_set(sudoku, row, col, c);
+                sudokuTable_set(sudoku, row, col, (int) c - '0');
+
                 col++;
             }
         }
