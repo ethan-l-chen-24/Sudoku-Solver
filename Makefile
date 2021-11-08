@@ -8,12 +8,12 @@ MAKE = make
 ############## default: make all libs and programs ##########
 all: 
 	$(MAKE) -C libcs50
-	$(MAKE) -C Sudoku
+	$(MAKE) -C sudoku
 
 ############## valgrind all programs ##########
 valgrind: all
 	$(MAKE) -C crawler valgrind
-	$(MAKE) -C Sudoku valgrind
+	$(MAKE) -C sudoku valgrind
 
 ############### TAGS for emacs users ##########
 TAGS:  Makefile */Makefile */*.c */*.h */*.md */*.sh
@@ -24,4 +24,4 @@ clean:
 	rm -f *~
 	rm -f TAGS
 	$(MAKE) -C libcs50 clean
-	$(MAKE) -C Sudoku clean
+	$(MAKE) -C sudoku clean
