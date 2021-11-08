@@ -48,7 +48,7 @@ int test1()
 int test2() 
 {
     int failed = 0;
-    sudokuTable_t* sudoku = generateTable(25);
+    sudokuTable_t* sudoku = generateUniqueTable(25);
     sudokuTable_print(sudoku, true);
     if(sudoku == NULL) failed++;
 
