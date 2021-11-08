@@ -55,7 +55,7 @@ sudokuTable_t* sudokuTable_new(int dimension) {
 
 /******************* sudokuTable_board ******************/
 /* see sudokuTable.h for more information */
-sudokuTable_t* sudokuTable_board(sudokuTable_t* sudoku) {
+int** sudokuTable_board(sudokuTable_t* sudoku) {
     if(sudoku == NULL) return NULL;
     else return sudoku->table;
 }
