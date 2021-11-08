@@ -32,13 +32,14 @@ If the _mode_ is set to solve, then it will read in a valid sudoku puzzle from s
 The Sudoku will be separated into 3 separate modules: _create_, _solve_, and _sudoku_ (found in `creator.c`, `solver.c`, and `sudoku.c`). The _create_ module will be tasked with creating a randomized sudoku puzzle with a unique solution, whereas the solve module will be tasked with taking that puzzle and finding the solution. Both of these modules will serve as method libraries that implement .h files. Sudoku will be the main “runner” that will parse the arguments and call the according create or solve methods as needed.
 
 For the create module, we anticipate the following functions:
-* _generateSolutionTable()_: completely fills in a sudoku table
-* _generateStartTable()_: which generates a random table based on the mode
+* _generateTable()_: which generates a random table based on the mode
 
 For the solve module, we anticipate the following functions:
-* _readTable()_: which reads in a table from stdin
-* _findSolution()_: which takes a table and initializes anything needed to solve the table
-* _algorithm()_: solves the table
+* _solveSudoku()_: which takes a table and initializes anything needed to solve the table
+* _backtrack()_: runs a backtrack algorithm to solve the sudoku (useful for unit testing)
+* _backtrackRev()_: runs a backtrack algorithm with the reverse order of numbers to solve the sudoku (useful for unit testing)
+* _checkUniqueness()_: wrapper class to call backtrack() and 
+
 
 For the sudoku module, we anticipate the following functions:
 * _main()_: parses arguments and handles them
@@ -46,7 +47,7 @@ For the sudoku module, we anticipate the following functions:
 * _solveTable()_: solves the sudoku table
 * _topping()_: provides the extra credit option
 
-We will also include a 4th module that will just store a library of methods (`sudokuLib.c`) that will be useful to the Sudoku board. I am sure we will find more methods to put in as we start coding, but for the time being we anticipate:
+We will also include a 4th module that will just store a library of methods (`sudokuTable.c`) that will contain a `struct sudokuTable` useful to the Sudoku board. We anticipate the following methods:
 
 * _printTable()_: which will print the table to stdout, in either of the given modes
 * _swapRow()_: which will swap two given rows
@@ -82,8 +83,8 @@ We will also include a 4th module that will just store a library of methods (`su
 
 ### Major data structures
 
-* Arrays for each row and each column which will contain which numbers are in the row or column
-* `struct hashtable` data structure
+* `int**` for each row and each column which will contain which numbers are in the row or column
+* `struct sudokuTable` to store this array
 
 
 ### Visual Representation

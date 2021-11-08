@@ -22,8 +22,8 @@ unittest: $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
 
 sudoku.o: creator.h solver.h sudokuTable.h
-creator.o: creator.h sudokuTable.h
-solver.o: solver.h sudokuTable.h
+creator.o: creator.h sudokuTable.h solver.h 
+solver.o: solver.h sudokuTable.h 
 sudokuTable.o: sudokuTable.h
 unittest.o: creator.h solver.h sudokuTable.h
 

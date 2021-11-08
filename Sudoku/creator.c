@@ -15,11 +15,24 @@
 #include <stdbool.h>
 #include "creator.h"
 #include "sudokuTable.h"
+#include "solver.h"
 
-/******************* generateTable() ******************/
+/******************* generateUniqueTable() ******************/
 /* see creator.h for more information */
-sudokuTable_t* generateTable(int numFilled) {
-    sudokuTable_t* sudoku = sudokuTable_new(9);
+sudokuTable_t* generateUniqueTable(int numFilled) {
+   
+   // keep on generating until it is unique
+   sudokuTable_t* sudokuTable = NULL;
+    while(!checkUniqueness(sudokuTable)) {
+        sudokuTable = generate(numFilled);
+    }
+    return sudokuTable;
+}//end generateTable
+
+/******************* generate() ******************/
+/* see creator.h for more information */
+sudokuTable_t* generate(int numFilled) {
+     sudokuTable_t* sudoku = sudokuTable_new(9);
     int** board = sudokuTable_board(sudoku);
     bool row[9][10];
     bool col[9][10];
@@ -71,5 +84,44 @@ sudokuTable_t* generateTable(int numFilled) {
     }//end while
 
     return sudoku;
-}//end generateTable
+}
+
+//returns true if sudoku board is unique
+//returns false if there are multiple solutions detected
+/* see creator.h for more information */
+bool checkUniqueness(sudokuTable_t* sudoku){
+    int** table1 = sudokuTable_board(sudoku);
+    sudokuTable_t* s2 = sudokuTable_new(9);
+    sudokuTable_t* s3 = sudokuTable_new(9);
+    for(int i=0;i<9;i++){
+        for(int j=0;j<9;j++){
+            sudokuTable_set(s2, i, j, table1[i][j]);
+            sudokuTable_set(s3, i, j, table1[i][j]);
+        }//end inner for
+    }//end for
+    int** table2 = sudokuTable_board(s2);
+    int** table3 = sudokuTable_board(s3);
+    
+    
+    //get two sudoku boards, one with foward and the other with rev backtrack 
+    solveSudoku(s3, 1);
+    solveSudoku(s2, -1);
+    
+    //if they're not the same, then we have diff solutions
+    for(int i=0;i<0;i++){
+        for(int j=0;j<9;j++){
+            if(table3[i][j] != table2[i][j]){
+                return false;
+            }//end if
+
+        }//end inner for
+    }//end outer for
+
+    //otherwise they're the same
+
+    sudokuTable_delete(s2);
+    sudokuTable_delete(s3);
+    return true;
+
+}//end checkUniqueness
 

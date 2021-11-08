@@ -74,25 +74,3 @@ bool backtrack(int** board, int r, int c,  bool row[9][10], bool col[9][10], boo
  * typically by calling sudokuTable_delete
  */
 bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
-
-
-
-/******************* checkUniqueness ******************/
-/*
- * checks whether a sudoku board has a unique or multiple solutions. 
- *
- * Caller provides:
- *  valid sudoku board 
- *  
- * 
- * We return:
- *  true if the sudoku board has one solution
- *  false if it has multiple
- * 
- * We guarantee:
- *  nothing if the sudoku board is not valid
- * 
- * Caller is responsible for later freeing the memory allocated,
- * typically by calling sudokuTable_delete
- */
-bool checkUniqueness(sudokuTable_t* sudoku);
