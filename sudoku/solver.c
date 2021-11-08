@@ -63,6 +63,9 @@ bool checkUniqueness(sudokuTable_t* sudoku);
 
 /* see solver.h for more information */
 void solveSudoku(sudokuTable_t* sudoku, int direction){
+
+    if(sudoku == NULL) return;
+
     int** board = sudokuTable_board(sudoku);
     
     //these will hold which numbers are in each row, col, and box. So if the number 5 is at coordinates (i, j), then row[i][5] = true denoting there is a 5 in row i. 
@@ -201,41 +204,5 @@ bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], 
     return false;
 }//end backtrack
 
-
-
-//returns true if sudoku board is unique
-//returns false if there are multiple solutions detected
-/* see solver.h for more information */
-bool checkUniqueness(sudokuTable_t* sudoku){
-    int** table1 = sudokuTable_board(sudoku);
-    sudokuTable_t* s2 = sudokuTable_new(9);
-    for(int i=0;i<9;i++){
-        for(int j=0;j<9;j++){
-            sudokuTable_set(s2, i, j, table1[i][j]);
-        }//end inner for
-    }//end for
-    int** table2 = sudokuTable_board(s2);
-    
-    
-    //get two sudoku boards, one with foward and the other with rev backtrack 
-    solveSudoku(sudoku, 1);
-    solveSudoku(s2, -1);
-    
-    //if they're not the same, then we have diff solutions
-    for(int i=0;i<0;i++){
-        for(int j=0;j<9;j++){
-            if(table1[i][j] != table2[i][j]){
-                return false;
-            }//end if
-
-        }//end inner for
-    }//end outer for
-
-    //otherwise they're the same
-
-    sudokuTable_delete(s2);
-    return true;
-
-}//end checkUniqueness
 
 
