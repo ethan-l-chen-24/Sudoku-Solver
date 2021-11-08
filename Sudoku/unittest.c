@@ -59,14 +59,26 @@ int test2()
 
 int test_load() {
     int failed = 0;
-    FILE* fp = fopen("table1", "r");
+    char ch;
+    FILE* fp = fopen("table1.txt", "r");
+
+    // printf("Printing the original table...\n");
+    // while (fscanf(fp, "%c", &ch) != NULL) {
+    //     printf("%c", ch);
+    // }
+    // printf("\n");
+
     sudokuTable_t* table;
     if (fp != NULL) {
         table = sudokuTable_load(fp, 9);
     }
 
     // print the table we just loaded
-    if(table != NULL) sudokuTable_print(table, true);
+    printf("Printing the loaded table using sudokuTable_print...\n");
+    if (table != NULL) {
+        sudokuTable_print(table, true);
+    }
+    printf("\n");
     sudokuTable_delete(table);
 
     return failed;
@@ -95,6 +107,17 @@ int main(int argc, char const *argv[])
         printf("Test 2 failed!\n");
         totalFailed++;
     }
+
+    test_load();
+
+    // failed = 0;
+    // failed += test_load();
+    // if (failed == 0) {
+    //     printf("Test 3 passed\n");
+    // } else {
+    //     printf("Test 3 failed!\n");
+    //     totalFailed++;
+    // }
 
     if(totalFailed > 0) {
         fprintf(stderr, "Unit testing failed T_T\n");
