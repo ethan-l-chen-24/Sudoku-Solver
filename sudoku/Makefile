@@ -53,4 +53,4 @@ clean:
 	rm -f sudoku
 
 utest: unittest
-	./unittest 
+	./unittest > ../tables/table1.txt
