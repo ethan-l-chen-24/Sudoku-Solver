@@ -22,7 +22,7 @@
 sudokuTable_t* generateUniqueTable(int numFilled) {
    
    // keep on generating until it is unique
-   sudokuTable_t* sudokuTable = NULL;
+   sudokuTable_t* sudokuTable = generate(numFilled);
     while(!checkUniqueness(sudokuTable)) {
         sudokuTable = generate(numFilled);
     }
