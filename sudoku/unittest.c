@@ -99,6 +99,64 @@ int test_load() {
     return failed;
 }
 
+int test4(){
+    int failed=0;
+    sudokuTable_t* s = generateTable(25);
+    
+
+    sudokuTable_t* s2 = sudokuTable_new(9);
+    int** table = sudokuTable_board(s);
+    for(int i=0;i<9;i++){
+        for(int j=0;j<9;j++){
+            sudokuTable_set(s2, i, j,table[i][j]);
+        }
+    }
+    bool flag = true;
+    int count=0;
+    while(flag){
+        s = generateTable(25);
+        s2 = sudokuTable_new(9);
+        table = sudokuTable_board(s);
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+            sudokuTable_set(s2, i, j,table[i][j]);
+            }
+        }
+
+        solveSudoku(s, 1);
+        solveSudoku(s2, 0);
+        int** t1 = sudokuTable_board(s);
+        int** t2 = sudokuTable_board(s2);
+        count=0;
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                if(t1[i][j]!=t2[i][j] || t1[i][j]==0){
+                    count++;
+                }//end if
+
+            }//edn inner for
+        }//end for
+        
+
+        if(count==0)break;
+        else{
+            free(s);
+            free(s2);
+        }//end else 
+
+    }
+
+    printf("found unique solution of \n");
+    sudokuTable_print(s, true);
+    
+    
+
+
+
+    return failed;
+}
+
+
 int main(int argc, char const *argv[])
 {
     srand(time(NULL));
@@ -131,6 +189,18 @@ int main(int argc, char const *argv[])
         printf("Test 2 failed!\n");
         totalFailed++;
     }
+
+    //test_load();
+    test4();
+
+    // failed = 0;
+    // failed += test_load();
+    // if (failed == 0) {
+    //     printf("Test 3 passed\n");
+    // } else {
+    //     printf("Test 3 failed!\n");
+    //     totalFailed++;
+    // }
 
     if(totalFailed > 0) {
         fprintf(stderr, "Unit testing failed T_T\n");

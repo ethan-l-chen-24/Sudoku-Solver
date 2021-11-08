@@ -101,19 +101,20 @@ void solveSudoku(sudokuTable_t* sudoku, int direction){
         for(int j=0;j<9;j++){
             if(board[i][j]==0) continue;
             num=board[i][j];
-            if(row[i][num]) invalid=true;
+            if(row[i][num]){invalid=true; printf("%d already exists in row\n", num);} 
             else row[i][num] = true;
 
-            if(col[j][num]) invalid =true;
+            if(col[j][num]){invalid=true; printf("%d already exists in col\n", num);} 
             else col[j][num]=true;
 
-            if(boxes[i/3][j/3]) invalid =true;
+            if(boxes[i/3][j/3][num]){invalid=true; printf("%d already exists in box\n", num);} 
             else boxes[i/3][j/3][num]=true;
         }
     }
+
     if(!invalid){
         
-        if(direction==1) backtrack(board,0,0,row,col,boxes);
+        if(direction==1){ backtrack(board,0,0,row,col,boxes);}
 
         else backtrackRev(board,0,0,row,col,boxes);
     
@@ -149,7 +150,6 @@ bool backtrack(int** board, int r, int c,  bool row[9][10], bool col[9][10], boo
             
             //only if it adheres to sudoku rules
             if(!(row[r][num]||col[c][num]||boxes[r/3][c/3][num])){
-                
                 //now if we come across a valid candidate, insert it into the board and try to progress
                 row[r][num]=true;
                 col[c][num]=true;
