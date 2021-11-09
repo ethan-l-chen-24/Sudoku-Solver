@@ -96,7 +96,7 @@ void createTable(char* difficulty) {
     if (isatty(fileno(stdout))) { // print out generated line only if stdout is not a file
         printf("Generated Table, %s difficulty: \n", difficulty);
     }
-    sudokuTable_print(sudoku, false);
+    sudokuTable_print(sudoku, true);
 }
 
 /**************** solveTable ********************/
