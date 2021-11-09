@@ -67,6 +67,13 @@ int** sudokuTable_board(sudokuTable_t* sudoku) {
     else return sudoku->table;
 }
 
+/******************* sudokuTable_dimension ******************/
+/* see sudokuTable.h for more information */
+int sudokuTable_dimension(sudokuTable_t* sudoku) {
+    if(sudoku == NULL) return 0;
+    else return sudoku->dimension;
+}
+
 /******************* sudokuTable_load ******************/
 /* see sudokuTable.h for more information */
 sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
