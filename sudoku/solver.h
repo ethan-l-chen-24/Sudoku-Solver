@@ -31,7 +31,7 @@
  * Caller is responsible for later freeing the memory allocated,
  * typically by calling sudokuTable_delete
  */
-bool solveSudoku(sudokuTable_t* sudoku, int direction);
+bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension);
 
 /******************* backtrack ******************/
 /*
@@ -82,4 +82,4 @@ bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], 
  * We return:
  *  boolean return type true if board is solved (no zeroes), false otherwise
  */
-bool isSolved(sudokuTable_t* sudoku);
+bool isSolved(sudokuTable_t* sudoku, int dimension);
