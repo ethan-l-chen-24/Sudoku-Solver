@@ -8,7 +8,7 @@ LIBS =
 # uncomment the following to turn on verbose memory logging
 TESTING = #-DUNITTEST #-DMEMTEST
 
-CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
+#CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
 CC = gcc
 MAKE = make
 
@@ -27,7 +27,7 @@ solver.o: solver.h sudokuTable.h
 sudokuTable.o: sudokuTable.h ../libcs50/file.h
 unittest.o: creator.h solver.h sudokuTable.h
 
-.PHONY: all run test valgrind clean utest
+.PHONY: all create solve test valgrind clean utest
 
 all: sudoku unittest
 
@@ -35,8 +35,10 @@ test: sudoku testing.sh
 	bash -v testing.sh
 
 # edit for args
-run: sudoku
+create: sudoku
 	./sudoku create hard > ../tables/table1.txt
+	
+solve: sudoku
 	./sudoku solve hard < ../tables/table1.txt 
 	
 # edit for args

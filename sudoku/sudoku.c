@@ -8,7 +8,9 @@
  * 
  * CS50, Fall 2021
  */
-
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -94,7 +96,7 @@ void createTable(char* difficulty) {
     if (isatty(fileno(stdout))) { // print out generated line only if stdout is not a file
         printf("Generated Table, %s difficulty: \n", difficulty);
     }
-    sudokuTable_print(sudoku, true);
+    sudokuTable_print(sudoku, false);
 }
 
 /**************** solveTable ********************/
