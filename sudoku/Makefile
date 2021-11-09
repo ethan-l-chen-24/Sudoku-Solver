@@ -6,7 +6,7 @@ OBJS = sudoku.o creator.o solver.o  sudokuTable.o unittest.o
 LIBS =
 
 # uncomment the following to turn on verbose memory logging
-TESTING = -DUNITTEST #-DMEMTEST
+TESTING = -DFUZZTEST #-DUNITTEST #-DMEMTEST
 
 CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
 CC = gcc
@@ -21,15 +21,19 @@ sudoku: $(OBJS)
 unittest: $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
+fuzztester: fuzztester.o creator.o solver.o sudokuTable.o
+	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
+
 sudoku.o: creator.h solver.h sudokuTable.h
 creator.o: creator.h sudokuTable.h solver.h 
 solver.o: solver.h sudokuTable.h 
 sudokuTable.o: sudokuTable.h ../libcs50/file.h
 unittest.o: creator.h solver.h sudokuTable.h
+fuzztester.o: creator.h solver.h sudokuTable.h
 
-.PHONY: all create solve test valgrind clean utest
+.PHONY: all create solve test valgrind clean utest fuzz
 
-all: sudoku unittest
+all: sudoku unittest fuzztester
 
 test: sudoku testing.sh
 	bash -v testing.sh
@@ -40,6 +44,9 @@ create: sudoku
 	
 solve: sudoku
 	./sudoku solve hard < ../tables/table1.txt 
+
+fuzz: fuzztester
+	./fuzztester 1  > ../tables/table2.txt
 	
 # edit for args
 valgrind: sudoku 
@@ -52,6 +59,7 @@ clean:
 	rm -f hashtabletest
 	rm -f core
 	rm -f unittest
+	rm -f fuzztester
 	rm -f sudoku
 
 utest: unittest

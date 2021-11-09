@@ -20,7 +20,7 @@
 // local functions
 static bool validVal(sudokuTable_t* sudoku, int val);
 static bool validInd(sudokuTable_t* sudoku, int ind);
-static void printRowBar(void);
+static void printRowBar(FILE* fp);
 
 // global types
 typedef struct sudokuTable {
@@ -155,7 +155,7 @@ void sudokuTable_delete(sudokuTable_t* sudoku) {
 
 /******************* printTable() ******************/
 /* see sudokuTable.h for more information */
-void sudokuTable_print(sudokuTable_t* sudoku, bool style) {
+void sudokuTable_print(FILE* fp, sudokuTable_t* sudoku, bool style) {
     if(sudoku == NULL) return;
 
     // get the table and dimension from the struct
@@ -171,11 +171,11 @@ void sudokuTable_print(sudokuTable_t* sudoku, bool style) {
         // loop through every cell
         for(int row = 0; row < dimension; row++) {
             for(int col = 0; col < dimension; col++) {
-                printf("%d ", table[row][col]); // print the number
+                fprintf(fp, "%d ", table[row][col]); // print the number
             }
 
             // print to next line
-            printf("\n");
+            fprintf(fp, "\n");
         }
     } else {
 
@@ -183,33 +183,33 @@ void sudokuTable_print(sudokuTable_t* sudoku, bool style) {
         int rowCount = 0;
         int columnCount = 0;
 
-        printRowBar();
-        printf("| ");
+        printRowBar(fp);
+        fprintf(fp, "| ");
 
         // loop through every cell
         for(int row = 0; row < dimension; row++) {
             for(int col = 0; col < dimension; col++) {
-                printf("%d ", table[row][col]); // print the number
+                fprintf(fp, "%d ", table[row][col]); // print the number
 
                 // every three columns print a vertical bar
                 columnCount++;
                 if (columnCount % sqrtDimension == 0) {
-                    printf("| ");
+                    fprintf(fp, "| ");
                 }
             }
 
             // every three rows print a full row of underscores
             rowCount++;
             if(rowCount % sqrtDimension == 0) {
-                printf("\n");
-                printRowBar();
+                fprintf(fp, "\n");
+                printRowBar(fp);
 
                 if(rowCount != dimension) {
-                    printf("| ");
+                    fprintf(fp, "| ");
                 }
                 
             } else {
-                printf("\n| ");
+                fprintf(fp, "\n| ");
             }
         }
     }
@@ -230,6 +230,6 @@ static bool validInd(sudokuTable_t* sudoku, int ind) {
 
 /******************* swapRow() ******************/
 /* print a long row bar _______________________ */
-static void printRowBar(void) {
-    printf("-------------------------\n");
+static void printRowBar(FILE* fp) {
+    fprintf(fp, "-------------------------\n");
 }
