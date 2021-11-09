@@ -13,13 +13,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <math.h>
 #include "sudokuTable.h"
 #include "../libcs50/file.h"
 
 // local functions
 static bool validVal(sudokuTable_t* sudoku, int val);
 static bool validInd(sudokuTable_t* sudoku, int ind);
-static void printRowBar(void);
+static void printRowBar(FILE* fp);
 
 // global types
 typedef struct sudokuTable {
@@ -79,7 +80,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     while(!feof(fp)) {
         while((c = fgetc(fp)) != '\n' && c != EOF) {
             if(isdigit(c)) {
-                if(col >= 9 || row >= 9) {
+                if(col >= dimension || row >= dimension) {
                     sudokuTable_delete(sudoku);
                     fprintf(stderr, "Error: format of input file is incorrect\n");
                     return NULL;
@@ -95,7 +96,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
         }
         // if the line was not a bar, it should have passed 9 columns
         // if not, format is incorrect
-        if(col != 9 && col != 0) {
+        if(col != dimension && col != 0) {
             sudokuTable_delete(sudoku);
             fprintf(stderr, "Error: format of input file is incorrect\n");
             return NULL;
@@ -107,7 +108,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
         col = 0;
     }
 
-    if(row != 9) {
+    if(row != dimension) {
         sudokuTable_delete(sudoku);
         fprintf(stderr, "Error: format of input file is incorrect\n");
         return NULL;
@@ -154,12 +155,13 @@ void sudokuTable_delete(sudokuTable_t* sudoku) {
 
 /******************* printTable() ******************/
 /* see sudokuTable.h for more information */
-void sudokuTable_print(sudokuTable_t* sudoku, bool style) {
+void sudokuTable_print(FILE* fp, sudokuTable_t* sudoku, bool style) {
     if(sudoku == NULL) return;
 
     // get the table and dimension from the struct
     int** table = sudoku->table;
     int dimension = sudoku->dimension;
+    int sqrtDimension = (int) sqrt(dimension);
 
     if(table == NULL) return;
 
@@ -169,11 +171,11 @@ void sudokuTable_print(sudokuTable_t* sudoku, bool style) {
         // loop through every cell
         for(int row = 0; row < dimension; row++) {
             for(int col = 0; col < dimension; col++) {
-                printf("%d ", table[row][col]); // print the number
+                fprintf(fp, "%d ", table[row][col]); // print the number
             }
 
             // print to next line
-            printf("\n");
+            fprintf(fp, "\n");
         }
     } else {
 
@@ -181,33 +183,33 @@ void sudokuTable_print(sudokuTable_t* sudoku, bool style) {
         int rowCount = 0;
         int columnCount = 0;
 
-        printRowBar();
-        printf("| ");
+        printRowBar(fp);
+        fprintf(fp, "| ");
 
         // loop through every cell
         for(int row = 0; row < dimension; row++) {
             for(int col = 0; col < dimension; col++) {
-                printf("%d ", table[row][col]); // print the number
+                fprintf(fp, "%d ", table[row][col]); // print the number
 
                 // every three columns print a vertical bar
                 columnCount++;
-                if (columnCount % 3 == 0) {
-                    printf("| ");
+                if (columnCount % sqrtDimension == 0) {
+                    fprintf(fp, "| ");
                 }
             }
 
             // every three rows print a full row of underscores
             rowCount++;
-            if(rowCount % 3 == 0) {
-                printf("\n");
-                printRowBar();
+            if(rowCount % sqrtDimension == 0) {
+                fprintf(fp, "\n");
+                printRowBar(fp);
 
-                if(rowCount != 9) {
-                    printf("| ");
+                if(rowCount != dimension) {
+                    fprintf(fp, "| ");
                 }
                 
             } else {
-                printf("\n| ");
+                fprintf(fp, "\n| ");
             }
         }
     }
@@ -228,6 +230,6 @@ static bool validInd(sudokuTable_t* sudoku, int ind) {
 
 /******************* swapRow() ******************/
 /* print a long row bar _______________________ */
-static void printRowBar(void) {
-    printf("-------------------------\n");
+static void printRowBar(FILE* fp) {
+    fprintf(fp, "-------------------------\n");
 }
