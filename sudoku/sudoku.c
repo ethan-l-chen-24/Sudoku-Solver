@@ -111,7 +111,10 @@ void solveTable() {
     sudokuTable_print(sudoku, true);
 
     // solve the board
-    solveSudoku(sudoku, 1);
+    if(!solveSudoku(sudoku, 1)) {
+        fprintf(stderr, "Could not solve board\n");
+        return;
+    }
 
     // print the solved board
     printf("Solved: \n");
