@@ -16,13 +16,13 @@ MAKE = make
 VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 
 sudoku: $(OBJS)
-	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
+	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
 unittest: $(OBJS)
-	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
+	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
-fuzztester: fuzztester.o sudoku.o creator.o solver.o sudokuTable.o
-	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
+fuzztester: fuzztester.o creator.o solver.o sudokuTable.o
+	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
 sudoku.o: creator.h solver.h sudokuTable.h
 creator.o: creator.h sudokuTable.h solver.h 
