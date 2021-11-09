@@ -45,7 +45,8 @@ void validateParam(char* mode, char* difficulty) {
     }
 }
 
-#ifndef UNITTEST
+#ifndef UNITTEST 
+#ifndef FUZZTEST
 
 /**************** main ********************/
 /*
@@ -74,6 +75,7 @@ int main(const int argc, char* argv[]) {
     }
 }
 
+#endif
 #endif
 
 /**************** createTable ********************/

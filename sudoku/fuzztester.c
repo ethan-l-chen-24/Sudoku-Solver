@@ -36,15 +36,17 @@ int main(const int argc, char* argv[]) {
         sudoku = generateUniqueTable(25);
 
         printf("Printing the created table...\n");
-        sudokuTable_print(sudoku, true);
+        sudokuTable_print(stdout, sudoku, true);
+
+        FILE* fp = fopen("../tables/table2.txt", "w");
+        sudokuTable_print(fp, sudoku, true);
+        fclose(fp);
         
         // create a copy of the original board to solve
-        sudokuTable_t* solve = sudokuTable_new(9);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                sudokuTable_set(solve, i, j, sudokuTable_get(sudoku, i, j));
-            }
-        }
+        FILE* fp1 = fopen("../tables/table2.txt", "w");
+        sudokuTable_t* solve = sudokuTable_load(fp, 9);
+        fclose(fp1);
+
         printf("Printing the solved board...\n");
         sudokuTable_print(solve, true);
 
@@ -65,11 +67,9 @@ int main(const int argc, char* argv[]) {
             printf("Failed! Solved board does not follow the rules of Sudoku.\n");
             return 5;
         }
-
         sudokuTable_delete(sudoku);
         sudokuTable_delete(solve);
     }
-
 }
 
 bool changedNum(sudokuTable_t* created, sudokuTable_t* solved) {
