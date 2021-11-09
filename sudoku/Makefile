@@ -6,9 +6,9 @@ OBJS = sudoku.o creator.o solver.o  sudokuTable.o unittest.o
 LIBS =
 
 # uncomment the following to turn on verbose memory logging
-TESTING = #-DUNITTEST #-DMEMTEST
+TESTING = -DUNITTEST #-DMEMTEST
 
-#CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
+CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
 CC = gcc
 MAKE = make
 
@@ -16,10 +16,10 @@ MAKE = make
 VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 
 sudoku: $(OBJS)
-	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
+	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
 unittest: $(OBJS)
-	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
+	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
 sudoku.o: creator.h solver.h sudokuTable.h
 creator.o: creator.h sudokuTable.h solver.h 

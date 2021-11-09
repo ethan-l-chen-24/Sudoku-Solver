@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <math.h>
 #include "sudokuTable.h"
 #include "../libcs50/file.h"
 
@@ -79,7 +80,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     while(!feof(fp)) {
         while((c = fgetc(fp)) != '\n' && c != EOF) {
             if(isdigit(c)) {
-                if(col >= 9 || row >= 9) {
+                if(col >= dimension || row >= dimension) {
                     sudokuTable_delete(sudoku);
                     fprintf(stderr, "Error: format of input file is incorrect\n");
                     return NULL;
@@ -95,7 +96,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
         }
         // if the line was not a bar, it should have passed 9 columns
         // if not, format is incorrect
-        if(col != 9 && col != 0) {
+        if(col != dimension && col != 0) {
             sudokuTable_delete(sudoku);
             fprintf(stderr, "Error: format of input file is incorrect\n");
             return NULL;
@@ -107,7 +108,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
         col = 0;
     }
 
-    if(row != 9) {
+    if(row != dimension) {
         sudokuTable_delete(sudoku);
         fprintf(stderr, "Error: format of input file is incorrect\n");
         return NULL;
@@ -160,6 +161,7 @@ void sudokuTable_print(sudokuTable_t* sudoku, bool style) {
     // get the table and dimension from the struct
     int** table = sudoku->table;
     int dimension = sudoku->dimension;
+    int sqrtDimension = (int) sqrt(dimension);
 
     if(table == NULL) return;
 
@@ -191,18 +193,18 @@ void sudokuTable_print(sudokuTable_t* sudoku, bool style) {
 
                 // every three columns print a vertical bar
                 columnCount++;
-                if (columnCount % 3 == 0) {
+                if (columnCount % sqrtDimension == 0) {
                     printf("| ");
                 }
             }
 
             // every three rows print a full row of underscores
             rowCount++;
-            if(rowCount % 3 == 0) {
+            if(rowCount % sqrtDimension == 0) {
                 printf("\n");
                 printRowBar();
 
-                if(rowCount != 9) {
+                if(rowCount != dimension) {
                     printf("| ");
                 }
                 
