@@ -72,8 +72,6 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     if(fp == NULL) return NULL;
 
     sudokuTable_t* sudoku = sudokuTable_new(9);
-    if(sudoku == NULL) return NULL;
-
     char c;
     int row = 0;
     int col = 0;
@@ -90,14 +88,10 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
                 rowBar = false;
             }
 
-            printf("character: %c\n", c);
             if(isdigit(c)) {
-                printf("digit: %c\n", c);
-
                 if(col >= 9 || row >= 9) {
-                    printf("col: %d, row: %d\n", col, row);
                     sudokuTable_delete(sudoku);
-                    fprintf(stderr, "Error 1: format of input file is incorrect\n");
+                    fprintf(stderr, "Error: format of input file is incorrect\n");
                     return NULL;
                 }
                 sudokuTable_set(sudoku, row, col, (int) c - '0');
@@ -109,7 +103,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
         // if not, format is incorrect
         if(col != 9 && !rowBar) {
             sudokuTable_delete(sudoku);
-            fprintf(stderr, "Error 2: format of input file is incorrect\n");
+            fprintf(stderr, "Error: format of input file is incorrect\n");
             return NULL;
         }
 

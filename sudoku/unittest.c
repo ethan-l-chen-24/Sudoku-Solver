@@ -59,62 +59,100 @@ int test2()
 
 int test_load() {
     int failed = 0;
-    // char ch;
+    char ch;
+    printf("\nTesting sudokuTable_load...\n");
 
-    sudokuTable_t* sudoku = generateUniqueTable(9);
-    printf("Printing the original sudoku into table1.txt...\n");
-    sudokuTable_print(sudoku, true);
-    fflush(stdout);
+    FILE* oldFP = fopen("table0.txt", "r");
 
-    if(sudoku == NULL) failed++;
+    printf("Printing the original table from file...\n");
+    while(fscanf(oldFP, "%c", &ch) != EOF) {
+      printf("%c", ch);
+    }
+    printf("\n\n");
+    fclose(oldFP);
 
     FILE* fp = fopen("../tables/table1.txt", "r");
     sudokuTable_t* table;
     if (fp != NULL) {
         table = sudokuTable_load(fp, 9);
     }
-
-    if (table == NULL) failed++;
-    else {
-        int** ogBoard = sudokuTable_board(sudoku);
-        int** loadedBoard = sudokuTable_board(table);
-
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (ogBoard[i][j] != loadedBoard[i][j]) failed++;
-            }
-        }
-    }
+    fclose(fp);
 
     // print the table we just loaded
-    // printf("Printing the table from table1.txt...\n");
-    // if (table != NULL) {
-    //     sudokuTable_print(table, true);
-    // }
-    // printf("\n");
-
-    sudokuTable_delete(sudoku);
+    printf("Printing the loaded table...");
+    if (table != NULL) {
+        sudokuTable_print(table, true);
+    }
     sudokuTable_delete(table);
 
     return failed;
 }
 
+int test4(){
+    int failed=0;
+    sudokuTable_t* s = generateUniqueTable(25);
+    
+
+    sudokuTable_t* s2 = sudokuTable_new(9);
+    int** table = sudokuTable_board(s);
+    for(int i=0;i<9;i++){
+        for(int j=0;j<9;j++){
+            sudokuTable_set(s2, i, j,table[i][j]);
+        }
+    }
+    bool flag = true;
+    int count=0;
+    while(flag){
+        s = generateUniqueTable(25);
+        s2 = sudokuTable_new(9);
+        table = sudokuTable_board(s);
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+            sudokuTable_set(s2, i, j,table[i][j]);
+            }
+        }
+
+        solveSudoku(s, 1);
+        solveSudoku(s2, 0);
+        int** t1 = sudokuTable_board(s);
+        int** t2 = sudokuTable_board(s2);
+        count=0;
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                if(t1[i][j]!=t2[i][j] || t1[i][j]==0){
+                    count++;
+                }//end if
+
+            }//end inner for
+        }//end for
+        
+
+        if(count==0)break;
+        else{
+            free(s);
+            free(s2);
+        }//end else 
+
+    }
+
+    printf("found unique solution of \n");
+    sudokuTable_print(s, true);
+    
+    
+
+
+
+    return failed;
+}
+
+
 int main(int argc, char const *argv[])
 {
     srand(time(NULL));
     int totalFailed = 0;
-    printf("Welcome to Unit Testing\n");
-
     int failed = 0;
-    failed += test_load();
-    if (failed == 0) {
-        printf("Test load passed\n");
-    } else {
-        printf("Test load failed!\n");
-        totalFailed++;
-    }
 
-    failed = 0;
+    printf("Welcome to Unit Testing\n");
     failed += test1();
     if (failed == 0) {
         printf("Test 1 passed\n");
@@ -131,6 +169,18 @@ int main(int argc, char const *argv[])
         printf("Test 2 failed!\n");
         totalFailed++;
     }
+
+    failed = 0;
+    failed += test_load();
+    if (failed == 0) {
+        printf("Test load passed, check if printed tables are the same\n");
+    } else {
+        printf("Test load failed!\n");
+        totalFailed++;
+    }
+
+
+    test4();
 
     if(totalFailed > 0) {
         fprintf(stderr, "Unit testing failed T_T\n");
