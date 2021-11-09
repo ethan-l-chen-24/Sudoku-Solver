@@ -8,7 +8,6 @@
  * 
  * CS50, Fall 2021
  */
-#pragma GCC optimization ("O3")
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
