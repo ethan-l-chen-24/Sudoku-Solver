@@ -14,6 +14,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <time.h>
 #include "creator.h"
 #include "solver.h"
 #include "sudokuTable.h"
@@ -49,6 +50,7 @@ void validateParam(char* mode, char* difficulty) {
  *
 */
 int main(const int argc, char* argv[]) {
+    srand(time(NULL));
     // for now, checks if number of command-line arguments is 3
     if (argc != 3) {
         fprintf(stderr, "Incorrect number of arguments. Usage: ./sudoku mode difficulty\n");
