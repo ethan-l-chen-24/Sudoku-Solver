@@ -8,6 +8,7 @@
  * 
  * CS50, Fall 2021
  */
+#pragma GCC optimization ("O3")
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -17,11 +18,6 @@
 
 //function prootypes
 
-//for direction: 1 means increasing order (use by default), -1 means decreasing order
-void solveSudoku(sudokuTable_t* sudoku, int direction);
-bool backtrack(int** board, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
-bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
-bool checkUniqueness(sudokuTable_t* sudoku);
 
 // int main(){
 //     // int arr[9][9] = 
@@ -62,9 +58,12 @@ bool checkUniqueness(sudokuTable_t* sudoku);
 // }//end main
 
 /* see solver.h for more information */
-void solveSudoku(sudokuTable_t* sudoku, int direction){
+//for direction: 1 means increasing order (use by default), -1 means decreasing order
+bool solveSudoku(sudokuTable_t* sudoku, int direction){
 
-    if(sudoku == NULL) return;
+    if(sudoku == NULL) {
+        return false;
+    }
 
     int** board = sudokuTable_board(sudoku);
     
@@ -117,9 +116,17 @@ void solveSudoku(sudokuTable_t* sudoku, int direction){
         if(direction==1){ backtrack(board,0,0,row,col,boxes);}
 
         else backtrackRev(board,0,0,row,col,boxes);
+
+        if(!isSolved(sudoku)) {
+            return false;
+        }
+        return true;
     
     }//end if
-    else fprintf(stderr, "Invalid board\n");
+    else {
+        fprintf(stderr, "Invalid board\n");
+        return false;
+    }
     
 
 
@@ -204,5 +211,16 @@ bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], 
     return false;
 }//end backtrack
 
-
+/* see solver.h for more information */
+bool isSolved(sudokuTable_t* sudoku) {
+    int** board = sudokuTable_board(sudoku);
+    for(int row = 0; row < 9; row++) {
+        for(int col = 0; col < 9; col++) {
+            if(board[row][col] == 0) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
