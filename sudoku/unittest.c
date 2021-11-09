@@ -18,7 +18,7 @@
 
 #ifdef UNITTEST
 
-int test1() 
+int test_new() 
 {
     int failed = 0;
 
@@ -45,7 +45,7 @@ int test1()
     return failed;
 }
 
-int test2() 
+int test_generate() 
 {
     int failed = 0;
     sudokuTable_t* sudoku = generateUniqueTable(25);
@@ -88,7 +88,7 @@ int test_load() {
     return failed;
 }
 
-int test4(){
+int test_uniqueness(){
     int failed=0;
     sudokuTable_t* s = generateUniqueTable(25);
     
@@ -137,10 +137,6 @@ int test4(){
 
     printf("found unique solution of \n");
     sudokuTable_print(s, true);
-    
-    
-
-
 
     return failed;
 }
@@ -153,7 +149,7 @@ int main(int argc, char const *argv[])
     int failed = 0;
 
     printf("Welcome to Unit Testing\n");
-    failed += test1();
+    failed += test_new();
     if (failed == 0) {
         printf("Test 1 passed\n");
     } else {
@@ -162,7 +158,7 @@ int main(int argc, char const *argv[])
     }
 
     failed = 0;
-    failed += test2();
+    failed += test_generate();
     if (failed == 0) {
         printf("Test 2 passed\n");
     } else {
@@ -180,7 +176,14 @@ int main(int argc, char const *argv[])
     }
 
 
-    test4();
+    failed = 0;
+    failed += test_uniqueness();
+    if (failed == 0) {
+        printf("Test load passed, check if printed tables are the same\n");
+    } else {
+        printf("Test load failed!\n");
+        totalFailed++;
+    }
 
     if(totalFailed > 0) {
         fprintf(stderr, "Unit testing failed T_T\n");

@@ -75,18 +75,9 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     char c;
     int row = 0;
     int col = 0;
-    bool rowBar = false;
 
     while(!feof(fp)) {
         while((c = fgetc(fp)) != '\n' && c != EOF) {
-            // if the line has one '-', the line should only contain the characters '-'
-            if (!rowBar && c == '-') {
-                rowBar = true;  // set to true as line is rowBar
-                break;          // break to leave row
-            } 
-            else {
-                rowBar = false;
-            }
 
             if(isdigit(c)) {
                 if(col >= 9 || row >= 9) {
@@ -101,16 +92,17 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
         }
         // if the line was not a bar, it should have passed 9 columns
         // if not, format is incorrect
-        if(col != 9 && !rowBar) {
+        if(col != 9) {
             sudokuTable_delete(sudoku);
             fprintf(stderr, "Error: format of input file is incorrect\n");
             return NULL;
         }
 
-        if (!rowBar) {
+        if (col != 0) {
             row++;
         }
         col = 0;
+
     }
     
     return sudoku;
@@ -141,7 +133,7 @@ int sudokuTable_get(sudokuTable_t* sudoku, int row, int col) {
 void sudokuTable_delete(sudokuTable_t* sudoku) {
     if (sudoku != NULL) {
         // free each row
-        for(int i = 0; i < 9; i++) {
+        for(int i = 0; i < sudoku->dimension; i++) {
             free(sudoku->table[i]);
         }
 
