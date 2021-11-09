@@ -108,7 +108,7 @@ bool checkUniqueness(sudokuTable_t* sudoku){
     
     //get two sudoku boards, one with foward and the other with rev backtrack 
     solveSudoku(s3, 1);
-    solveSudoku(s2, -1);
+    solveSudoku(s2, 0);
     
     //if they're not the same, then we have diff solutions
     for(int i=0;i<0;i++){

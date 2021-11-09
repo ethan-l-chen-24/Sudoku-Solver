@@ -74,3 +74,15 @@ bool backtrack(int** board, int r, int c,  bool row[9][10], bool col[9][10], boo
  * typically by calling sudokuTable_delete
  */
 bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
+
+/******************* isSolved ******************/
+/*
+ * checks if a sudoku board is completely solved
+ *
+ * Caller provides:
+ *  a valid pointer to a sudoku table
+ * 
+ * We return:
+ *  boolean return type true if board is solved (no zeroes), false otherwise
+ */
+bool isSolved(sudokuTable_t* sudoku);

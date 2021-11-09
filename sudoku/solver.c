@@ -204,5 +204,16 @@ bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], 
     return false;
 }//end backtrack
 
-
+/* see solver.h for more information */
+bool isSolved(sudokuTable_t* sudoku) {
+    int** board = sudokuTable_board(sudoku);
+    for(int row = 0; row < 9; row++) {
+        for(int col = 0; col < 9; col++) {
+            if(board[row][col] == 0) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
