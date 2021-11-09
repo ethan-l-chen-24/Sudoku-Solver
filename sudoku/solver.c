@@ -58,7 +58,9 @@
 
 /* see solver.h for more information */
 //for direction: 1 means increasing order (use by default), -1 means decreasing order
-bool solveSudoku(sudokuTable_t* sudoku, int direction){
+bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
+
+    int sqrtDimension = sqrt(dimension);
 
     if(sudoku == NULL) {
         return false;
@@ -75,17 +77,17 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction){
     bool invalid = false;
     
     //initalizing everything to false
-    for(int i=0;i<9;i++){
-        for(int j=0;j<10;j++){
+    for(int i=0;i<dimension;i++){
+        for(int j=0;j<dimension+1;j++){
             row[i][j]=false;
             col[i][j]=false;
         }//end inner for
     }//end for
     
     //initalizing everything to false
-    for(int i=0;i<3;i++){
-        for(int j=0;j<3;j++){
-            for(int k=0;k<10;k++){
+    for(int i=0;i<sqrtDimension;i++){
+        for(int j=0;j<sqrtDimension;j++){
+            for(int k=0;k<dimension;k++){
                 boxes[i][j][k]=false;
             }//end inner for
                 
@@ -95,8 +97,8 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction){
         
     
     //now we start setting numbers to true given what's already on the board. This will also check for invalid entries while it's filling in. 
-    for(int i=0;i<9;i++){
-        for(int j=0;j<9;j++){
+    for(int i=0;i<dimension;i++){
+        for(int j=0;j<dimension;j++){
             if(board[i][j]==0) continue;
             num=board[i][j];
             if(row[i][num]){invalid=true; printf("%d already exists in row\n", num);} 
@@ -105,8 +107,8 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction){
             if(col[j][num]){invalid=true; printf("%d already exists in col\n", num);} 
             else col[j][num]=true;
 
-            if(boxes[i/3][j/3][num]){invalid=true; printf("%d already exists in box\n", num);} 
-            else boxes[i/3][j/3][num]=true;
+            if(boxes[i/sqrtDimension][j/sqrtDimension][num]){invalid=true; printf("%d already exists in box\n", num);} 
+            else boxes[i/sqrtDimension][j/sqrtDimension][num]=true;
         }
     }
 
@@ -116,7 +118,7 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction){
 
         else backtrackRev(board,0,0,row,col,boxes);
 
-        if(!isSolved(sudoku)) {
+        if(!isSolved(sudoku, dimension)) {
             return false;
         }
         return true;
@@ -211,10 +213,10 @@ bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], 
 }//end backtrack
 
 /* see solver.h for more information */
-bool isSolved(sudokuTable_t* sudoku) {
+bool isSolved(sudokuTable_t* sudoku, int dimension) {
     int** board = sudokuTable_board(sudoku);
-    for(int row = 0; row < 9; row++) {
-        for(int col = 0; col < 9; col++) {
+    for(int row = 0; row < dimension; row++) {
+        for(int col = 0; col < dimension; col++) {
             if(board[row][col] == 0) {
                 return false;
             }
