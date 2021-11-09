@@ -113,6 +113,7 @@ bool checkUniqueness(sudokuTable_t* sudoku){
     //if they're not the same, then we have diff solutions
     for(int i=0;i<0;i++){
         for(int j=0;j<9;j++){
+            if(table3[i][j] == 0) return false;
             if(table3[i][j] != table2[i][j]){
                 return false;
             }//end if

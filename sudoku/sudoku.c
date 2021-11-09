@@ -13,15 +13,19 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <time.h>
 #include "creator.h"
 #include "solver.h"
 #include "sudokuTable.h"
+
 
 // function prototypes
 
 void validateParam(char* mode, char* difficulty);
 void createTable(char* difficulty);
 void solveTable();
+int fileno(FILE *stream);
 
 /**************** validateParam ********************/
 /*
@@ -46,6 +50,7 @@ void validateParam(char* mode, char* difficulty) {
  *
 */
 int main(const int argc, char* argv[]) {
+    srand(time(NULL));
     // for now, checks if number of command-line arguments is 3
     if (argc != 3) {
         fprintf(stderr, "Incorrect number of arguments. Usage: ./sudoku mode difficulty\n");
@@ -86,7 +91,9 @@ void createTable(char* difficulty) {
     }
 
     // print it out
-    printf("Generated Table: \n");
+    if (isatty(fileno(stdout))) { // print out generated line only if stdout is not a file
+        printf("Generated Table, %s difficulty: \n", difficulty);
+    }
     sudokuTable_print(sudoku, true);
 }
 

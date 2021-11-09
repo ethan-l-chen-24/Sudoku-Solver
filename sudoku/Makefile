@@ -24,7 +24,7 @@ unittest: $(OBJS)
 sudoku.o: creator.h solver.h sudokuTable.h
 creator.o: creator.h sudokuTable.h solver.h 
 solver.o: solver.h sudokuTable.h 
-sudokuTable.o: sudokuTable.h
+sudokuTable.o: sudokuTable.h ../libcs50/file.h
 unittest.o: creator.h solver.h sudokuTable.h
 
 .PHONY: all run test valgrind clean utest
