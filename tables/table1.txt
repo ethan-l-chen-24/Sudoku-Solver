@@ -1,7 +1,3 @@
-Invalid board
-Invalid board
-Generated Table: 
-
 -------------------------
 | 3 0 6 | 9 0 0 | 0 0 0 | 
 | 0 0 2 | 7 0 5 | 8 1 0 | 

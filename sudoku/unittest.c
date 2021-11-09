@@ -71,8 +71,8 @@ int test_load() {
     printf("\n\n");
     fclose(oldFP);
 
+    FILE* fp = fopen("../tables/table1.txt", "r");
     sudokuTable_t* table;
-    FILE* fp = fopen("table0.txt", "r");
     if (fp != NULL) {
         table = sudokuTable_load(fp, 9);
     }
@@ -123,7 +123,7 @@ int test4(){
                     count++;
                 }//end if
 
-            }//edn inner for
+            }//end inner for
         }//end for
         
 

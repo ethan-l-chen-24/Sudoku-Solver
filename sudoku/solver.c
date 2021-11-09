@@ -119,7 +119,7 @@ void solveSudoku(sudokuTable_t* sudoku, int direction){
         else backtrackRev(board,0,0,row,col,boxes);
     
     }//end if
-    else printf("Invalid board\n");
+    else fprintf(stderr, "Invalid board\n");
     
 
 
