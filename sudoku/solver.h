@@ -31,10 +31,7 @@
  * Caller is responsible for later freeing the memory allocated,
  * typically by calling sudokuTable_delete
  */
-void solveSudoku(sudokuTable_t* sudoku, int direction);
-
-
-
+bool solveSudoku(sudokuTable_t* sudoku, int direction);
 
 /******************* backtrack ******************/
 /*

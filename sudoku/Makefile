@@ -36,8 +36,8 @@ test: sudoku testing.sh
 
 # edit for args
 run: sudoku
-	./sudoku create easy > ../tables/table1.txt
-	./sudoku solve easy < ../tables/table1.txt 
+	./sudoku create hard > ../tables/table1.txt
+	./sudoku solve hard < ../tables/table1.txt 
 	
 # edit for args
 valgrind: sudoku 
