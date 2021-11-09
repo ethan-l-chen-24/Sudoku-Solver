@@ -85,9 +85,9 @@ void createTable(char* difficulty) {
     // generate sudoku tables based on difficulty
     sudokuTable_t* sudoku;
     if(strcmp(difficulty, "easy") == 0) {
-        sudoku = generateUniqueTable(37);
+        sudoku = generateUniqueTable(37, 9);
     } else {
-        sudoku = generateUniqueTable(25);
+        sudoku = generateUniqueTable(25, 9);
     }
 
     // print it out
