@@ -68,7 +68,7 @@ int test_load() {
 
     if(sudoku == NULL) failed++;
 
-    FILE* fp = fopen("table1.txt", "r");
+    FILE* fp = fopen("../tables/table1.txt", "r");
     sudokuTable_t* table;
     if (fp != NULL) {
         table = sudokuTable_load(fp, 9);
