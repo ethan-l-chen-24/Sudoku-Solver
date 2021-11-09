@@ -39,17 +39,17 @@ int main(const int argc, char* argv[]) {
         printf("Printing the created table...\n");
         sudokuTable_print(stdout, sudoku, true);
 
-        FILE* fp = fopen("../tables/table2.txt", "w");
+        FILE* fp = fopen("../tables/table3.txt", "w");
         sudokuTable_print(fp, sudoku, true);
         fclose(fp);
         
         // create a copy of the original board to solve
-        FILE* fp1 = fopen("../tables/table2.txt", "w");
+        FILE* fp1 = fopen("../tables/table3.txt", "r");
         sudokuTable_t* solve = sudokuTable_load(fp, 9);
         fclose(fp1);
 
         printf("Printing the solved board...\n");
-        sudokuTable_print(solve, true);
+        sudokuTable_print(stdout, solve, true);
 
         // check if created board was unique
         if (!checkUniqueness(sudoku)) {
