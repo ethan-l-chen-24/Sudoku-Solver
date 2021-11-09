@@ -79,7 +79,7 @@ int test_load() {
     fclose(fp);
 
     // print the table we just loaded
-    printf("Printing the loaded table...");
+    printf("Printing the loaded table...\n");
     if (table != NULL) {
         sudokuTable_print(table, true);
     }
