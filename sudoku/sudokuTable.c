@@ -199,6 +199,7 @@ void sudokuTable_print(sudokuTable_t* sudoku, bool style) {
             // every three rows print a full row of underscores
             rowCount++;
             if(rowCount % 3 == 0) {
+                printf("\n");
                 printRowBar();
 
                 if(rowCount != 9) {
@@ -228,5 +229,5 @@ static bool validInd(sudokuTable_t* sudoku, int ind) {
 /******************* swapRow() ******************/
 /* print a long row bar _______________________ */
 static void printRowBar(void) {
-    printf("\n-------------------------\n");
+    printf("-------------------------\n");
 }

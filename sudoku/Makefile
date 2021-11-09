@@ -6,7 +6,7 @@ OBJS = sudoku.o creator.o solver.o  sudokuTable.o unittest.o
 LIBS =
 
 # uncomment the following to turn on verbose memory logging
-TESTING = -DUNITTEST #-DMEMTEST
+TESTING = #-DUNITTEST #-DMEMTEST
 
 CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
 CC = gcc
@@ -24,7 +24,7 @@ unittest: $(OBJS)
 sudoku.o: creator.h solver.h sudokuTable.h
 creator.o: creator.h sudokuTable.h solver.h 
 solver.o: solver.h sudokuTable.h 
-sudokuTable.o: sudokuTable.h
+sudokuTable.o: sudokuTable.h ../libcs50/file.h
 unittest.o: creator.h solver.h sudokuTable.h
 
 .PHONY: all run test valgrind clean utest

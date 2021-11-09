@@ -13,15 +13,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "creator.h"
 #include "solver.h"
 #include "sudokuTable.h"
+
 
 // function prototypes
 
 void validateParam(char* mode, char* difficulty);
 void createTable(char* difficulty);
 void solveTable();
+int fileno(FILE *stream);
 
 /**************** validateParam ********************/
 /*
@@ -86,7 +89,9 @@ void createTable(char* difficulty) {
     }
 
     // print it out
-    printf("Generated Table: \n");
+    if (isatty(fileno(stdout))) { // print out generated line only if stdout is not a file
+        printf("Generated Table, %s difficulty: \n", difficulty);
+    }
     sudokuTable_print(sudoku, true);
 }
 
