@@ -13,46 +13,48 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 #include "creator.h"
 #include "sudokuTable.h"
 #include "solver.h"
 
 /******************* generateUniqueTable() ******************/
 /* see creator.h for more information */
-sudokuTable_t* generateUniqueTable(int numFilled) {
+sudokuTable_t* generateUniqueTable(int numFilled, int dimension) {
    
    // keep on generating until it is unique
-   sudokuTable_t* sudokuTable = generate(numFilled);
-    while(!checkUniqueness(sudokuTable)) {
-        sudokuTable = generate(numFilled);
+   sudokuTable_t* sudokuTable = generate(numFilled, dimension);
+    while(!checkUniqueness(sudokuTable, dimension)) {
+        sudokuTable = generate(numFilled, dimension);
     }
     return sudokuTable;
 }//end generateTable
 
 /******************* generate() ******************/
 /* see creator.h for more information */
-sudokuTable_t* generate(int numFilled) {
-    sudokuTable_t* sudoku = sudokuTable_new(9);
+sudokuTable_t* generate(int numFilled, int dimension) {
+    sudokuTable_t* sudoku = sudokuTable_new(dimension);
+    int sqrtDimension = sqrt(dimension);
     if(sudoku == NULL) return NULL;
     
     int** board = sudokuTable_board(sudoku);
-    bool row[9][10];
-    bool col[9][10];
-    bool boxes[3][3][10];
+    bool row[dimension][dimension+1];
+    bool col[dimension][dimension+1];
+    bool boxes[sqrtDimension][sqrtDimension][dimension+1];
     int num=0;
     
     //initalizing everything to false
-    for(int i=0;i<9;i++){
-        for(int j=0;j<10;j++){
+    for(int i=0;i<dimension;i++){
+        for(int j=0;j<dimension+1;j++){
             row[i][j]=false;
             col[i][j]=false;
         }//end inner for
     }//end for
     
     //initalizing everything to false
-    for(int i=0;i<3;i++){
-        for(int j=0;j<3;j++){
-            for(int k=0;k<10;k++){
+    for(int i=0;i<sqrtDimension;i++){
+        for(int j=0;j<sqrtDimension;j++){
+            for(int k=0;k<dimension+1;k++){
                 boxes[i][j][k]=false;
             }//end inner for
                 
@@ -66,18 +68,18 @@ sudokuTable_t* generate(int numFilled) {
 
     while(n>0){
         //generate random coordiates on the sudoku board
-        x = rand()%9;
-        y = rand()%9;
+        x = rand()%dimension;
+        y = rand()%dimension;
 
-        //generate a random number between 1-9
-        num = (rand() % 9) +1;
+        //generate a random number between 1-dimension
+        num = (rand() % dimension) +1;
         
 
         //if we can the insertion of the random number into the random coordinate is valid, then do it
-        if(!row[x][num] && !col[y][num] && !boxes[x/3][y/3][num] && !board[x][y]){
+        if(!row[x][num] && !col[y][num] && !boxes[x/sqrtDimension][y/sqrtDimension][num] && !board[x][y]){
             row[x][num]=true;
             col[y][num]=true;
-            boxes[x/3][y/3][num]=true;
+            boxes[x/sqrtDimension][y/sqrtDimension][num]=true;
             board[x][y] = num;
             n--;
         }//end if
@@ -91,13 +93,13 @@ sudokuTable_t* generate(int numFilled) {
 //returns true if sudoku board is unique
 //returns false if there are multiple solutions detected
 /* see creator.h for more information */
-bool checkUniqueness(sudokuTable_t* sudoku){
+bool checkUniqueness(sudokuTable_t* sudoku, int dimension){
     if(sudoku == NULL) return false;
     int** table1 = sudokuTable_board(sudoku);
-    sudokuTable_t* s2 = sudokuTable_new(9);
-    sudokuTable_t* s3 = sudokuTable_new(9);
-    for(int i=0;i<9;i++){
-        for(int j=0;j<9;j++){
+    sudokuTable_t* s2 = sudokuTable_new(dimension);
+    sudokuTable_t* s3 = sudokuTable_new(dimension);
+    for(int i=0;i<dimension;i++){
+        for(int j=0;j<dimension;j++){
             sudokuTable_set(s2, i, j, table1[i][j]);
             sudokuTable_set(s3, i, j, table1[i][j]);
         }//end inner for
@@ -111,8 +113,8 @@ bool checkUniqueness(sudokuTable_t* sudoku){
     if(!solveSudoku(s2, 0)) return false;
 
     //if they're not the same, then we have diff solutions
-    for(int i=0;i<9;i++){
-        for(int j=0;j<9;j++){
+    for(int i=0;i<dimension;i++){
+        for(int j=0;j<dimension;j++){
             if(table3[i][j] != table2[i][j]) return false;
         }//end inner for
     }//end outer for

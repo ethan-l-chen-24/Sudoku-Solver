@@ -25,7 +25,7 @@
  * 
  * generates a completely solved sudoku until it is unique, then returns
  */
-sudokuTable_t* generateUniqueTable(int numFilled);
+sudokuTable_t* generateUniqueTable(int numFilled, int dimension);
 
 /******************* generate ******************/
 /* 
@@ -40,7 +40,7 @@ sudokuTable_t* generateUniqueTable(int numFilled);
  * generates a completely solved sudoku table via brute force. This mean that 
  * all valid sudoku boards will have equal probability of being generated. 
  */
-sudokuTable_t* generate(int numFilled);
+sudokuTable_t* generate(int numFilled, int dimension);
 
 /******************* checkUniqueness ******************/
 /*
@@ -60,6 +60,6 @@ sudokuTable_t* generate(int numFilled);
  * Caller is responsible for later freeing the memory allocated,
  * typically by calling sudokuTable_delete
  */
-bool checkUniqueness(sudokuTable_t* sudoku);
+bool checkUniqueness(sudokuTable_t* sudoku, int dimension);
 
 #endif

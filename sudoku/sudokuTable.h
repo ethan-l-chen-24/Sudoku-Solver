@@ -43,6 +43,18 @@ sudokuTable_t* sudokuTable_new(int dimension);
  */
 int** sudokuTable_board(sudokuTable_t* sudoku);
 
+/******************* sudokuTable_dimension ******************/
+/*
+ * Return the sudokuBoards dimension
+ *
+ * Caller provides:
+ *  valid pointer to a sudokuTable
+ * 
+ * We return:
+ *  an int variable with the dimension
+ */
+int sudokuTable_dimension(sudokuTable_t* sudoku);
+
 /******************* sudokuTable_load ******************/
 /*
  * Create a new sudoku table from stdin in one of two formats
