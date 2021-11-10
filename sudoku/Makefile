@@ -46,7 +46,7 @@ solve: sudoku
 	./sudoku solve hard < ../tables/table1.txt 
 
 fuzz: fuzztester
-	./fuzztester 1  > ../tables/table2.txt
+	./fuzztester 4
 	
 # edit for args
 valgrind: sudoku 
