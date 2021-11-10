@@ -25,6 +25,7 @@ sudokuTable_t* generateUniqueTable(int numFilled, int dimension) {
     // keep on generating until it is unique
     sudokuTable_t* sudokuTable = generate(numFilled, dimension);
     while(!checkUniqueness(sudokuTable, dimension)) {
+        sudokuTable_delete(sudokuTable);
         sudokuTable = generate(numFilled, dimension);
     }
     return sudokuTable;
@@ -122,7 +123,6 @@ bool checkUniqueness(sudokuTable_t* sudoku, int dimension){
     }//end outer for
 
     //otherwise they're the same
-
     sudokuTable_delete(s2);
     sudokuTable_delete(s3);
     return true;
