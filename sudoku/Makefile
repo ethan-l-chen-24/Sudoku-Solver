@@ -2,11 +2,11 @@
 #
 # Ethan Chen, Bansharee Ireen, Jeffrey Jiang, November 2021
 
-OBJS = sudoku.o creator.o solver.o  sudokuTable.o unittest.o
+OBJS = sudoku.o creator.o solver.o sudokuTable.o
 LIBS =
 
 # uncomment the following to turn on verbose memory logging
-TESTING = -DFUZZTEST #-DUNITTEST #-DMEMTEST
+TESTING = #-DUNITTEST #-DFUZZTEST 
 
 CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
 CC = gcc
@@ -18,7 +18,7 @@ VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 sudoku: $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
-unittest: $(OBJS)
+unittest: unittest.o creator.o solver.o sudokuTable.o
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
 fuzztester: fuzztester.o creator.o solver.o sudokuTable.o
@@ -31,9 +31,9 @@ sudokuTable.o: sudokuTable.h ../libcs50/file.h
 unittest.o: creator.h solver.h sudokuTable.h
 fuzztester.o: creator.h solver.h sudokuTable.h
 
-.PHONY: all create solve test valgrind clean utest fuzz
+.PHONY: create solve test valgrind clean utest fuzz
 
-all: sudoku unittest fuzztester
+all: sudoku 
 
 test: sudoku testing.sh
 	bash -v testing.sh

@@ -34,7 +34,7 @@ int main(const int argc, char* argv[]) {
     sudokuTable_t* sudoku;
     for (int n = 0; n < num; n++) {
         // create n tables on hard mode, i.e. start with 25 given numbers
-        sudoku = generateUniqueTable(25);
+        sudoku = generateUniqueTable(25, 9);
 
         printf("Printing the created table...\n");
         sudokuTable_print(stdout, sudoku, true);
@@ -52,7 +52,7 @@ int main(const int argc, char* argv[]) {
         sudokuTable_print(stdout, solve, true);
 
         // check if created board was unique
-        if (!checkUniqueness(sudoku)) {
+        if (!checkUniqueness(sudoku, 9)) {
             printf("Failed! Created board is not unique.\n");
             return 3;
         }
