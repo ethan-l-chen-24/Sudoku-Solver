@@ -7,11 +7,23 @@
 
 A struct to hold a sudoku table, represented by an `int** table` data member of `int dimensions`. This is implemented in `sudokuTable.h`. It contains all functionality necessary to create, delete, print, load, or edit a sudoku table.
 
+### `validator_t`
+
+A struct to hold three matrices, a `bool** row`, a `bool** col`, and a `bool*** boxes`. For `row`, the occurrence of each number in each row is stored, while for `col`, the occurrence of each number in each column is stored. Finally, for `boxes`, the occurrence of each number in each 3x3 sub-box in the sudoku table is stored. The first index of reach represents which row/column is being accessed while the second index represents the occurrence of the specific number. For `boxes`, the boxes are imagined on a 3x3 grid, where the first index is the row, the second the column, and the last the number. Thus, the sizes of `row`, `col`, and `boxes` will be `[9][10]`, `[9][10]`, and `[3][3][10]` respectively, on a 9x9 grid. For a generic grid, it will be `[dimension][dimension + 1]`, `[dimension][dimension + 1]`, and `[sqrt(dimension)][sqrt(dimension)][dimension + 1]`.
+
 ## Detailed Pseudocode
 
 ### Psuedocode for `creator.c`
 
-`generateTable()`
+`generateUniqueTable`
+
+1. Create a pointer to a `struct sudokuTable` by calling `generate`
+2. while that struct fails `checkUniqueness`
+    1. delete that struct
+    2. generate a new one
+3. return the struct
+
+`generate()`
 
 1. Loads in a sudoku table from sudoku struct
 2. Create `boolean` matrices `row`, `col`, and `boxes` to keep track of whether a particular cell contains a particular number
@@ -19,6 +31,14 @@ A struct to hold a sudoku table, represented by an `int** table` data member of 
 4. While we have not generated the specified amount of numbers
     1. Randomly generate a coordinate on the sudoku table along with a randomly generated integer between 1 and 9
 5. Return the sudoku board with the generated sudoku board
+
+`checkUniqueness`
+
+1. Get two boards for the parameter `sudokuTable_t* sudoku`
+2. Solve both boards using `solveSudoku` with `direction` 1 and then `direction` -1
+3. Loop through the cells of the board
+    1. Check if the solved boards are the same; if not, `return false`
+4. `return true`
 
 ### Psuedocode for `solver.c`
 
@@ -68,13 +88,19 @@ A struct to hold a sudoku table, represented by an `int** table` data member of 
 3. Else, if the there is already a number at the cell, recursively move on to the next cell
 4. `return false`
 
-`checkUniqueness`
+`validator_new`
 
-1. Get two boards for the parameter `sudokuTable_t* sudoku`
-2. Solve both boards using `solveSudoku` with `direction` 1 and then `direction` -1
-3. Loop through the cells of the board
-    1. Check if the solved boards are the same; if not, `return false`
-4. `return true`
+1. allocate space for the `validator_t` struct
+2. allocate space for the `row`, `col`, and `boxes` matrices
+3. set the `row`, `col`, and `boxes` as the properties of the struct
+4. return the struct
+
+`validator_delete`
+
+1. free the insides of each matrix
+2. free the `row`, `col`, and `boxes` pointers
+3. free the `validator_t` pointer
+
 
 ### Psuedocode for `sudoku.c`
 
