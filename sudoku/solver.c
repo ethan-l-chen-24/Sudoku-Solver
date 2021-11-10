@@ -57,6 +57,7 @@
 
 // }//end main
 
+
 /* see solver.h for more information */
 //for direction: 1 means increasing order (use by default), -1 means decreasing order
 bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
