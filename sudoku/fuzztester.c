@@ -25,8 +25,8 @@
 #ifdef FUZZTEST
 
 // function prototypes
-bool changedNum(sudokuTable_t* created, sudokuTable_t* solved);
-bool isRepeat(sudokuTable_t* sudoku);
+bool changedNum(sudokuTable_t* created, sudokuTable_t* solved, int dimension);
+bool isRepeat(sudokuTable_t* sudoku, int dimension);
 
 
 int main(const int argc, char* argv[]) {
@@ -49,7 +49,7 @@ int main(const int argc, char* argv[]) {
         sudoku = generateUniqueTable(25, dimension);
 
         // print the original board for user to see
-        printf("Printing the created table...\n");
+        printf("\nPrinting the created table...\n");
         sudokuTable_print(stdout, sudoku, true);
 
         // print the original board to a file to be read by loading function
@@ -64,7 +64,7 @@ int main(const int argc, char* argv[]) {
 
         // solve the copy
         solveSudoku(solve, 1, 9);
-        printf("Printing the solved board...\n");
+        printf("\nPrinting the solved board...\n");
         sudokuTable_print(stdout, solve, true);
 
         // check if created board was unique
@@ -84,7 +84,7 @@ int main(const int argc, char* argv[]) {
         }
 
         // check if the numbers follow the rules of sudoku
-        if (isRepeat(solve)) {
+        if (isRepeat(solve, dimension)) {
             printf("Failed! Solved board does not follow the rules of Sudoku.\n");
             return 5;
         } else {
@@ -92,6 +92,7 @@ int main(const int argc, char* argv[]) {
         }
         sudokuTable_delete(sudoku);
         sudokuTable_delete(solve);
+        printf("____________________________________\n");
     }
 }
 
@@ -126,7 +127,7 @@ bool isRepeat(sudokuTable_t* sudoku, int dimension) {
 
     // the square root of the dimension
     int sqrtDim = sqrt(dimension);
-    bool boxes[sqrtDim][sqrtDim][dimension+1]];
+    bool boxes[sqrtDim][sqrtDim][dimension+1];
     int num=0;
 
     //initalizing everything to false
