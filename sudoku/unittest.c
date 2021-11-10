@@ -33,7 +33,7 @@ int test_new()
     sudokuTable_set(sudoku, 2, 4, 1);
     sudokuTable_set(sudoku, 2, 5, 6);
 
-    sudokuTable_print(sudoku, true);
+    sudokuTable_print(stdout, sudoku, true);
 
     if(sudoku == NULL) failed++;
     if(sudokuTable_get(sudoku, 0, 3) != 3) failed++; 
@@ -48,8 +48,8 @@ int test_new()
 int test_generate() 
 {
     int failed = 0;
-    sudokuTable_t* sudoku = generateUniqueTable(25);
-    sudokuTable_print(sudoku, true);
+    sudokuTable_t* sudoku = generateUniqueTable(25, 9);
+    sudokuTable_print(stdout, sudoku, true);
     if(sudoku == NULL) failed++;
 
     sudokuTable_delete(sudoku);
@@ -81,7 +81,7 @@ int test_load() {
     // print the table we just loaded
     printf("Printing the loaded table...\n");
     if (table != NULL) {
-        sudokuTable_print(table, true);
+        sudokuTable_print(stdout, table, true);
     }
     sudokuTable_delete(table);
 
@@ -90,7 +90,7 @@ int test_load() {
 
 int test_uniqueness(){
     int failed=0;
-    sudokuTable_t* s = generateUniqueTable(25);
+    sudokuTable_t* s = generateUniqueTable(25, 9);
     
 
     sudokuTable_t* s2 = sudokuTable_new(9);
@@ -103,7 +103,7 @@ int test_uniqueness(){
     bool flag = true;
     int count=0;
     while(flag){
-        s = generateUniqueTable(25);
+        s = generateUniqueTable(25, 9);
         s2 = sudokuTable_new(9);
         table = sudokuTable_board(s);
         for(int i=0;i<9;i++){
@@ -112,8 +112,8 @@ int test_uniqueness(){
             }
         }
 
-        solveSudoku(s, 1);
-        solveSudoku(s2, 0);
+        solveSudoku(s, 1, 9);
+        solveSudoku(s2, 0, 9);
         int** t1 = sudokuTable_board(s);
         int** t2 = sudokuTable_board(s2);
         count=0;
@@ -136,7 +136,7 @@ int test_uniqueness(){
     }
 
     printf("found unique solution of \n");
-    sudokuTable_print(s, true);
+    sudokuTable_print(stdout, s, true);
 
     return failed;
 }
