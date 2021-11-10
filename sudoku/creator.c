@@ -112,8 +112,16 @@ bool checkUniqueness(sudokuTable_t* sudoku, int dimension){
     
     
     //get two sudoku boards, one with foward and the other with rev backtrack 
-    if(!solveSudoku(s3, 1, dimension)) return false;
-    if(!solveSudoku(s2, 0, dimension)) return false;
+    if(!solveSudoku(s3, 1, dimension)) {
+        sudokuTable_delete(s2);
+        sudokuTable_delete(s3);
+        return false;
+    } 
+    if(!solveSudoku(s2, 0, dimension)) {
+        sudokuTable_delete(s2);
+        sudokuTable_delete(s3);
+        return false;
+    }
 
     //if they're not the same, then we have diff solutions
     for(int i=0;i<dimension;i++){
