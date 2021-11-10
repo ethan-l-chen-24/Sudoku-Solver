@@ -62,7 +62,7 @@
 bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
 
     int sqrtDimension = sqrt(dimension);
-
+    
     if(sudoku == NULL) {
         return false;
     }
@@ -88,7 +88,7 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
     //initalizing everything to false
     for(int i=0;i<sqrtDimension;i++){
         for(int j=0;j<sqrtDimension;j++){
-            for(int k=0;k<dimension;k++){
+            for(int k=0;k<dimension+1;k++){
                 boxes[i][j][k]=false;
             }//end inner for
                 
@@ -102,13 +102,13 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
         for(int j=0;j<dimension;j++){
             if(board[i][j]==0) continue;
             num=board[i][j];
-            if(row[i][num]){invalid=true; printf("%d already exists in row\n", num);} 
+            if(row[i][num]){invalid=true; fprintf(stderr, "%d already exists in row\n", num);} 
             else row[i][num] = true;
 
-            if(col[j][num]){invalid=true; printf("%d already exists in col\n", num);} 
+            if(col[j][num]){invalid=true; fprintf(stderr, "%d already exists in col\n", num);} 
             else col[j][num]=true;
 
-            if(boxes[i/sqrtDimension][j/sqrtDimension][num]){invalid=true; printf("%d already exists in box\n", num);} 
+            if(boxes[i/sqrtDimension][j/sqrtDimension][num]){invalid=true; fprintf(stderr, "%d already exists in box\n", num);} 
             else boxes[i/sqrtDimension][j/sqrtDimension][num]=true;
         }
     }

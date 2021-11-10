@@ -22,8 +22,8 @@
 /* see creator.h for more information */
 sudokuTable_t* generateUniqueTable(int numFilled, int dimension) {
    
-   // keep on generating until it is unique
-   sudokuTable_t* sudokuTable = generate(numFilled, dimension);
+    // keep on generating until it is unique
+    sudokuTable_t* sudokuTable = generate(numFilled, dimension);
     while(!checkUniqueness(sudokuTable, dimension)) {
         sudokuTable = generate(numFilled, dimension);
     }
@@ -35,6 +35,7 @@ sudokuTable_t* generateUniqueTable(int numFilled, int dimension) {
 sudokuTable_t* generate(int numFilled, int dimension) {
     sudokuTable_t* sudoku = sudokuTable_new(dimension);
     int sqrtDimension = sqrt(dimension);
+
     if(sudoku == NULL) return NULL;
     
     int** board = sudokuTable_board(sudoku);
@@ -86,6 +87,7 @@ sudokuTable_t* generate(int numFilled, int dimension) {
         
 
     }//end while
+
 
     return sudoku;
 }
