@@ -7,6 +7,10 @@
 
 A struct to hold a sudoku table, represented by an `int** table` data member of `int dimensions`. This is implemented in `sudokuTable.h`. It contains all functionality necessary to create, delete, print, load, or edit a sudoku table.
 
+### `validator_t`
+
+A struct to hold three matrices, a `bool** row`, a `bool** col`, and a `bool*** boxes`. For `row`, the occurrence of each number in each row is stored, while for `col`, the occurrence of each number in each column is stored. Finally, for `boxes`, the occurrence of each number in each 3x3 sub-box in the sudoku table is stored. The first index of reach represents which row/column is being accessed while the second index represents the occurrence of the specific number. For `boxes`, the boxes are imagined on a 3x3 grid, where the first index is the row, the second the column, and the last the number. Thus, the sizes of `row`, `col`, and `boxes` will be `[9][10]`, `[9][10]`, and `[3][3][10]` respectively, on a 9x9 grid. For a generic grid, it will be `[dimension][dimension + 1]`, `[dimension][dimension + 1]`, and `[sqrt(dimension)][sqrt(dimension)][dimension + 1]`.
+
 ## Detailed Pseudocode
 
 ### Psuedocode for `creator.c`
@@ -76,6 +80,18 @@ A struct to hold a sudoku table, represented by an `int** table` data member of 
     1. Check if the solved boards are the same; if not, `return false`
 4. `return true`
 
+`validator_new`
+
+1. allocate space for the `validator_t` struct
+2. allocate space for the `row`, `col`, and `boxes` matrices
+3. set the `row`, `col`, and `boxes` as the properties of the struct
+4. return the struct
+
+`validator_delete`
+
+1. free the insides of each matrix
+2. free the `row`, `col`, and `boxes` pointers
+3. free the `validator_t` pointer
 
 
 ### Psuedocode for `sudoku.c`
