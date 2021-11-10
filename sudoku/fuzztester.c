@@ -36,9 +36,11 @@ int main(const int argc, char* argv[]) {
         // create n tables on hard mode, i.e. start with 25 given numbers
         sudoku = generateUniqueTable(25, 9);
 
+        // print the original board for user to see
         printf("Printing the created table...\n");
         sudokuTable_print(stdout, sudoku, true);
 
+        // print the original board to a file to be read by loading function
         FILE* fp = fopen("../tables/table3.txt", "w");
         sudokuTable_print(fp, sudoku, true);
         fclose(fp);
@@ -48,6 +50,8 @@ int main(const int argc, char* argv[]) {
         sudokuTable_t* solve = sudokuTable_load(fp, 9);
         fclose(fp1);
 
+        // solve the copy
+        solveSudoku(solve, 1, 9);
         printf("Printing the solved board...\n");
         sudokuTable_print(stdout, solve, true);
 
@@ -55,18 +59,24 @@ int main(const int argc, char* argv[]) {
         if (!checkUniqueness(sudoku, 9)) {
             printf("Failed! Created board is not unique.\n");
             return 3;
+        } else {
+            printf("Success! Created board is unique.\n");
         }
 
         // check if solve changed the starting numbers in the grid
         if (changedNum(sudoku, solve)) {
             printf("Failed! Solver changed the starting numbers.\n");
             return 4;
+        } else {
+            printf("Success! Solver did not change the original board's starting numbers.\n");
         }
 
         // check if the numbers follow the rules of sudoku
         if (isRepeat(solve)) {
             printf("Failed! Solved board does not follow the rules of Sudoku.\n");
             return 5;
+        } else {
+            printf("Success! Solved board follows the rules of Sudoku.\n");
         }
         sudokuTable_delete(sudoku);
         sudokuTable_delete(solve);
