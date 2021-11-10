@@ -8,7 +8,7 @@
  * 
  * CS50, Fall 2021
  */
-#pragma GCC target ("avx2")
+#pragma GCC target ("avx2") // optimization to increase speed of solving
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -29,14 +29,16 @@ int fileno(FILE *stream);
 
 /**************** validateParam ********************/
 /*
- *
+ * ensures that the inputted arguments are of the correct format
 */
 void validateParam(char* mode, char* difficulty) {
+    // check for proper mode input
     if (strcmp(mode, "create") != 0 && strcmp(mode, "solve") != 0) {
         fprintf(stderr, "Please select a valid mode: create or solve.\n");
         exit(1);
     }
 
+    // check for proper difficulty input
     if (strcmp(difficulty, "easy") != 0 && strcmp(difficulty, "hard") != 0) {
         fprintf(stderr, "Please select a valid level of difficulty: easy or hard.\n");
         exit(2);
@@ -48,7 +50,7 @@ void validateParam(char* mode, char* difficulty) {
 
 /**************** main ********************/
 /*
- *
+ * validates arguments and then passes to create or solve depending on arguments
 */
 int main(const int argc, char* argv[]) {
     srand(time(NULL));
@@ -78,7 +80,7 @@ int main(const int argc, char* argv[]) {
 
 /**************** createTable ********************/
 /*
- *
+ * creates a sudoku table and prints it to stdout
 */
 void createTable(char* difficulty) {
     // generate a table
@@ -102,7 +104,7 @@ void createTable(char* difficulty) {
 
 /**************** solveTable ********************/
 /*
- *
+ * loads a sudokuTable from stdin, solves it (if possible), and prints it to stdout
 */
 void solveTable() {
     // generate a table
