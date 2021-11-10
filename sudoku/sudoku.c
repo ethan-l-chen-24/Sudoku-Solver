@@ -113,7 +113,7 @@ void solveTable() {
     sudokuTable_print(stdout, sudoku, true);
 
     // solve the board
-    if(!solveSudoku(sudoku, 1)) {
+    if(!solveSudoku(sudoku, 1, 9)) {
         fprintf(stderr, "Could not solve board\n");
         return;
     }
