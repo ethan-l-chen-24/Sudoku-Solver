@@ -57,6 +57,7 @@
 
 // }//end main
 
+
 /* see solver.h for more information */
 //for direction: 1 means increasing order (use by default), -1 means decreasing order
 bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
@@ -71,9 +72,26 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
     
     //these will hold which numbers are in each row, col, and box. So if the number 5 is at coordinates (i, j), then row[i][5] = true denoting there is a 5 in row i. 
     //like wise, col[j][5] = true, and boxes[i/3][j/3][5] = true.
-    bool row[9][10];
-    bool col[9][10];
-    bool boxes[3][3][10];
+    
+    bool** row = calloc(dimension, sizeof(bool*));
+    for(int i=0;i<dimension;i++){
+        row[i] = (bool*)calloc(dimension+1, sizeof(bool));
+    }
+
+    bool** col = calloc(dimension, sizeof(bool*));
+    for(int i=0;i<dimension;i++){
+        col[i] = (bool*)calloc(dimension+1, sizeof(bool));
+    }
+
+    bool*** boxes = calloc(sqrtDimension, sizeof(bool**));
+    for(int i=0;i<sqrtDimension;i++){
+        boxes[i] = (bool**) calloc(sqrtDimension, sizeof(bool*));
+        for(int j=0;j<dimension+1;j++){
+            boxes[i][j] = (bool*) calloc(dimension+1, sizeof(bool));
+        }
+    }
+
+    //bool boxes[3][3][10];
     int num=0;
     bool invalid = false;
     
@@ -137,7 +155,7 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
 
 //backtracking algo: it will recur along columns first, and then move along the rows. 
 /* see solver.h for more information */
-bool backtrack(int** board, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]){    
+bool backtrack(int** board, int r, int c,  bool** row, bool** col, bool*** boxes){    
     //if we succesfully filled a whole column
     if(c==9){
         c=0;
@@ -184,7 +202,7 @@ bool backtrack(int** board, int r, int c,  bool row[9][10], bool col[9][10], boo
 }//end backtrack
 
 /* see solver.h for more information */
-bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]){
+bool backtrackRev(int** board, int r, int c,  bool** row, bool** col, bool*** boxes){
     if(c==9){
         c=0;
         r++;
