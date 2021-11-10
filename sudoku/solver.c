@@ -25,22 +25,27 @@ typedef struct validator {
     int dimension;
 } validator_t;
 
-// function prototypes
-validator_t* validator_new(int dimension);
-void validator_delete(validator_t* val);
-
 // struct methods
 
+/*********** validator_new **************/
+/*
+ * creates a new validator struct, mallocing all of the necessary memory
+ *
+ * caller provides: a valid dimension
+ */
 validator_t* validator_new(int dimension) {
 
+    // create memory for the struct itself
     validator_t* val = malloc(sizeof(validator_t));
     if(val == NULL) return NULL;
 
+    // allocate memory for the row matrix
     bool** row = calloc(dimension, sizeof(bool*));
     for(int i=0;i<dimension;i++){
         row[i] = (bool*)calloc(dimension+1, sizeof(bool));
     }
 
+    // allocate memory for the col matrix
     bool** col = calloc(dimension, sizeof(bool*));
     for(int i=0;i<dimension;i++){
         col[i] = (bool*)calloc(dimension+1, sizeof(bool));
@@ -48,6 +53,7 @@ validator_t* validator_new(int dimension) {
 
     int sqrtDimension = (int) sqrt(dimension);
 
+    // allocate memory for the boxes matrix
     bool*** boxes = calloc(sqrtDimension, sizeof(bool**));
     for(int i=0;i<sqrtDimension;i++){
         boxes[i] = (bool**) calloc(sqrtDimension, sizeof(bool*));
@@ -56,6 +62,7 @@ validator_t* validator_new(int dimension) {
         }
     }
 
+    // set each matrix to its appropriate struct property
     val->row = row;
     val->col = col;
     val->boxes = boxes;
@@ -65,11 +72,13 @@ validator_t* validator_new(int dimension) {
 }
 
 void validator_delete(validator_t* val) {
+    // retrieve the matrices from the struct
     bool** row = val->row;
     bool** col = val->col;
     bool*** boxes = val->boxes;
     int dimension = val->dimension;
 
+    // free the row and column inner-arrays
     for(int i = 0; i < dimension; i++) {
         free(row[i]);
         free(col[i]);
@@ -77,13 +86,15 @@ void validator_delete(validator_t* val) {
 
     int sqrtDimension = (int) sqrt(dimension);
 
-     for(int i=0;i<sqrtDimension;i++){
+    // free the boxes inner arrays
+    for(int i=0;i<sqrtDimension;i++){
         for(int j=0;j<sqrtDimension;j++){
             free(boxes[i][j]);
         }
         free(boxes[i]);
     }
 
+    // free everythin else
     free(row); 
     free(col);
     free(boxes);
@@ -150,13 +161,17 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
         }
     }
 
+    // if the current state of the board is valid
     if(!invalid){
         
+        // solve the board forwards or backwards
         if(direction==1){ backtrack(board,0,0,row,col,boxes, dimension);}
 
         else backtrackRev(board,0,0,row,col,boxes, dimension);
-        
+
         validator_delete(val);
+
+        // if it is solved (cells are filled in) return true;
         if(!isSolved(sudoku, dimension)) {
             return false;
         }
@@ -254,6 +269,8 @@ bool backtrackRev(int** board, int r, int c,  bool** row, bool** col, bool*** bo
 /* see solver.h for more information */
 bool isSolved(sudokuTable_t* sudoku, int dimension) {
     int** board = sudokuTable_board(sudoku);
+
+    // if any of the cells are 0, it was not solvable
     for(int row = 0; row < dimension; row++) {
         for(int col = 0; col < dimension; col++) {
             if(board[row][col] == 0) {

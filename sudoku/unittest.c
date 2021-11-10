@@ -90,16 +90,7 @@ int test_load() {
 
 int test_uniqueness(){
     int failed=0;
-    sudokuTable_t* s = generateUniqueTable(25, 9);
-    
 
-    sudokuTable_t* s2 = sudokuTable_new(9);
-    int** table = sudokuTable_board(s);
-    for(int i=0;i<9;i++){
-        for(int j=0;j<9;j++){
-            sudokuTable_set(s2, i, j,table[i][j]);
-        }
-    }
     bool flag = true;
     int count=0;
     while(flag){
@@ -121,13 +112,14 @@ int test_uniqueness(){
             for(int j=0;j<9;j++){
                 if(t1[i][j]!=t2[i][j] || t1[i][j]==0){
                     count++;
+                    failed++;
                 }//end if
 
             }//end inner for
         }//end for
         
 
-        if(count==0)break;
+        if(count==0) break;
         else{
             free(s);
             free(s2);
@@ -151,18 +143,18 @@ int main(int argc, char const *argv[])
     printf("Welcome to Unit Testing\n");
     failed += test_new();
     if (failed == 0) {
-        printf("Test 1 passed\n");
+        printf("Test new passed\n");
     } else {
-        printf("Test 1 failed!\n");
+        printf("Test new failed!\n");
         totalFailed++;
     }
 
     failed = 0;
     failed += test_generate();
     if (failed == 0) {
-        printf("Test 2 passed\n");
+        printf("Test generate passed\n");
     } else {
-        printf("Test 2 failed!\n");
+        printf("Test generate failed!\n");
         totalFailed++;
     }
 
@@ -179,9 +171,9 @@ int main(int argc, char const *argv[])
     failed = 0;
     failed += test_uniqueness();
     if (failed == 0) {
-        printf("Test load passed, check if printed tables are the same\n");
+        printf("Test uniqueness passed, check if printed tables are the same\n");
     } else {
-        printf("Test load failed!\n");
+        printf("Test uniqueness failed!\n");
         totalFailed++;
     }
 
