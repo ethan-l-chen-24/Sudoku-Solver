@@ -50,7 +50,7 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension);
  * Caller is responsible for later freeing the memory allocated,
  * typically by calling sudokuTable_delete
  */
-bool backtrack(int** board, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
+bool backtrack(int** board, int r, int c,  bool** row, bool** col, bool*** boxes);
 
 
 /******************* backtrackRev ******************/
@@ -70,7 +70,7 @@ bool backtrack(int** board, int r, int c,  bool row[9][10], bool col[9][10], boo
  * Caller is responsible for later freeing the memory allocated,
  * typically by calling sudokuTable_delete
  */
-bool backtrackRev(int** board, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
+bool backtrackRev(int** board, int r, int c,  bool** row, bool** col, bool*** boxes);
 
 /******************* isSolved ******************/
 /*
