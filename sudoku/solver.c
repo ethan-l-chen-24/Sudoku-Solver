@@ -1,7 +1,8 @@
 
 /*
- * solver.c : attempts to solve a sodoku board
+ * solver.c : solves an inputted sudoku board
  *
+ * usage: ./sudoku solve difficulty
  * 
  * Bansharee Ireen, Ethan Chen, Jeffrey Jiang
  * Nov 4, 2021

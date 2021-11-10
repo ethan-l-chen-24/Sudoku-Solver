@@ -76,6 +76,8 @@ A struct to hold a sudoku table, represented by an `int** table` data member of 
     1. Check if the solved boards are the same; if not, `return false`
 4. `return true`
 
+
+
 ### Psuedocode for `sudoku.c`
 
 `main`

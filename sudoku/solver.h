@@ -1,13 +1,10 @@
 /*
+ * solver.h : header file for solver.c in the sudoku module
  *
- *
+ * Bansharee Ireen, Ethan Chen, Jeffrey Jiang
+ * Nov 4, 2021
  * 
- * 
- * 
- * 
- * 
- * 
- * 
+ * CS50, Fall 2021
  */
 
 #include <stdlib.h>

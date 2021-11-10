@@ -40,6 +40,7 @@ For the solve module, we anticipate the following functions:
 * _backtrackRev()_: runs a backtrack algorithm with the reverse order of numbers to solve the sudoku (useful for unit testing)
 * _checkUniqueness()_: wrapper class to call backtrack() and 
 
+The solve module may also include a `struct validator` that effectively is a storage unit for several boolean matrices.
 
 For the sudoku module, we anticipate the following functions:
 * _main()_: parses arguments and handles them
@@ -73,18 +74,17 @@ We will also include a 4th module that will just store a library of methods (`su
 3. Once we have reached the bottom right corner, then we have successfully recurred through all columns and iterated through all rows so we return valid sudoku board. 
 
 *__Create__ (Tentative)*
-1. Create a generic final-solution board
-2. Swap rows and columns within their groups of 3 randomly over many iterations
-3. Pick out cells until we have the desired number left
-    1. Check that the algorithm still leads to exactly one unique solution using a backtracking solver
-    2. If more than one solution is found, exit, step back, and choose a different cell to pick out
-4. Once we have reached the desired number of cells with a unique solution, we have successfully created a valid, unique sudoku board
+1. Randomly place in the desired number of cells into the table as long as they are valid and able to placed in that position
+2. try to solve the board in forwards order (1-9) and backwards order (9-1)
+3. if the boards have all of the same cells and is solvable
+    1. return the board
 
 
 ### Major data structures
 
 * `int**` for each row and each column which will contain which numbers are in the row or column
 * `struct sudokuTable` to store this array
+* `struct validator` to store necessary matrices for the efficiency of the solver
 
 
 ### Visual Representation
