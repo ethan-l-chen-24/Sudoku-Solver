@@ -15,7 +15,15 @@ A struct to hold three matrices, a `bool** row`, a `bool** col`, and a `bool*** 
 
 ### Psuedocode for `creator.c`
 
-`generateTable()`
+`generateUniqueTable`
+
+1. Create a pointer to a `struct sudokuTable` by calling `generate`
+2. while that struct fails `checkUniqueness`
+    1. delete that struct
+    2. generate a new one
+3. return the struct
+
+`generate()`
 
 1. Loads in a sudoku table from sudoku struct
 2. Create `boolean` matrices `row`, `col`, and `boxes` to keep track of whether a particular cell contains a particular number
@@ -23,6 +31,14 @@ A struct to hold three matrices, a `bool** row`, a `bool** col`, and a `bool*** 
 4. While we have not generated the specified amount of numbers
     1. Randomly generate a coordinate on the sudoku table along with a randomly generated integer between 1 and 9
 5. Return the sudoku board with the generated sudoku board
+
+`checkUniqueness`
+
+1. Get two boards for the parameter `sudokuTable_t* sudoku`
+2. Solve both boards using `solveSudoku` with `direction` 1 and then `direction` -1
+3. Loop through the cells of the board
+    1. Check if the solved boards are the same; if not, `return false`
+4. `return true`
 
 ### Psuedocode for `solver.c`
 
@@ -71,14 +87,6 @@ A struct to hold three matrices, a `bool** row`, a `bool** col`, and a `bool*** 
             3. Reset the `boolean` matrices to false for the cell
 3. Else, if the there is already a number at the cell, recursively move on to the next cell
 4. `return false`
-
-`checkUniqueness`
-
-1. Get two boards for the parameter `sudokuTable_t* sudoku`
-2. Solve both boards using `solveSudoku` with `direction` 1 and then `direction` -1
-3. Loop through the cells of the board
-    1. Check if the solved boards are the same; if not, `return false`
-4. `return true`
 
 `validator_new`
 
