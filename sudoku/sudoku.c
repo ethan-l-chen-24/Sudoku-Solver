@@ -32,11 +32,13 @@ int fileno(FILE *stream);
  * ensures that the inputted arguments are of the correct format
 */
 void validateParam(char* mode, char* difficulty) {
+    // check for proper mode input
     if (strcmp(mode, "create") != 0 && strcmp(mode, "solve") != 0) {
         fprintf(stderr, "Please select a valid mode: create or solve.\n");
         exit(1);
     }
 
+    // check for proper difficulty input
     if (strcmp(difficulty, "easy") != 0 && strcmp(difficulty, "hard") != 0) {
         fprintf(stderr, "Please select a valid level of difficulty: easy or hard.\n");
         exit(2);

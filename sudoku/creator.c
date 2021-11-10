@@ -128,7 +128,11 @@ bool checkUniqueness(sudokuTable_t* sudoku, int dimension){
     //if they're not the same, then we have diff solutions
     for(int i=0;i<dimension;i++){
         for(int j=0;j<dimension;j++){
-            if(table3[i][j] != table2[i][j]) return false;
+            if(table3[i][j] != table2[i][j]) {
+                sudokuTable_delete(s2);
+                sudokuTable_delete(s3);
+                return false;
+            }
         }//end inner for
     }//end outer for
 
