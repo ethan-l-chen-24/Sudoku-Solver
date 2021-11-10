@@ -16,47 +16,79 @@
 #include "solver.h"
 #include "sudokuTable.h"
 
-//function prootypes
+//local types
 
+typedef struct validator {
+    bool** row;
+    bool** col;
+    bool*** boxes;
+    int dimension;
+} validator_t;
 
-// int main(){
-//     // int arr[9][9] = 
-//     // {
-//     //     {5,3,0,0,7,0,0,0,0},
-//     //     {6,0,0,1,9,5,0,0,0} ,
-//     //     {0,9,8,0,0,0,0,6,0},
-//     //     {8,0,0,0,6,0,0,0,3},
-//     //     {4,0,0,8,0,3,0,0,1},
-//     //     {7,0,0,0,2,0,0,0,6},
-//     //     {0,6,0,0,0,0,2,8,0},
-//     //     {0,0,0,4,1,9,0,0,5},
-//     //     {0,0,0,0,8,0,0,7,9}
-//     // };
+// function prototypes
+validator_t* validator_new(int dimension);
+void validator_delete(validator_t* val);
 
-//     // int arr[9][9] = 
-//     // {
-//     //     {1,0,0,0,0,0,0,0,0},
-//     //     {0,0,0,0,0,0,0,0,0},
-//     //     {0,0,0,0,0,0,0,0,0},
-//     //     {0,0,0,0,0,0,0,0,0},
-//     //     {0,0,0,0,0,0,0,0,0},
-//     //     {0,0,0,0,0,0,0,0,0},
-//     //     {0,0,0,0,0,0,0,0,0},
-//     //     {0,0,0,0,0,0,0,0,0},
-//     //     {0,0,0,0,0,0,0,0,0}
-//     // };
-//     //sudokuTable_t* s = sudokuTable_new(9);
+// struct methods
 
-//     //solveSudoku(s, 1);
-//     // for(int i=0;i<9;i++){
-//     //     for(int j=0;j<9;j++){
-//     //         printf("%d ", arr[i][j]);
-//     //     }
-//     //     printf("\n");
-//     // }
+validator_t* validator_new(int dimension) {
 
-// }//end main
+    validator_t* val = malloc(sizeof(validator_t));
+    if(val == NULL) return NULL;
 
+    bool** row = calloc(dimension, sizeof(bool*));
+    for(int i=0;i<dimension;i++){
+        row[i] = (bool*)calloc(dimension+1, sizeof(bool));
+    }
+
+    bool** col = calloc(dimension, sizeof(bool*));
+    for(int i=0;i<dimension;i++){
+        col[i] = (bool*)calloc(dimension+1, sizeof(bool));
+    }
+
+    int sqrtDimension = (int) sqrt(dimension);
+
+    bool*** boxes = calloc(sqrtDimension, sizeof(bool**));
+    for(int i=0;i<sqrtDimension;i++){
+        boxes[i] = (bool**) calloc(sqrtDimension, sizeof(bool*));
+        for(int j=0;j<sqrtDimension;j++){
+            boxes[i][j] =(bool*) calloc(dimension+1, sizeof(bool));
+        }
+    }
+
+    val->row = row;
+    val->col = col;
+    val->boxes = boxes;
+    val->dimension = dimension;
+
+    return val;
+}
+
+void validator_delete(validator_t* val) {
+    bool** row = val->row;
+    bool** col = val->col;
+    bool*** boxes = val->boxes;
+    int dimension = val->dimension;
+
+    for(int i = 0; i < dimension; i++) {
+        free(row[i]);
+        free(col[i]);
+    }
+
+    int sqrtDimension = (int) sqrt(dimension);
+
+     for(int i=0;i<sqrtDimension;i++){
+        for(int j=0;j<sqrtDimension;j++){
+            free(boxes[i][j]);
+        }
+        free(boxes[i]);
+    }
+
+    free(row); 
+    free(col);
+    free(boxes);
+    free(val);
+}
 
 /* see solver.h for more information */
 //for direction: 1 means increasing order (use by default), -1 means decreasing order
@@ -73,23 +105,10 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
     //these will hold which numbers are in each row, col, and box. So if the number 5 is at coordinates (i, j), then row[i][5] = true denoting there is a 5 in row i. 
     //like wise, col[j][5] = true, and boxes[i/3][j/3][5] = true.
     
-    bool** row = calloc(dimension, sizeof(bool*));
-    for(int i=0;i<dimension;i++){
-        row[i] = (bool*)calloc(dimension+1, sizeof(bool));
-    }
-
-    bool** col = calloc(dimension, sizeof(bool*));
-    for(int i=0;i<dimension;i++){
-        col[i] = (bool*)calloc(dimension+1, sizeof(bool));
-    }
-
-    bool*** boxes = calloc(sqrtDimension, sizeof(bool**));
-    for(int i=0;i<sqrtDimension;i++){
-        boxes[i] = (bool**) calloc(sqrtDimension, sizeof(bool*));
-        for(int j=0;j<dimension+1;j++){
-            boxes[i][j] = (bool*) calloc(dimension+1, sizeof(bool));
-        }
-    }
+    validator_t* val = validator_new(dimension);
+    bool** row = val->row;
+    bool** col = val->col;
+    bool*** boxes = val->boxes;
 
     int num=0;
     bool invalid = false;
@@ -122,7 +141,8 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
             if(row[i][num]){invalid=true; fprintf(stderr, "%d already exists in row\n", num);} 
             else row[i][num] = true;
 
-            if(col[j][num]){invalid=true; fprintf(stderr, "%d already exists in col\n", num);} 
+            if(col[j][num]){
+                invalid=true; fprintf(stderr, "%d already exists in col\n", num);} 
             else col[j][num]=true;
 
             if(boxes[i/sqrtDimension][j/sqrtDimension][num]){invalid=true; fprintf(stderr, "%d already exists in box\n", num);} 
@@ -135,20 +155,21 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
         if(direction==1){ backtrack(board,0,0,row,col,boxes, dimension);}
 
         else backtrackRev(board,0,0,row,col,boxes, dimension);
-
+        
+        validator_delete(val);
         if(!isSolved(sudoku, dimension)) {
             return false;
         }
+        
         return true;
     
     }//end if
     else {
+        validator_delete(val);
         fprintf(stderr, "Invalid board\n");
         return false;
     }
     
-
-
 }//end solve
 
 

@@ -97,6 +97,7 @@ void createTable(char* difficulty) {
         printf("Generated Table, %s difficulty: \n", difficulty);
     }
     sudokuTable_print(stdout, sudoku, true);
+    sudokuTable_delete(sudoku);
 }
 
 /**************** solveTable ********************/
@@ -121,4 +122,5 @@ void solveTable() {
     // print the solved board
     printf("Solved: \n");
     sudokuTable_print(stdout, sudoku, true);
+    sudokuTable_delete(sudoku);
 }
