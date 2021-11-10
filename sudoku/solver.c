@@ -52,7 +52,7 @@ validator_t* validator_new(int dimension) {
     for(int i=0;i<sqrtDimension;i++){
         boxes[i] = (bool**) calloc(sqrtDimension, sizeof(bool*));
         for(int j=0;j<sqrtDimension;j++){
-            boxes[i][j] =(bool*)calloc(dimension+1, sizeof(bool));
+            boxes[i][j] =(bool*) calloc(dimension+1, sizeof(bool));
         }
     }
 
@@ -67,7 +67,7 @@ validator_t* validator_new(int dimension) {
 void validator_delete(validator_t* val) {
     bool** row = val->row;
     bool** col = val->col;
-    bool** boxes = val->boxes;
+    bool*** boxes = val->boxes;
     int dimension = val->dimension;
 
     for(int i = 0; i < dimension; i++) {
@@ -81,6 +81,7 @@ void validator_delete(validator_t* val) {
         for(int j=0;j<sqrtDimension;j++){
             free(boxes[i][j]);
         }
+        free(boxes[i]);
     }
 
     free(row); 
@@ -88,8 +89,6 @@ void validator_delete(validator_t* val) {
     free(boxes);
     free(val);
 }
-
-
 
 /* see solver.h for more information */
 //for direction: 1 means increasing order (use by default), -1 means decreasing order
@@ -109,7 +108,7 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
     validator_t* val = validator_new(dimension);
     bool** row = val->row;
     bool** col = val->col;
-    bool** boxes = val->boxes;
+    bool*** boxes = val->boxes;
 
     int num=0;
     bool invalid = false;
@@ -142,7 +141,8 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
             if(row[i][num]){invalid=true; fprintf(stderr, "%d already exists in row\n", num);} 
             else row[i][num] = true;
 
-            if(col[j][num]){invalid=true; fprintf(stderr, "%d already exists in col\n", num);} 
+            if(col[j][num]){
+                invalid=true; fprintf(stderr, "%d already exists in col\n", num);} 
             else col[j][num]=true;
 
             if(boxes[i/sqrtDimension][j/sqrtDimension][num]){invalid=true; fprintf(stderr, "%d already exists in box\n", num);} 
@@ -155,23 +155,21 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
         if(direction==1){ backtrack(board,0,0,row,col,boxes, dimension);}
 
         else backtrackRev(board,0,0,row,col,boxes, dimension);
-
+        
+        validator_delete(val);
         if(!isSolved(sudoku, dimension)) {
             return false;
         }
+        
         return true;
     
     }//end if
     else {
-
-        
-
+        validator_delete(val);
         fprintf(stderr, "Invalid board\n");
         return false;
     }
     
-
-
 }//end solve
 
 
