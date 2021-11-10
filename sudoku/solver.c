@@ -91,7 +91,6 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
         }
     }
 
-    //bool boxes[3][3][10];
     int num=0;
     bool invalid = false;
     
@@ -133,9 +132,9 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
 
     if(!invalid){
         
-        if(direction==1){ backtrack(board,0,0,row,col,boxes);}
+        if(direction==1){ backtrack(board,0,0,row,col,boxes, dimension);}
 
-        else backtrackRev(board,0,0,row,col,boxes);
+        else backtrackRev(board,0,0,row,col,boxes, dimension);
 
         if(!isSolved(sudoku, dimension)) {
             return false;
@@ -155,15 +154,15 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
 
 //backtracking algo: it will recur along columns first, and then move along the rows. 
 /* see solver.h for more information */
-bool backtrack(int** board, int r, int c,  bool** row, bool** col, bool*** boxes){    
+bool backtrack(int** board, int r, int c,  bool** row, bool** col, bool*** boxes, int dimension){    
     //if we succesfully filled a whole column
-    if(c==9){
+    if(c==dimension){
         c=0;
         //move onto the next row
         r++;
 
         //we have all cols from the top left so we are done
-        if(r==9){
+        if(r==dimension){
             return true;
         }//end if
             
@@ -173,60 +172,60 @@ bool backtrack(int** board, int r, int c,  bool** row, bool** col, bool*** boxes
     if(board[r][c]==0){
 
         //we try all numbers
-        for(int num=1;num<=9;num++){
+        for(int num=1;num<=dimension;num++){
             
             //only if it adheres to sudoku rules
-            if(!(row[r][num]||col[c][num]||boxes[r/3][c/3][num])){
+            if(!(row[r][num]||col[c][num]||boxes[r/ (int)(sqrt(dimension))][c/ (int)(sqrt(dimension))][num])){
                 //now if we come across a valid candidate, insert it into the board and try to progress
                 row[r][num]=true;
                 col[c][num]=true;
-                boxes[r/3][c/3][num]=true;
+                boxes[r/ (int)(sqrt(dimension))][c/ (int)(sqrt(dimension))][num]=true;
                 board[r][c]=num;
                 
                 //so we recur onto next slot and see if our candidate from above is valid
-                if(backtrack(board,r,c+1,row,col,boxes)) return true;
+                if(backtrack(board,r,c+1,row,col,boxes, dimension)) return true;
                 
                 //we reset our board so we don't disrupte backtracking from other slots
                 board[r][c]=0;
                 row[r][num]=false;
                 col[c][num]=false;
-                boxes[r/3][c/3][num]=false;
+                boxes[r/ (int)(sqrt(dimension))][c/ (int)(sqrt(dimension))][num]=false;
             }
         }
     }//end if
     
     //already a number so move on
-    else return backtrack(board,r,c+1,row,col,boxes);
+    else return backtrack(board,r,c+1,row,col,boxes, dimension);
     
     return false;
 }//end backtrack
 
 /* see solver.h for more information */
-bool backtrackRev(int** board, int r, int c,  bool** row, bool** col, bool*** boxes){
-    if(c==9){
+bool backtrackRev(int** board, int r, int c,  bool** row, bool** col, bool*** boxes, int dimension){
+    if(c==dimension){
         c=0;
         r++;
-        if(r==9)
+        if(r==dimension)
             return true;
     }
     if(board[r][c]==0){
-        for(int num=9;num>=1;num--){
-            if(!(row[r][num]||col[c][num]||boxes[r/3][c/3][num])){
+        for(int num=dimension;num>=1;num--){
+            if(!(row[r][num]||col[c][num]||boxes[r/ (int)(sqrt(dimension))][c/ (int)(sqrt(dimension))][num])){
                 row[r][num]=true;
                 col[c][num]=true;
-                boxes[r/3][c/3][num]=true;
+                boxes[r/ (int)(sqrt(dimension))][c/ (int)(sqrt(dimension))][num]=true;
                 board[r][c]=num;
-                if(backtrackRev(board,r,c+1,row,col,boxes)) return true;
+                if(backtrackRev(board,r,c+1,row,col,boxes, dimension)) return true;
                 board[r][c]=0;
                 row[r][num]=false;
                 col[c][num]=false;
-                boxes[r/3][c/3][num]=false;
+                boxes[r/ (int)(sqrt(dimension))][c/ (int)(sqrt(dimension))][num]=false;
             }
         }
     }//end if
     
     
-    else return backtrackRev(board,r,c+1,row,col,boxes);
+    else return backtrackRev(board,r,c+1,row,col,boxes, dimension);
     
     return false;
 }//end backtrack
