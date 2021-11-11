@@ -37,7 +37,7 @@ all: sudoku
 
 # testing script
 test: sudoku testing.sh
-	bash -v testing.sh
+	bash -v testing.sh &> testing.out
 
 # create mode
 create: sudoku
