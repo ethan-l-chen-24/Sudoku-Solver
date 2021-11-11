@@ -171,8 +171,6 @@ bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
         } //end inner for
     }     //end outer for
 
-    printf("deleted/deleting tables\n");
-
     //otherwise they're the same
     sudokuTable_delete(s2);
     sudokuTable_delete(s3);
