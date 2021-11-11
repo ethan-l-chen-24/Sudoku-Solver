@@ -1,13 +1,10 @@
 /*
+ * solver.h : header file for solver.c in the sudoku module
  *
- *
+ * Bansharee Ireen, Ethan Chen, Jeffrey Jiang
+ * Nov 4, 2021
  * 
- * 
- * 
- * 
- * 
- * 
- * 
+ * CS50, Fall 2021
  */
 
 #include <stdlib.h>
@@ -50,7 +47,7 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension);
  * Caller is responsible for later freeing the memory allocated,
  * typically by calling sudokuTable_delete
  */
-bool backtrack(int** board, int r, int c,  bool** row, bool** col, bool*** boxes);
+bool backtrack(int** board, int r, int c,  bool** row, bool** col, bool*** boxes, int dimension);
 
 
 /******************* backtrackRev ******************/
@@ -70,7 +67,7 @@ bool backtrack(int** board, int r, int c,  bool** row, bool** col, bool*** boxes
  * Caller is responsible for later freeing the memory allocated,
  * typically by calling sudokuTable_delete
  */
-bool backtrackRev(int** board, int r, int c,  bool** row, bool** col, bool*** boxes);
+bool backtrackRev(int** board, int r, int c,  bool** row, bool** col, bool*** boxes, int dimension);
 
 /******************* isSolved ******************/
 /*

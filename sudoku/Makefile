@@ -5,8 +5,8 @@
 OBJS = sudoku.o creator.o solver.o sudokuTable.o
 LIBS =
 
-# uncomment the following to turn on verbose memory logging
-TESTING = -DFUZZTEST #-DUNITTEST
+# uncomment the following to turn on testing
+TESTING = #-DUNITTEST #-DFUZZTEST 
 
 CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
 CC = gcc
@@ -35,16 +35,19 @@ fuzztester.o: creator.h solver.h sudokuTable.h
 
 all: sudoku 
 
+# testing script
 test: sudoku testing.sh
 	bash -v testing.sh
 
-# edit for args
+# create mode
 create: sudoku
 	./sudoku create hard > ../tables/table1.txt
 	
+# solve mode
 solve: sudoku
 	./sudoku solve hard < ../tables/table1.txt 
 
+# fuzz testing
 fuzz: fuzztester
 	./fuzztester 4 16
 	

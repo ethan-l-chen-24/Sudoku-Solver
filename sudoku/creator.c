@@ -25,6 +25,7 @@ sudokuTable_t* generateUniqueTable(int numFilled, int dimension) {
     // keep on generating until it is unique
     sudokuTable_t* sudokuTable = generate(numFilled, dimension);
     while(!checkUniqueness(sudokuTable, dimension)) {
+        sudokuTable_delete(sudokuTable);
         sudokuTable = generate(numFilled, dimension);
     }
     return sudokuTable;
@@ -75,7 +76,6 @@ sudokuTable_t* generate(int numFilled, int dimension) {
         //generate a random number between 1-dimension
         num = (rand() % dimension) +1;
         
-
         //if we can the insertion of the random number into the random coordinate is valid, then do it
         if(!row[x][num] && !col[y][num] && !boxes[x/sqrtDimension][y/sqrtDimension][num] && !board[x][y]){
             row[x][num]=true;
@@ -98,6 +98,8 @@ sudokuTable_t* generate(int numFilled, int dimension) {
 bool checkUniqueness(sudokuTable_t* sudoku, int dimension){
     if(sudoku == NULL) return false;
     int** table1 = sudokuTable_board(sudoku);
+
+    // create two copies of the original board
     sudokuTable_t* s2 = sudokuTable_new(dimension);
     sudokuTable_t* s3 = sudokuTable_new(dimension);
     for(int i=0;i<dimension;i++){
@@ -106,23 +108,35 @@ bool checkUniqueness(sudokuTable_t* sudoku, int dimension){
             sudokuTable_set(s3, i, j, table1[i][j]);
         }//end inner for
     }//end for
+
+    // grab the tables from those boards
     int** table2 = sudokuTable_board(s2);
     int** table3 = sudokuTable_board(s3);
     
-    
     //get two sudoku boards, one with foward and the other with rev backtrack 
-    if(!solveSudoku(s3, 1, dimension)) return false;
-    if(!solveSudoku(s2, 0, dimension)) return false;
+    if(!solveSudoku(s3, 1, dimension)) {
+        sudokuTable_delete(s2);
+        sudokuTable_delete(s3);
+        return false;
+    } 
+    if(!solveSudoku(s2, 0, dimension)) {
+        sudokuTable_delete(s2);
+        sudokuTable_delete(s3);
+        return false;
+    }
 
     //if they're not the same, then we have diff solutions
     for(int i=0;i<dimension;i++){
         for(int j=0;j<dimension;j++){
-            if(table3[i][j] != table2[i][j]) return false;
+            if(table3[i][j] != table2[i][j]) {
+                sudokuTable_delete(s2);
+                sudokuTable_delete(s3);
+                return false;
+            }
         }//end inner for
     }//end outer for
 
     //otherwise they're the same
-
     sudokuTable_delete(s2);
     sudokuTable_delete(s3);
     return true;
