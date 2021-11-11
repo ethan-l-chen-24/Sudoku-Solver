@@ -193,7 +193,9 @@ A struct to hold three matrices, a `bool** row`, a `bool** col`, and a `bool*** 
 ### Functions for `creator.c`
 
 ```c
-sudokuTable_t* generateTable();
+sudokuTable_t* generateUniqueTable(int numFilled, int dimension);
+sudokuTable_t* generate(int numFilled, int dimension);
+bool checkUniqueness(sudokuTable_t* sudoku, int dimension);
 ```
 
 ### Functions for `solver.c`
@@ -202,12 +204,22 @@ sudokuTable_t* generateTable();
 void solveSudoku(sudokuTable_t* sudoku, int direction);
 bool backtrack(sudokuTable_t* sudoku, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
 bool backtrackRev(sudokuTable_t* sudoku, int r, int c,  bool row[9][10], bool col[9][10], bool boxes[3][3][10]);
-bool checkUniqueness(sudokuTable_t* sudoku);
+bool isSolved(sudokuTable_t* sudoku, int dimension);
+validator_t* validator_new(int dimension);
+void validator_delete(validator_t* val);
 ```
 
 ### Functions for `sudokuTable.c`
 
 ```c
+sudokuTable_t* sudokuTable_new(int dimension);
+int** sudokuTable_board(sudokuTable_t* sudoku);
+int sudokuTable_dimension(sudokuTable_t* sudoku);
+sudokuTable_t* sudokuTable_load(FILE* fp, int dimension);
+void sudokuTable_set(sudokuTable_t* sudoku, int row, int col, int val);
+int sudokuTable_get(sudokuTable_t* sudoku, int row, int col);
+void sudokuTable_delete(sudokuTable_t* sudoku);
+void sudokuTable_print(FILE* fp, sudokuTable_t* sudoku, bool style);
 static bool validVal(sudokuTable_t* sudoku, int val);
 static bool validInd(sudokuTable_t* sudoku, int ind);
 static void printRowBar(void);
@@ -218,6 +230,8 @@ static void printRowBar(void);
 ```c
 void validateParam(char* mode, char* difficulty);
 void createTable(char* difficulty);
+void solveTable();
+int fileno(FILE *stream);
 ```
 
 ## Error Handling
