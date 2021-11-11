@@ -31,7 +31,7 @@ sudokuTable_t *generateUniqueTable(int numFilled, int dimension)
     int check = 1;
     while (!checkUniqueness(sudokuTable, dimension))
     {
-        //sudokuTable_print(stdout, sudokuTable, true);
+        sudokuTable_print(stdout, sudokuTable, true);
         printf("uniqueness check #: %d\n", check);
         sudokuTable_delete(sudokuTable);
         sudokuTable = generate(numFilled, dimension);
@@ -114,6 +114,8 @@ sudokuTable_t *generate(int numFilled, int dimension)
 /* see creator.h for more information */
 bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
 {
+    printf("entered checkUniqueness...\n");
+
     if (sudoku == NULL)
         return false;
     int **table1 = sudokuTable_board(sudoku);
@@ -130,6 +132,8 @@ bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
         } //end inner for
     }     //end for
 
+    printf("created copy of board\n");
+
     // grab the tables from those boards
     int **table2 = sudokuTable_board(s2);
     int **table3 = sudokuTable_board(s3);
@@ -141,12 +145,17 @@ bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
         sudokuTable_delete(s3);
         return false;
     }
+
+    printf("solved board in direction 1\n");
+
     if (!solveSudoku(s2, 0, dimension))
     {
         sudokuTable_delete(s2);
         sudokuTable_delete(s3);
         return false;
     }
+
+    printf("solved board in direction -1\n");
 
     //if they're not the same, then we have diff solutions
     for (int i = 0; i < dimension; i++)
@@ -161,6 +170,8 @@ bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
             }
         } //end inner for
     }     //end outer for
+
+    printf("deleted/deleting tables\n");
 
     //otherwise they're the same
     sudokuTable_delete(s2);
