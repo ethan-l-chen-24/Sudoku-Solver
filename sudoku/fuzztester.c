@@ -32,7 +32,7 @@ bool isRepeat(sudokuTable_t* sudoku, int dimension);
 int main(const int argc, char* argv[]) {
 
     if (argc != 3) {
-        fprintf(stderr, "Incorrect number of arguments. Usage: ./fuzztester n dimension\n");
+        fprintf(stderr, "Incorrect number of arguments. Usage: ./fuzztester n dimensions\n");
         return 1;
     }
 
