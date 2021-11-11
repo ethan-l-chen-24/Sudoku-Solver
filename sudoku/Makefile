@@ -6,7 +6,7 @@ OBJS = sudoku.o creator.o solver.o sudokuTable.o
 LIBS =
 
 # uncomment the following to turn on verbose memory logging
-TESTING = #-DUNITTEST #-DFUZZTEST 
+TESTING = -DFUZZTEST #-DUNITTEST
 
 CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
 CC = gcc
@@ -46,7 +46,7 @@ solve: sudoku
 	./sudoku solve hard < ../tables/table1.txt 
 
 fuzz: fuzztester
-	./fuzztester 4
+	./fuzztester 4 16
 	
 # edit for args
 valgrind: sudoku 
