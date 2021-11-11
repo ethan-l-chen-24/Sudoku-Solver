@@ -121,11 +121,21 @@ void createTable(char *difficulty, int dimensions)
     if (strcmp(difficulty, "easy") == 0)
     {
         printf("entered easy mode in sudoku.c\n");
-        sudoku = generateUniqueTable(37, dimensions);
+        if (dimensions == 16) {
+            sudoku = generateUniqueTable(117, dimensions);
+        }
+        else {
+            sudoku = generateUniqueTable(37, dimensions);
+        }
     }
     else
     {
-        sudoku = generateUniqueTable(25, dimensions);
+        if (dimensions == 16) {
+            sudoku = generateUniqueTable(117, dimensions);
+        }
+        else {
+            sudoku = generateUniqueTable(80, dimensions);
+        }
     }
 
     // print it out
