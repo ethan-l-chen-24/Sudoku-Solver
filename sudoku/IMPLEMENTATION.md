@@ -54,9 +54,9 @@ A struct to hold three matrices, a `bool** row`, a `bool** col`, and a `bool*** 
     3. Check for invalid entries at row, column, and a 3x3 box
     4. If not invalid, set the value of the `boolean` matrices at that cell to true
 6. If not invalid,
-7. If `direction` parameter is set to 1, use `backtrack` to set a valid number in each cell on the board
-    1. Else, use `backtrackRev` to grab another solved board
-    2. Else, print error message saying the board is invalid
+    1. If `direction` parameter is set to 1, use `backtrack` to set a valid number in each cell on the board
+    2. Else, use `backtrackRev` to grab another solved board
+7. Else, print error message saying the board is invalid
 
 `backTrack`
 

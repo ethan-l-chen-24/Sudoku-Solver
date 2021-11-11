@@ -49,9 +49,9 @@ solve: sudoku
 
 # fuzz testing
 fuzz: fuzztester
-	./fuzztester 4
-
-# memory leak checker	
+	./fuzztester 4 16
+	
+# edit for args
 valgrind: sudoku 
 	$(VALGRIND) ./sudoku create easy > ../tables/table1.txt
 	$(VALGRIND) ./sudoku solve easy < ../tables/table1.txt 
