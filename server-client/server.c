@@ -24,10 +24,9 @@
 #include "../creator/creator.h"
 #include "../solver/solver.h"
 #include "../sudoku/sudokuTable.h"
-#include "data.h"
 
 /**************** file-local constants ****************/
-#define SERV_PORT 3000    // server port number 
+#define SERV_PORT 2001    // server port number 
 #define LISTEN_BACKLOG 5  // number of connections to keep waiting
 #define BUFSIZE 1024      // read/write buffer size
 
@@ -91,7 +90,7 @@ int main(const int argc, char *argv[])
             printf("Received %s", buf);
             if(strcmp(buf, "create\n") == 0) {
               sudoku = generateUniqueTable(37, 9);
-              if (write(comm_sock, "sudoku table created", bytes_read) < 0) {
+              if (write(comm_sock, "\tsudoku table created\n", 21) < 0) {
                 perror("writing on stream socket");
                 exit(6);
               }
@@ -101,24 +100,30 @@ int main(const int argc, char *argv[])
 
             } else if(strcmp(buf, "solve\n") == 0) {
               if(sudoku == NULL) {
-                printf("can't solve, null\n");
-                if (write(comm_sock, "can't solve a sudoku table that hasn't been created!", bytes_read) < 0) {
+                printf("\tcan't solve, null\n");
+                if (write(comm_sock, "\tcan't solve a sudoku table that hasn't been created!\n", 100) < 0) {
                   perror("writing on stream socket");
                   exit(6);
                 }
+                continue;
               }
               solveSudoku(sudoku, 1, 9);
-              printf("Solved sudoku table: \n");
+              if (write(comm_sock, "\tsolved sudoku table\n", 21) < 0) {
+                perror("writing on stream socket");
+                exit(6);
+              }
+              printf("\tSolved sudoku table: \n");
               sudokuTable_print(stdout, sudoku);
               printf("\n");
 
             } else if(strcmp(buf, "print\n") == 0) {
               if(sudoku == NULL) {
-                printf("can't print, null\n");
-                if (write(comm_sock, "can't print a sudoku table that hasn't been created!", bytes_read) < 0) {
+                printf("\tcan't print, null\n");
+                if (write(comm_sock, "\tcan't print a sudoku table that hasn't been created!\n", 100) < 0) {
                   perror("writing on stream socket");
                   exit(6);
                 }
+                continue;
               }
 
               char nums[BUFSIZE];
@@ -132,13 +137,14 @@ int main(const int argc, char *argv[])
                 strncat(nums, "\n\0", 13);
               }
 
-              if (write(comm_sock, nums, bytes_read) < 0) {
+              if (write(comm_sock, nums, 200) < 0) {
                   perror("writing on stream socket");
                   exit(6);
                 }
+              printf("\tprinted table\n");
 
             } else {
-              if (write(comm_sock, "bad input, try again\n", bytes_read) < 0) {
+              if (write(comm_sock, "\tbad input, try again\n", 25) < 0) {
                 perror("writing on stream socket");
                 exit(6);
               }
