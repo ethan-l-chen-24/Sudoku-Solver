@@ -37,3 +37,5 @@ clean:
 	rm -f *~ *.o
 	rm -f core
 	rm -f sudoku
+	rm -f ../solver/solver.o
+	rm -f ../creator/creator.o
