@@ -21,16 +21,18 @@
 static bool validVal(sudokuTable_t* sudoku, int val);
 static bool validInd(sudokuTable_t* sudoku, int ind);
 static void printRowBar(FILE* fp);
+static void sudokuTable_setFormat(sudokuTable_t* sudoku, bool format);
 
 // global types
 typedef struct sudokuTable {
     int** table;        // the sudoku table
     int dimension;      // the dimension of the table
+    bool format;        // the print format of the table; true = stylized, false = standard
 } sudokuTable_t;
 
 /******************* sudokuTable_new ******************/
 /* see sudokuTable.h for more information */
-sudokuTable_t* sudokuTable_new(int dimension) {
+sudokuTable_t* sudokuTable_new(int dimension, bool format) {
     if(dimension <= 0) return NULL;
 
     sudokuTable_t* sudoku = malloc(sizeof(sudokuTable_t));
@@ -55,6 +57,7 @@ sudokuTable_t* sudokuTable_new(int dimension) {
         // assign data members
         sudoku->table = matrix;
         sudoku->dimension = dimension;
+        sudoku->format = format;
 
         return sudoku;
     }
@@ -79,12 +82,16 @@ int sudokuTable_dimension(sudokuTable_t* sudoku) {
 sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     if(fp == NULL) return NULL;
 
-    sudokuTable_t* sudoku = sudokuTable_new(9);
     char c;
     int row = 0;
     int col = 0;
+
     int numReceived = 0;    // tracks the number of non-zero numbers
 
+    bool format = false;
+
+
+    sudokuTable_t* sudoku = sudokuTable_new(9, false);
     while(!feof(fp)) {
         while((c = fgetc(fp)) != '\n' && c != EOF) {
             if(isdigit(c)) {
@@ -102,6 +109,8 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
                 sudokuTable_delete(sudoku);
                 fprintf(stderr, "Error: format of input file is incorrect\n");
                 return NULL;
+            } else {
+                format = true;
             }
         }
         // if the line was not a bar, it should have passed 9 columns
@@ -131,6 +140,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     }
     printf("numReceived: %d\n", numReceived);
     
+    sudokuTable_setFormat(sudoku, format);
     return sudoku;
 }
 
@@ -172,7 +182,7 @@ void sudokuTable_delete(sudokuTable_t* sudoku) {
 
 /******************* printTable() ******************/
 /* see sudokuTable.h for more information */
-void sudokuTable_print(FILE* fp, sudokuTable_t* sudoku, bool style) {
+void sudokuTable_print(FILE* fp, sudokuTable_t* sudoku) {
     if(sudoku == NULL) return;
 
     // get the table and dimension from the struct
@@ -183,7 +193,7 @@ void sudokuTable_print(FILE* fp, sudokuTable_t* sudoku, bool style) {
     if(table == NULL) return;
 
     // simple style, just the numbers
-    if(!style) {
+    if(!sudoku->format) {
 
         // loop through every cell
         for(int row = 0; row < dimension; row++) {
@@ -249,4 +259,11 @@ static bool validInd(sudokuTable_t* sudoku, int ind) {
 /* print a long row bar _______________________ */
 static void printRowBar(FILE* fp) {
     fprintf(fp, "-------------------------\n");
+}
+
+/******************* swapRow() ******************/
+/* changes the format param of a sudokuTable struct to the designated style */
+static void sudokuTable_setFormat(sudokuTable_t* sudoku, bool format) {
+    if(sudoku == NULL) return;
+    sudoku->format = format;
 }

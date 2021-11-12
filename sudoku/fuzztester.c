@@ -50,11 +50,11 @@ int main(const int argc, char* argv[]) {
 
         // print the original board for user to see
         printf("\nPrinting the created table...\n");
-        sudokuTable_print(stdout, sudoku, true);
+        sudokuTable_print(stdout, sudoku);
 
         // print the original board to a file to be read by loading function
         FILE* fp = fopen("../tables/table3.txt", "w");
-        sudokuTable_print(fp, sudoku, true);
+        sudokuTable_print(fp, sudoku);
         fclose(fp);
         
         // create a copy of the original board to solve
@@ -65,7 +65,7 @@ int main(const int argc, char* argv[]) {
         // solve the copy
         solveSudoku(solve, 1, 9);
         printf("\nPrinting the solved board...\n");
-        sudokuTable_print(stdout, solve, true);
+        sudokuTable_print(stdout, solve);
 
         // check if created board was unique
         if (!checkUniqueness(sudoku, dimension)) {
