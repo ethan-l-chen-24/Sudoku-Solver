@@ -24,11 +24,14 @@
 /* see creator.h for more information */
 sudokuTable_t *generateUniqueTable(int numFilled, int dimension)
 {
-    //printf("in generateUniqueTable, about to enter generate\n");
-
+    
     sudokuTable_t *sudokuTable = generate(numFilled, dimension);
     int** table = sudokuTable_board(sudokuTable);
+<<<<<<< HEAD
     //printf("returned from generate\n");
+=======
+
+>>>>>>> dfd7f314003f4d8e290509f076ce2242721b1ba9
     int check = 0;
     bool uniq = false;
     int x=0;
@@ -37,8 +40,7 @@ sudokuTable_t *generateUniqueTable(int numFilled, int dimension)
     int plucks=0;
     while (!uniq)
     {
-        //sudokuTable_print(stdout, sudokuTable, true);
-        //printf("uniqueness check #: %d\n", check);
+
         x = rand() % dimension;
         y = rand() % dimension;
 
@@ -71,7 +73,7 @@ sudokuTable_t *generateUniqueTable(int numFilled, int dimension)
 
         
     }//end while
-    //printf("table is unique, should return\n");
+    
 
     return sudokuTable;
 } //end generateTable
@@ -83,8 +85,10 @@ sudokuTable_t *generate(int numFilled, int dimension)
     sudokuTable_t *sudoku = sudokuTable_new(dimension, true);
     int sqrtDimension = sqrt(dimension);
 
-    if (sudoku == NULL)
+    if (sudoku == NULL){
         return NULL;
+    }
+        
 
     int **board = sudokuTable_board(sudoku);
     // allocate memory for the row matrix
@@ -148,10 +152,11 @@ sudokuTable_t *generate(int numFilled, int dimension)
 /* see creator.h for more information */
 bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
 {
-    //printf("entered checkUniqueness...\n");
 
-    if (sudoku == NULL)
+    if (sudoku == NULL){
         return false;
+    }//end if
+        
     int **table1 = sudokuTable_board(sudoku);
 
     // create two copies of the original board
@@ -166,7 +171,6 @@ bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
         } //end inner for
     }     //end for
 
-    //printf("created copy of board\n");
 
     // grab the tables from those boards
     int **table2 = sudokuTable_board(s2);
@@ -180,7 +184,6 @@ bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
         return false;
     }
 
-    //printf("solved board in direction 1\n");
 
     if (!solveSudoku(s2, 0, dimension))
     {
@@ -189,7 +192,6 @@ bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
         return false;
     }
 
-    //printf("solved board in direction -1\n");
 
     //if they're not the same, then we have diff solutions
     for (int i = 0; i < dimension; i++)
@@ -212,7 +214,7 @@ bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
 
 } //end checkUniqueness
 
-
+/* see creator.h for more information */
 void randomize(int* arr, int dimension){
     srand(time(NULL));
     int tmp=0;
@@ -231,7 +233,7 @@ void randomize(int* arr, int dimension){
 
 
 
-
+/* see creator.h for more information */
 bool backtrackRand(int** board, int r, int c,  bool** row, bool** col, bool*** boxes, int dimension, int* arr){    
     //if we succesfully filled a whole column
     if(c==dimension){
@@ -261,7 +263,9 @@ bool backtrackRand(int** board, int r, int c,  bool** row, bool** col, bool*** b
                 board[r][c]=num;
                 
                 //so we recur onto next slot and see if our candidate from above is valid
-                if(backtrackRand(board,r,c+1,row,col,boxes, dimension, arr)) return true;
+                if(backtrackRand(board,r,c+1,row,col,boxes, dimension, arr)){
+                     return true;
+                }
                 
                 //we reset our board so we don't disrupte backtracking from other slots
                 board[r][c]=0;
@@ -273,7 +277,9 @@ bool backtrackRand(int** board, int r, int c,  bool** row, bool** col, bool*** b
     }//end if
     
     //already a number so move on
-    else return backtrackRand(board,r,c+1,row,col,boxes, dimension, arr);
+    else{
+        return backtrackRand(board,r,c+1,row,col,boxes, dimension, arr);
+    }
     
     return false;
 }//end backtrack
