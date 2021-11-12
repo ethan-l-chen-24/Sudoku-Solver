@@ -15,7 +15,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include "solver.h"
-#include "sudokuTable.h"
+#include "../sudoku/sudokuTable.h"
 
 //local types
 

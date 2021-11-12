@@ -12,9 +12,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "creator.h"
-#include "solver.h"
-#include "sudokuTable.h"
+#include "../creator/creator.h"
+#include "../solver/solver.h"
+#include "../sudoku/sudokuTable.h"
 
 #ifdef UNITTEST
 

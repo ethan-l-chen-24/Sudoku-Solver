@@ -9,7 +9,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "sudokuTable.h"
+#include "../sudoku/sudokuTable.h"
 
 /******************* solveSudoku ******************/
 /*
