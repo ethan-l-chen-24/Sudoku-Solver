@@ -19,8 +19,6 @@
 #include <string.h>	      // memcpy, memset
 #include <netdb.h>	      // socket-related structures
 
-#include "data.h"
-
 /**************** file-local constants ****************/
 #define BUFSIZE 1024     // read/write buffer size
 
@@ -80,13 +78,23 @@ main(const int argc, char *argv[])
       perror("reading from stdin");
       exit(5);
     } else {
-      printf("%s", buf);
       if (write(comm_sock, buf, bytes_read) < 0)  {
       	perror("writing on stream socket");
       	exit(6);
       }
+      memset(buf, 0, BUFSIZE);
+      if((bytes_read = read(comm_sock, buf, BUFSIZE-1)) < 0) {
+        perror("reading from stdin");
+        exit(5);
+      } else if(bytes_read == 0) {
+        printf("Ending connection\n");
+      } else {
+        printf("%s", buf);
+        fflush(stdout);
+      }
     }
-  } while (bytes_read > 0);
+      
+  } while (bytes_read != 0);
   
   close(comm_sock);
 
