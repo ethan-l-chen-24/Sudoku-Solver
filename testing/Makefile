@@ -24,6 +24,7 @@ fuzztester: fuzztester.o ../creator/creator.o ../solver/solver.o ../sudoku/sudok
 ../creator/creator.o: ../creator/creator.h ../sudoku/sudokuTable.h ../solver/solver.h 
 ../solver/solver.o: ../solver/solver.h ../sudoku/sudokuTable.h 
 ../sudoku/sudokuTable.o: ../sudoku/sudokuTable.h ../libcs50/file.h
+../sudoku/sudoku.o: ../creator/creator.h ../solver/solver.h ../sudoku/sudokuTable.h
 
 .PHONY: valgrind clean unit fuzz
 
@@ -35,6 +36,9 @@ fuzz: fuzztester
 
 unit: unittest
 	./unittest
+
+test: ../sudoku/sudoku testing.sh
+	bash -v testing.sh >& testing.out
 
 clean:
 	rm -rf *.dSYM  # MacOS debugger info
