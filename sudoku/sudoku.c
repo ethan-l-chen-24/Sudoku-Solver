@@ -134,7 +134,7 @@ void createTable(char *difficulty, int dimensions)
             sudoku = generateUniqueTable(117, dimensions);
         }
         else {
-            sudoku = generateUniqueTable(81, dimensions);
+            sudoku = generateUniqueTable(25, dimensions);
         }
     }
 
@@ -143,7 +143,7 @@ void createTable(char *difficulty, int dimensions)
     { // print out generated line only if stdout is not a file
         printf("Generated Table, %s difficulty: \n", difficulty);
     }
-    sudokuTable_print(stdout, sudoku, true);
+    sudokuTable_print(stdout, sudoku);
     sudokuTable_delete(sudoku);
 }
 
@@ -160,7 +160,7 @@ void solveTable(int dimensions)
 
     // print the original board
     printf("Original Board: \n");
-    sudokuTable_print(stdout, sudoku, true);
+    sudokuTable_print(stdout, sudoku);
 
     // solve the board
     if (!solveSudoku(sudoku, 1, dimensions))
@@ -171,6 +171,6 @@ void solveTable(int dimensions)
 
     // print the solved board
     printf("Solved: \n");
-    sudokuTable_print(stdout, sudoku, true);
+    sudokuTable_print(stdout, sudoku);
     sudokuTable_delete(sudoku);
 }

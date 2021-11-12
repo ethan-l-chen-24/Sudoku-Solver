@@ -45,7 +45,7 @@ sudokuTable_t *generateUniqueTable(int numFilled, int dimension)
 /* see creator.h for more information */
 sudokuTable_t *generate(int numFilled, int dimension)
 {
-    sudokuTable_t *sudoku = sudokuTable_new(dimension);
+    sudokuTable_t *sudoku = sudokuTable_new(dimension, true);
     int sqrtDimension = sqrt(dimension);
 
     if (sudoku == NULL)
@@ -121,8 +121,8 @@ bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
     int **table1 = sudokuTable_board(sudoku);
 
     // create two copies of the original board
-    sudokuTable_t *s2 = sudokuTable_new(dimension);
-    sudokuTable_t *s3 = sudokuTable_new(dimension);
+    sudokuTable_t *s2 = sudokuTable_new(dimension, true);
+    sudokuTable_t *s3 = sudokuTable_new(dimension, true);
     for (int i = 0; i < dimension; i++)
     {
         for (int j = 0; j < dimension; j++)

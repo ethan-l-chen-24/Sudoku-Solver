@@ -32,7 +32,7 @@ typedef struct sudokuTable {
 
 /******************* sudokuTable_new ******************/
 /* see sudokuTable.h for more information */
-sudokuTable_t* sudokuTable_new(int dimension, bool style) {
+sudokuTable_t* sudokuTable_new(int dimension, bool format) {
     if(dimension <= 0) return NULL;
 
     sudokuTable_t* sudoku = malloc(sizeof(sudokuTable_t));
@@ -57,7 +57,7 @@ sudokuTable_t* sudokuTable_new(int dimension, bool style) {
         // assign data members
         sudoku->table = matrix;
         sudoku->dimension = dimension;
-        sudoku->style = style;
+        sudoku->format = format;
 
         return sudoku;
     }
