@@ -77,22 +77,19 @@ int main(const int argc, char *argv[])
         // child process
         close(list_sock);
 
-        printf("Connection started\n");
+        printf("Connection started\n\n");
         sudokuTable_t* sudoku = NULL;
 
         do {
           memset(buf, 0, sizeof(buf)); // fill buffer with nulls
-          if (bytes_read = read(comm_sock, sudoku, sizeof(sudokuTable_t)) < 0) {
-            perror("reading stream message");
-          }
           if ((bytes_read = read(comm_sock, buf, BUFSIZE-1)) < 0)
             perror("reading stream message");
           if (bytes_read == 0) 
             printf("Ending connection\n");
           else {
 
-            printf("\t Received %s", buf);
-            if(strcmp(buf, "create") == 0) {
+            printf("Received %s", buf);
+            if(strcmp(buf, "create\n") == 0) {
               sudoku = generateUniqueTable(37, 9);
               if (write(comm_sock, "sudoku table created", bytes_read) < 0) {
                 perror("writing on stream socket");
@@ -102,8 +99,9 @@ int main(const int argc, char *argv[])
               sudokuTable_print(stdout, sudoku);
               printf("\n");
 
-            } else if(strcmp(buf, "solve") == 0) {
+            } else if(strcmp(buf, "solve\n") == 0) {
               if(sudoku == NULL) {
+                printf("can't solve, null\n");
                 if (write(comm_sock, "can't solve a sudoku table that hasn't been created!", bytes_read) < 0) {
                   perror("writing on stream socket");
                   exit(6);
@@ -114,7 +112,30 @@ int main(const int argc, char *argv[])
               sudokuTable_print(stdout, sudoku);
               printf("\n");
 
-            } else if(strcmp(buf, "print") == 0) {
+            } else if(strcmp(buf, "print\n") == 0) {
+              if(sudoku == NULL) {
+                printf("can't print, null\n");
+                if (write(comm_sock, "can't print a sudoku table that hasn't been created!", bytes_read) < 0) {
+                  perror("writing on stream socket");
+                  exit(6);
+                }
+              }
+
+              char nums[BUFSIZE];
+              for(int i = 0; i < 9; i++) {
+                for(int j = 0; j < 9; j ++) {
+                  int val = sudokuTable_get(sudoku, i, j);
+                  char temp[13];
+                  sprintf(temp, "%d ", val);
+                  strncat(nums, temp, 13);
+                }
+                strncat(nums, "\n\0", 13);
+              }
+
+              if (write(comm_sock, nums, bytes_read) < 0) {
+                  perror("writing on stream socket");
+                  exit(6);
+                }
 
             } else {
               if (write(comm_sock, "bad input, try again\n", bytes_read) < 0) {

@@ -29,5 +29,5 @@ char* data_getMessage(data_t* data) {
 }
 
 void data_setMessage(data_t* data, char* message) {
-    data->table = sudoku;
+    data->message = message;
 }

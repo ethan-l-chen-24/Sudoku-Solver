@@ -71,8 +71,6 @@ main(const int argc, char *argv[])
   printf("Type \"solve\" to solve your current sudoku board\n");
   printf("Type \"print\" to print the current solved or unsolved sudoku board\n");
 
-  sudokuTable_t* sudoku = sudokuTable_new(9, true);
-
   // 4. Read content from stdin (file descriptor = 0) and write to socket
   char buf[BUFSIZE];
   int bytes_read;       // #bytes read from socket
