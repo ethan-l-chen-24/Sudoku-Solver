@@ -37,7 +37,7 @@ touch ../tables/valgrindTable.txt
 
 # SOLVABILITY
 # trying to solve a known unsolvable board
-./sudoku solve easy < ../tables/unsolvableTable
+./sudoku solve easy < ../tables/unsolvableTable.txt
 
 # VALGRIND TESTS
 # checking for memory leaks on create mode
