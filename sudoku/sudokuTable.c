@@ -20,7 +20,7 @@
 // local functions
 static bool validVal(sudokuTable_t* sudoku, int val);
 static bool validInd(sudokuTable_t* sudoku, int ind);
-static void printRowBar(FILE* fp);
+static void printRowBar(FILE* fp, int sqrtDimension);
 static void sudokuTable_setFormat(sudokuTable_t* sudoku, bool format);
 
 // global types
@@ -208,13 +208,13 @@ void sudokuTable_print(FILE* fp, sudokuTable_t* sudoku) {
         int rowCount = 0;
         int columnCount = 0;
 
-        printRowBar(fp);
+        printRowBar(fp, sqrtDimension);
         fprintf(fp, "| ");
 
         // loop through every cell
         for(int row = 0; row < dimension; row++) {
             for(int col = 0; col < dimension; col++) {
-                fprintf(fp, "%d ", table[row][col]); // print the number
+                fprintf(fp, "%2d ", table[row][col]); // print the number
 
                 // every three columns print a vertical bar
                 columnCount++;
@@ -227,7 +227,7 @@ void sudokuTable_print(FILE* fp, sudokuTable_t* sudoku) {
             rowCount++;
             if(rowCount % sqrtDimension == 0) {
                 fprintf(fp, "\n");
-                printRowBar(fp);
+                printRowBar(fp, sqrtDimension);
 
                 if(rowCount != dimension) {
                     fprintf(fp, "| ");
@@ -255,8 +255,15 @@ static bool validInd(sudokuTable_t* sudoku, int ind) {
 
 /******************* swapRow() ******************/
 /* print a long row bar _______________________ */
-static void printRowBar(FILE* fp) {
-    fprintf(fp, "-------------------------\n");
+static void printRowBar(FILE* fp, int sqrtDimension) {
+    fprintf(fp, "-");
+    for(int i = 0; i < sqrtDimension; i ++) {
+        for(int j = 0; j < sqrtDimension; j ++) {
+            fprintf(fp, "---");
+        }
+        fprintf(fp, "--");
+    }
+    fprintf(fp, "\n");
 }
 
 /******************* swapRow() ******************/
