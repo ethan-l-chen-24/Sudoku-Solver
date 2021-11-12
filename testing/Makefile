@@ -12,6 +12,9 @@ CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
 CC = gcc
 MAKE = make
 
+# for memory-leak tests
+VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
+
 unittest: unittest.o ../creator/creator.o ../solver/solver.o ../sudoku/sudokuTable.o
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
@@ -23,9 +26,9 @@ fuzztester: fuzztester.o ../creator/creator.o ../solver/solver.o ../sudoku/sudok
 ../sudoku/sudokuTable.o: ../sudoku/sudokuTable.h ../libcs50/file.h
 
 
-.PHONY: create solve test valgrind clean utest fuzz
+.PHONY: valgrind clean unit fuzz
 
-all: fuzztester unittest 
+all: 
 
 # fuzz testing
 fuzz: fuzztester
@@ -40,3 +43,7 @@ clean:
 	rm -f core
 	rm -f unittest
 	rm -f fuzztester
+
+valgrind: fuzztester unittest
+	$(VALGRIND) ./fuzztester 4 9
+	$(VALGRIND) ./unittest
