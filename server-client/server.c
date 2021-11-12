@@ -21,6 +21,10 @@
 #include <arpa/inet.h>      // socket-related calls
 #include <signal.h>       // wait() and waitpid(), signal()
 
+#include "../creator/creator.h"
+#include "../solver/solver.h"
+#include "../sudoku/sudokuTable.h"
+
 /**************** file-local constants ****************/
 #define SERV_PORT 3000    // server port number 
 #define LISTEN_BACKLOG 5  // number of connections to keep waiting
@@ -83,11 +87,20 @@ int main(const int argc, char *argv[])
           else {
             printf("\t Received %s", buf);
             if(strcmp(buf, "create") == 0) {
-
+              sudokuTable_t* sudoku = generate(37, 9);
+              if (write(comm_sock, sudoku, bytes_read) < 0) {
+                perror("writing on stream socket");
+                exit(6);
+              }
             } else if(strcmp(buf, "solve") == 0) {
-
-            } else if(strcmp(buf, "print") == 0) {
               
+            } else if(strcmp(buf, "print") == 0) {
+
+            } else {
+              if (write(comm_sock, "bad input, try again\n", bytes_read) < 0) {
+                perror("writing on stream socket");
+                exit(6);
+              }
             }
           }  
         } while (bytes_read != 0);
