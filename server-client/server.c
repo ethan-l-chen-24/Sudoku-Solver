@@ -26,7 +26,7 @@
 #include "../sudoku/sudokuTable.h"
 
 /**************** file-local constants ****************/
-#define SERV_PORT 2001    // server port number 
+#define SERV_PORT 3000   // server port number 
 #define LISTEN_BACKLOG 5  // number of connections to keep waiting
 #define BUFSIZE 1024      // read/write buffer size
 
@@ -90,7 +90,7 @@ int main(const int argc, char *argv[])
             printf("Received %s", buf);
             if(strcmp(buf, "create\n") == 0) {
               sudoku = generateUniqueTable(37, 9);
-              if (write(comm_sock, "\tsudoku table created\n", 21) < 0) {
+              if (write(comm_sock, "\tsudoku table created\n", 22) < 0) {
                 perror("writing on stream socket");
                 exit(6);
               }
@@ -127,8 +127,10 @@ int main(const int argc, char *argv[])
               }
 
               char nums[BUFSIZE];
+              sprintf(nums, "%d ", sudokuTable_get(sudoku, 0, 0));
               for(int i = 0; i < 9; i++) {
                 for(int j = 0; j < 9; j ++) {
+                  if(i == 0 && j == 0) continue;
                   int val = sudokuTable_get(sudoku, i, j);
                   char temp[13];
                   sprintf(temp, "%d ", val);
