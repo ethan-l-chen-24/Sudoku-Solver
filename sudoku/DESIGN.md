@@ -50,9 +50,13 @@ For the sudoku module, we anticipate the following functions:
 
 We will also include a 4th module that will just store a library of methods (`sudokuTable.c`) that will contain a `struct sudokuTable` useful to the Sudoku board. We anticipate the following methods:
 
-* _printTable()_: which will print the table to stdout, in either of the given modes
-* _swapRow()_: which will swap two given rows
-* _swapColumn()_: which will swap two given columns
+* *sudokuTable_new()*: creates a `struct sudokuTable`
+* *sudokuTable_set()*: sets a value in the sudoku table at a given row and column
+* *sudokuTable_get()*: returns a value in the sudoku table at a given row and column
+* *sudokuTable_delete()*: deletes the struct and returns memory to the computer
+* *sudokuTable_print()*: which will print the table to stdout, in either of the given modes
+* *sudokuTable_load()*: which will load the table from stdin, reading which mode it is and setting the struct to the same mode accordingly
+* We anticipate some random getter methods for certain properties of the sudokuTable
 
 
 ### Dataflow through modules
