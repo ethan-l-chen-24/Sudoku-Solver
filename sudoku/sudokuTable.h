@@ -18,7 +18,7 @@ typedef struct sudokuTable sudokuTable_t;
  * Create a new, empty sudoku table.
  *
  * Caller provides:
- *  valid integer to be used as the table's dimensions
+ *  valid integer to be used as the table's dimensions, a boolean with the desired format
  * 
  * We return:
  *  a pointer to the new sudoku table; return NULL on error
@@ -29,7 +29,7 @@ typedef struct sudokuTable sudokuTable_t;
  * Caller is responsible for later freeing the memory allocated,
  * typically by calling sudokuTable_delete
  */
-sudokuTable_t* sudokuTable_new(int dimension);
+sudokuTable_t* sudokuTable_new(int dimension, bool format);
 
 /******************* sudokuTable_board ******************/
 /*
@@ -118,6 +118,6 @@ void sudokuTable_delete(sudokuTable_t* sudoku);
  * if in style mode, it stylizes the grid with | and _ to show the 3x3 boxes
  * 
  * Caller provides:
- *  valid pointer to a sudokuTable, boolean for advanced or simple style
+ *  valid pointer to a sudokuTable, a file to print to
 */
-void sudokuTable_print(FILE* fp, sudokuTable_t* sudoku, bool style);
+void sudokuTable_print(FILE* fp, sudokuTable_t* sudoku);
