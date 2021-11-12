@@ -16,7 +16,6 @@
 #include "../solver/solver.h"
 #include "../sudoku/sudokuTable.h"
 
-#ifdef UNITTEST
 
 int test_new()
 {
@@ -253,5 +252,3 @@ int main(int argc, char const *argv[])
         return 0;
     }
 }
-
-#endif

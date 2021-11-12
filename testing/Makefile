@@ -6,7 +6,7 @@ OBJS = sudoku.o creator.o solver.o sudokuTable.o
 LIBS =
 
 # uncomment the following to turn on testing
-TESTING = -DUNITTEST #-DFUZZTEST 
+TESTING = 
 
 CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
 CC = gcc
@@ -25,10 +25,9 @@ fuzztester: fuzztester.o ../creator/creator.o ../solver/solver.o ../sudoku/sudok
 ../solver/solver.o: ../solver/solver.h ../sudoku/sudokuTable.h 
 ../sudoku/sudokuTable.o: ../sudoku/sudokuTable.h ../libcs50/file.h
 
-
 .PHONY: valgrind clean unit fuzz
 
-all: 
+all: fuzztester unittest
 
 # fuzz testing
 fuzz: fuzztester

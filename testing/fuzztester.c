@@ -22,8 +22,6 @@
 #include "../creator/creator.h"
 #include "../solver/solver.h"
 
-#ifdef FUZZTEST
-
 // function prototypes
 bool changedNum(sudokuTable_t* created, sudokuTable_t* solved, int dimension);
 bool isRepeat(sudokuTable_t* sudoku, int dimension);
@@ -175,5 +173,3 @@ bool isRepeat(sudokuTable_t* sudoku, int dimension) {
 
     return false;
 }
-
-#endif
