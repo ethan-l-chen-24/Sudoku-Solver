@@ -53,7 +53,7 @@ void checkDim(int dimension)
     // for now check that dimension is either 9 or 16
     if (dimension != 4 && dimension != 9 && dimension != 16)
     {
-        fprintf(stderr, "Dimension can be either 9 or 16.\n");
+        fprintf(stderr, "Dimension can be either 4, 9 or 16.\n");
         exit(1);
     }
 }
@@ -120,7 +120,6 @@ void createTable(char *difficulty, int dimensions)
     sudokuTable_t *sudoku;
     if (strcmp(difficulty, "easy") == 0)
     {
-        printf("entered easy mode in sudoku.c\n");
         if (dimensions == 16) {
             sudoku = generateUniqueTable(117, dimensions);
         }
