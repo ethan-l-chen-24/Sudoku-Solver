@@ -5,10 +5,7 @@
 OBJS = sudoku.o ../creator/creator.o ../solver/solver.o sudokuTable.o
 LIBS =
 
-# uncomment the following to turn on testing
-TESTING = #-DFUZZTEST #-DUNITTEST
-
-CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
+CFLAGS = -Wall -pedantic -std=c11 -ggdb -I../libcs50.a
 CC = gcc
 MAKE = make
 
