@@ -2,7 +2,7 @@
 #
 # Ethan Chen, Bansharee Ireen, Jeffrey Jiang, November 2021
 
-OBJS = sudoku.o creator.o solver.o sudokuTable.o
+OBJS = sudoku.o ../creator/creator.o ../solver/solver.o sudokuTable.o
 LIBS =
 
 # uncomment the following to turn on testing
@@ -18,25 +18,14 @@ VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 sudoku: $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
-unittest: unittest.o creator.o solver.o sudokuTable.o
-	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
-
-fuzztester: fuzztester.o creator.o solver.o sudokuTable.o
-	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
-
 sudoku.o: ../creator/creator.h ../solver/solver.h sudokuTable.h
-../creator/creator.o: ../creator/creator.h sudokuTable.h solver.h 
-../solver/solver.o: ../solver/solver.h sudokuTable.h 
+../creator/creator.o: ../creator/creator.h sudokuTable.h ../solver/solver.h 
+..solver/solver.o: ../solver/solver.h sudokuTable.h 
 sudokuTable.o: sudokuTable.h ../libcs50/file.h
 
-
-.PHONY: create solve test valgrind clean utest fuzz
+.PHONY: create solve clean
 
 all: sudoku 
-
-# testing script
-test: sudoku testing.sh
-	bash -v testing.sh &> testing.out
 
 # create mode
 create: sudoku
@@ -46,23 +35,8 @@ create: sudoku
 solve: sudoku
 	./sudoku solve hard < ../tables/table1.txt 
 
-# fuzz testing
-fuzz: fuzztester
-	./fuzztester 4 9
-	
-# edit for args
-valgrind: sudoku 
-	$(VALGRIND) ./sudoku create easy > ../tables/table1.txt
-	$(VALGRIND) ./sudoku solve easy < ../tables/table1.txt 
-
 clean:
 	rm -rf *.dSYM  # MacOS debugger info
 	rm -f *~ *.o
-	rm -f hashtabletest
 	rm -f core
-	rm -f unittest
-	rm -f fuzztester
 	rm -f sudoku
-
-utest: unittest
-	./unittest
