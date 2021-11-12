@@ -62,4 +62,9 @@ sudokuTable_t* generate(int numFilled, int dimension);
  */
 bool checkUniqueness(sudokuTable_t* sudoku, int dimension);
 
+
+void randomize(int* arr, int dimension);
+
+bool backtrackRand(int** board, int r, int c,  bool** row, bool** col, bool*** boxes, int dimension, int* arr);
+
 #endif

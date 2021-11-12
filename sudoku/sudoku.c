@@ -134,7 +134,7 @@ void createTable(char *difficulty, int dimensions)
             sudoku = generateUniqueTable(117, dimensions);
         }
         else {
-            sudoku = generateUniqueTable(80, dimensions);
+            sudoku = generateUniqueTable(25, dimensions);
         }
     }
 
