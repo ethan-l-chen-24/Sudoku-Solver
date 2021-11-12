@@ -14,6 +14,7 @@ all:
 valgrind: all
 	$(MAKE) -C crawler valgrind
 	$(MAKE) -C sudoku valgrind
+	$(MAKE) -C testing valgrind
 
 ############### TAGS for emacs users ##########
 TAGS:  Makefile */Makefile */*.c */*.h */*.md */*.sh
@@ -25,3 +26,4 @@ clean:
 	rm -f TAGS
 	$(MAKE) -C libcs50 clean
 	$(MAKE) -C sudoku clean
+	$(MAKE) -C testing clean
