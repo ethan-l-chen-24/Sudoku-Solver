@@ -54,8 +54,28 @@ int test_generate()
     int failed = 0;
     sudokuTable_t *sudoku = generateUniqueTable(25, 9);
     sudokuTable_print(stdout, sudoku);
-    if (sudoku == NULL)
-        failed++;
+    if (sudoku == NULL) failed++;
+
+    int randomCell = sudokuTable_get(sudoku, 0, 0);
+    for(int i = 1; i < 9; i ++) {
+        if(sudokuTable_get(sudoku, 0, i) == randomCell) {
+            failed++;
+        }
+    }
+
+    for(int i = 1; i < 9; i ++) {
+        if(sudokuTable_get(sudoku, i, 0) == randomCell) {
+            failed++;
+        }
+    }
+
+    for(int i = 1; i < 3; i ++) {
+        for(int j = 0; j < 3; j ++) {
+            if(sudokuTable_get(sudoku, i, j) == randomCell) {
+                failed++;
+            }
+        }
+    }
 
     sudokuTable_delete(sudoku);
 
@@ -133,48 +153,40 @@ int test_uniqueness()
 
     sudokuTable_t *s;
     sudokuTable_t *s2;
-    while (flag)
+
+    s = generateUniqueTable(25, 9);
+    s2 = sudokuTable_new(9, true);
+    int **table = sudokuTable_board(s);
+    for (int i = 0; i < 9; i++)
     {
-        s = generateUniqueTable(25, 9);
-        s2 = sudokuTable_new(9, true);
-        int **table = sudokuTable_board(s);
-        for (int i = 0; i < 9; i++)
+        for (int j = 0; j < 9; j++)
         {
-            for (int j = 0; j < 9; j++)
-            {
-                sudokuTable_set(s2, i, j, table[i][j]);
-            }
+            sudokuTable_set(s2, i, j, table[i][j]);
         }
-
-        solveSudoku(s, 1, 9);
-        solveSudoku(s2, 0, 9);
-        int **t1 = sudokuTable_board(s);
-        int **t2 = sudokuTable_board(s2);
-        count = 0;
-        for (int i = 0; i < 9; i++)
-        {
-            for (int j = 0; j < 9; j++)
-            {
-                if (t1[i][j] != t2[i][j] || t1[i][j] == 0)
-                {
-                    count++;
-                    failed++;
-                } //end if
-
-            } //end inner for
-        }     //end for
-
-        if (count == 0)
-            break;
-        else
-        {
-            free(s);
-            free(s2);
-        } //end else
     }
 
-    printf("found unique solution of \n");
-    sudokuTable_print(stdout, s);
+    solveSudoku(s, 1, 9);
+    solveSudoku(s2, 0, 9);
+    int **t1 = sudokuTable_board(s);
+    int **t2 = sudokuTable_board(s2);
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            if (t1[i][j] != t2[i][j] || t1[i][j] == 0)
+            {
+                failed++;
+            } //end if
+
+        } //end inner for
+    }     //end for
+
+    if(failed == 0) {}
+        printf("found unique solution of \n");
+        sudokuTable_print(stdout, s);
+    }
+    sudokuTable_delete(s);
+    sudokuTable_delete(s2);
 
     return failed;
 }

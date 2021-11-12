@@ -25,7 +25,7 @@ touch ../tables/valgrindTable.txt
 
 
 # SOLVABILITY
-./sudoku solve easy < ../tables/unsolvableTable
+./sudoku solve easy < ../tables/unsolvableTable.txt
 
 # VALGRIND TESTS
 valgrind --leak-check=full --show-leak-kinds=all ./sudoku create easy > ../tables/valgrindTable.txt
