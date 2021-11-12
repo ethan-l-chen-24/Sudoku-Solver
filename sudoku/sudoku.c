@@ -155,9 +155,9 @@ void solveTable(int dimensions)
 {
     // generate a table
     sudokuTable_t *sudoku = sudokuTable_load(stdin, dimensions);
-    if (sudoku == NULL)
+    if (sudoku == NULL) {
         return;
-
+    }
     // print the original board
     printf("Original Board: \n");
     sudokuTable_print(stdout, sudoku);

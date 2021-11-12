@@ -137,9 +137,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     if (numReceived < 25) {
         fprintf(stderr, "Invalid board. Needs to have at least 25 starting numbers.\n");
         return NULL;
-    }
-    printf("numReceived: %d\n", numReceived);
-    
+    }    
     sudokuTable_setFormat(sudoku, format);
     return sudoku;
 }
