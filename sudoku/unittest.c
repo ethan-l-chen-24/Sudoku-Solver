@@ -22,7 +22,7 @@ int test_new()
 {
     int failed = 0;
 
-    sudokuTable_t *sudoku = sudokuTable_new(9);
+    sudokuTable_t *sudoku = sudokuTable_new(9, true);
     sudokuTable_set(sudoku, 0, 3, 3);
     sudokuTable_set(sudoku, 0, 4, 5);
     sudokuTable_set(sudoku, 0, 5, 7);
@@ -33,7 +33,7 @@ int test_new()
     sudokuTable_set(sudoku, 2, 4, 1);
     sudokuTable_set(sudoku, 2, 5, 6);
 
-    sudokuTable_print(stdout, sudoku, true);
+    sudokuTable_print(stdout, sudoku);
 
     if (sudoku == NULL)
         failed++;
@@ -53,7 +53,7 @@ int test_generate()
 {
     int failed = 0;
     sudokuTable_t *sudoku = generateUniqueTable(25, 9);
-    sudokuTable_print(stdout, sudoku, true);
+    sudokuTable_print(stdout, sudoku);
     if (sudoku == NULL)
         failed++;
 
@@ -75,13 +75,13 @@ int test_load()
 
     // print table for user to see
     printf("Printing the original table...\n");
-    sudokuTable_print(stdout, ogSudoku, true);
+    sudokuTable_print(stdout, ogSudoku);
 
     // print table WITH grids into a file that will only be read by the loading function
     FILE *fp1 = fopen("../tables/loadtest.txt", "w");
     if (fp1 != NULL)
     {
-        sudokuTable_print(fp1, ogSudoku, true);
+        sudokuTable_print(fp1, ogSudoku);
     }
     fclose(fp1);
 
@@ -96,7 +96,7 @@ int test_load()
 
     // print loaded table for user to see
     printf("Printing the loaded table...\n");
-    sudokuTable_print(stdout, loadedSudoku, true);
+    sudokuTable_print(stdout, loadedSudoku);
 
     // get the boards from the sudoku structs
     int **ogBoard = sudokuTable_board(ogSudoku);
@@ -136,7 +136,7 @@ int test_uniqueness()
     while (flag)
     {
         s = generateUniqueTable(25, 9);
-        s2 = sudokuTable_new(9);
+        s2 = sudokuTable_new(9, true);
         int **table = sudokuTable_board(s);
         for (int i = 0; i < 9; i++)
         {
@@ -174,7 +174,7 @@ int test_uniqueness()
     }
 
     printf("found unique solution of \n");
-    sudokuTable_print(stdout, s, true);
+    sudokuTable_print(stdout, s);
 
     return failed;
 }

@@ -51,7 +51,7 @@ void validateParam(char *mode, char *difficulty)
 void checkDim(int dimension)
 {
     // for now check that dimension is either 9 or 16
-    if (dimension != 9 && dimension != 16)
+    if (dimension != 4 && dimension != 9 && dimension != 16)
     {
         fprintf(stderr, "Dimension can be either 9 or 16.\n");
         exit(1);
@@ -134,7 +134,7 @@ void createTable(char *difficulty, int dimensions)
             sudoku = generateUniqueTable(117, dimensions);
         }
         else {
-            sudoku = generateUniqueTable(80, dimensions);
+            sudoku = generateUniqueTable(25, dimensions);
         }
     }
 
@@ -143,7 +143,7 @@ void createTable(char *difficulty, int dimensions)
     { // print out generated line only if stdout is not a file
         printf("Generated Table, %s difficulty: \n", difficulty);
     }
-    sudokuTable_print(stdout, sudoku, true);
+    sudokuTable_print(stdout, sudoku);
     sudokuTable_delete(sudoku);
 }
 
@@ -160,7 +160,7 @@ void solveTable(int dimensions)
     }
     // print the original board
     printf("Original Board: \n");
-    sudokuTable_print(stdout, sudoku, true);
+    sudokuTable_print(stdout, sudoku);
 
     // solve the board
     if (!solveSudoku(sudoku, 1, dimensions))
@@ -171,6 +171,6 @@ void solveTable(int dimensions)
 
     // print the solved board
     printf("Solved: \n");
-    sudokuTable_print(stdout, sudoku, true);
+    sudokuTable_print(stdout, sudoku);
     sudokuTable_delete(sudoku);
 }
