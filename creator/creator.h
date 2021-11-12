@@ -10,7 +10,7 @@
 #ifndef __CREATOR
 #define __CREATOR
 
-#include "sudokuTable.h"
+#include "../sudoku/sudokuTable.h"
 #include <stdbool.h>
 
 /******************* generateUniqueTable ******************/

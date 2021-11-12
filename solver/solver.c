@@ -15,7 +15,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include "solver.h"
-#include "sudokuTable.h"
+#include "../sudoku/sudokuTable.h"
 
 //local types
 
@@ -152,11 +152,8 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
             num=board[i][j];
             if(row[i][num]){invalid=true; fprintf(stderr, "%d already exists in row\n", num);} 
             else row[i][num] = true;
-
-            if(col[j][num]){
-                invalid=true; fprintf(stderr, "%d already exists in col\n", num);} 
+            if(col[j][num]){invalid=true; fprintf(stderr, "%d already exists in col\n", num);} 
             else col[j][num]=true;
-
             if(boxes[i/sqrtDimension][j/sqrtDimension][num]){invalid=true; fprintf(stderr, "%d already exists in box\n", num);} 
             else boxes[i/sqrtDimension][j/sqrtDimension][num]=true;
         }

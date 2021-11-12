@@ -18,9 +18,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include "sudokuTable.h"
-#include "creator.h"
-#include "solver.h"
+#include "../sudoku/sudokuTable.h"
+#include "../creator/creator.h"
+#include "../solver/solver.h"
 
 #ifdef FUZZTEST
 

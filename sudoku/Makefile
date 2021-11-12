@@ -6,7 +6,7 @@ OBJS = sudoku.o creator.o solver.o sudokuTable.o
 LIBS =
 
 # uncomment the following to turn on testing
-TESTING = #-DUNITTEST #-DFUZZTEST 
+TESTING = #-DFUZZTEST #-DUNITTEST
 
 CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
 CC = gcc
@@ -49,7 +49,7 @@ solve: sudoku
 
 # fuzz testing
 fuzz: fuzztester
-	./fuzztester 4 16
+	./fuzztester 4 9
 	
 # edit for args
 valgrind: sudoku 
