@@ -58,7 +58,7 @@ sudokuTable_t *generateUniqueTable(int numFilled, int dimension)
 
         }//end if
 
-        if(plucks>=200){
+        if(plucks>=2 * (dimension*dimension)){
             sudokuTable_delete(sudokuTable);
             sudokuTable = generate(numFilled, dimension);
             table = sudokuTable_board(sudokuTable);
