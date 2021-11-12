@@ -148,9 +148,6 @@ int test_uniqueness()
 {
     int failed = 0;
 
-    bool flag = true;
-    int count = 0;
-
     sudokuTable_t *s;
     sudokuTable_t *s2;
 
@@ -181,7 +178,7 @@ int test_uniqueness()
         } //end inner for
     }     //end for
 
-    if(failed == 0) {}
+    if(failed == 0) {
         printf("found unique solution of \n");
         sudokuTable_print(stdout, s);
     }
