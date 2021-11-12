@@ -28,7 +28,6 @@ sudokuTable_t *generateUniqueTable(int numFilled, int dimension)
 
     sudokuTable_t *sudokuTable = generate(numFilled, dimension);
     int** table = sudokuTable_board(sudokuTable);
-    sudokuTable_print(stdout, sudokuTable);
     //printf("returned from generate\n");
     int check = 0;
     bool uniq = false;
