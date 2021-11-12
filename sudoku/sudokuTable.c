@@ -83,6 +83,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     char c;
     int row = 0;
     int col = 0;
+    int numReceived = 0;    // tracks the number of non-zero numbers
 
     while(!feof(fp)) {
         while((c = fgetc(fp)) != '\n' && c != EOF) {
@@ -93,6 +94,8 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
                     return NULL;
                 }
                 sudokuTable_set(sudoku, row, col, (int) c - '0');
+                // increment if non-zero
+                if (((int) c - '0') != 0) numReceived++;
 
                 col++;
             } else if(isalpha(c)) {
@@ -120,6 +123,13 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
         fprintf(stderr, "Error: format of input file is incorrect\n");
         return NULL;
     }
+
+    // check if received at least 25 numbers
+    if (numReceived < 25) {
+        fprintf(stderr, "Invalid board. Needs to have at least 25 starting numbers.\n");
+        return NULL;
+    }
+    printf("numReceived: %d\n", numReceived);
     
     return sudoku;
 }
