@@ -58,9 +58,6 @@ void checkDim(int dimension)
     }
 }
 
-#ifndef UNITTEST
-#ifndef FUZZTEST
-
 /**************** main ********************/
 /*
  * validates arguments and then passes to create or solve depending on arguments
@@ -102,9 +99,6 @@ int main(const int argc, char *argv[])
         solveTable(dimensions);
     }
 }
-
-#endif
-#endif
 
 /**************** createTable ********************/
 /*
