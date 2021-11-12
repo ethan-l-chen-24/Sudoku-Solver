@@ -22,22 +22,22 @@
 /* see creator.h for more information */
 sudokuTable_t *generateUniqueTable(int numFilled, int dimension)
 {
-    printf("in generateUniqueTable, about to enter generate\n");
+    //printf("in generateUniqueTable, about to enter generate\n");
 
     // keep on generating until it is unique
     sudokuTable_t *sudokuTable = generate(numFilled, dimension);
 
-    printf("returned from generate\n");
+    //printf("returned from generate\n");
     int check = 1;
     while (!checkUniqueness(sudokuTable, dimension))
     {
-        sudokuTable_print(stdout, sudokuTable, true);
-        printf("uniqueness check #: %d\n", check);
+        //sudokuTable_print(stdout, sudokuTable, true);
+        //printf("uniqueness check #: %d\n", check);
         sudokuTable_delete(sudokuTable);
         sudokuTable = generate(numFilled, dimension);
         check++;
     }
-    printf("table is unique, should return\n");
+    //printf("table is unique, should return\n");
     return sudokuTable;
 } //end generateTable
 
@@ -114,7 +114,7 @@ sudokuTable_t *generate(int numFilled, int dimension)
 /* see creator.h for more information */
 bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
 {
-    printf("entered checkUniqueness...\n");
+    //printf("entered checkUniqueness...\n");
 
     if (sudoku == NULL)
         return false;
@@ -132,7 +132,7 @@ bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
         } //end inner for
     }     //end for
 
-    printf("created copy of board\n");
+    //printf("created copy of board\n");
 
     // grab the tables from those boards
     int **table2 = sudokuTable_board(s2);
@@ -146,7 +146,7 @@ bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
         return false;
     }
 
-    printf("solved board in direction 1\n");
+    //printf("solved board in direction 1\n");
 
     if (!solveSudoku(s2, 0, dimension))
     {
@@ -155,7 +155,7 @@ bool checkUniqueness(sudokuTable_t *sudoku, int dimension)
         return false;
     }
 
-    printf("solved board in direction -1\n");
+    //printf("solved board in direction -1\n");
 
     //if they're not the same, then we have diff solutions
     for (int i = 0; i < dimension; i++)
