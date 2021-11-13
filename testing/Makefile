@@ -12,6 +12,10 @@ CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I$S -I$C -I$L
 CC = gcc
 MAKE = make
 
+.PHONY: valgrind clean unit fuzz
+
+all: fuzztester unittest
+
 # for memory-leak tests
 VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 
@@ -20,10 +24,6 @@ unittest: unittest.o ../sudoku/sudokuTable.o
 
 fuzztester: fuzztester.o ../sudoku/sudokuTable.o
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
-
-.PHONY: valgrind clean unit fuzz
-
-all: fuzztester unittest
 
 # fuzz testing
 fuzz: fuzztester
