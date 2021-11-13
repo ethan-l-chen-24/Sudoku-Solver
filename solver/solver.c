@@ -14,17 +14,22 @@
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
+#include <pthread.h>
 #include "solver.h"
 #include "validator.h"
 #include "../sudoku/sudokuTable.h"
+
+pthread_mutex_t mutexSolve = PTHREAD_MUTEX_INITIALIZER;
 
 /* see solver.h for more information */
 //for direction: 1 means increasing order (use by default), -1 means decreasing order
 bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
 
+    pthread_mutex_lock(&mutexSolve);
     int sqrtDimension = sqrt(dimension);
     
     if(sudoku == NULL) {
+        pthread_mutex_unlock(&mutexSolve);
         return false;
     }
 
@@ -87,18 +92,20 @@ bool solveSudoku(sudokuTable_t* sudoku, int direction, int dimension){
 
         // if it is solved (cells are filled in) return true;
         if(!isSolved(sudoku, dimension)) {
+            pthread_mutex_unlock(&mutexSolve);
             return false;
         }
         
+        pthread_mutex_unlock(&mutexSolve);
         return true;
     
     }//end if
     else {
         validator_delete(val);
         fprintf(stderr, "Invalid board\n");
+        pthread_mutex_unlock(&mutexSolve);
         return false;
     }
-    
 }//end solve
 
 

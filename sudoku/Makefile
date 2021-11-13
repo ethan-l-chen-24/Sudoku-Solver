@@ -2,10 +2,14 @@
 #
 # Ethan Chen, Bansharee Ireen, Jeffrey Jiang, November 2021
 
-OBJS = sudoku.o ../creator/creator.o ../solver/solver.o sudokuTable.o
-LIBS =
+L = ../libcs50
+S = ../solver
+C = ../creator
 
-CFLAGS = -Wall -pedantic -std=c11 -ggdb -I../libcs50.a
+OBJS = sudoku.o sudokuTable.o
+LIBS = $L/libcs50.a $S/solver.a $C/creator.a
+
+CFLAGS = -Wall -pedantic -std=c11 -ggdb -I$L -I$S -I$C
 CC = gcc
 MAKE = make
 
@@ -15,14 +19,9 @@ VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 sudoku: $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
-sudoku.o: ../creator/creator.h ../solver/solver.h sudokuTable.h
-../creator/creator.o: ../creator/creator.h sudokuTable.h ../solver/solver.h 
-..solver/solver.o: ../solver/solver.h sudokuTable.h 
-sudokuTable.o: sudokuTable.h ../libcs50/file.h
+.PHONY: all create solve clean
 
-.PHONY: create solve clean
-
-all: sudoku 
+all: sudoku sudokuTable.a
 
 # create mode
 create: sudoku

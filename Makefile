@@ -8,7 +8,11 @@ MAKE = make
 ############## default: make all libs and programs ##########
 all: 
 	$(MAKE) -C libcs50
+	$(MAKE) -C solver
+	$(MAKE) -C creator
 	$(MAKE) -C sudoku
+	$(MAKE) -C testing
+	$(MAKE) -C server-client
 
 ############## valgrind all programs ##########
 valgrind: all
@@ -25,5 +29,8 @@ clean:
 	rm -f *~
 	rm -f TAGS
 	$(MAKE) -C libcs50 clean
+	$(MAKE) -C solver clean
+	$(MAKE) -C creator clean
 	$(MAKE) -C sudoku clean
 	$(MAKE) -C testing clean
+	$(MAKE) -C server-client clean

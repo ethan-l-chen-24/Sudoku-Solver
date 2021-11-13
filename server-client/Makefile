@@ -20,12 +20,6 @@ all: $(PROGS)
 client: client.o $(LLIBS)
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 
-server.o: ../creator/creator.h ../solver/solver.h ../sudoku/sudokuTable.h data.h
-
-../creator/creator.o: ../creator/creator.h ../sudoku/sudokuTable.h ../solver/solver.h 
-../solver/solver.o: ../solver/solver.h ../sudoku/sudokuTable.h 
-../sudoku/sudokuTable.o: ../sudoku/sudokuTable.h ../libcs50/file.h
-
 ########### server #################
 server: server.o $(LLIBS)
 	$(CC) $(CFLAGS) $^ -o $@ -lm

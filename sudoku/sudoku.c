@@ -16,8 +16,8 @@
 #include <unistd.h>
 #include <time.h>
 #include <math.h>
-#include "../creator/creator.h"
-#include "../solver/solver.h"
+#include "creator.h"
+#include "solver.h"
 #include "sudokuTable.h"
 
 // function prototypes
@@ -25,6 +25,7 @@
 void validateParam(char *mode, char *difficulty);
 void createTable(char *difficulty, int dimensions);
 void solveTable(int dimensions);
+bool perfectSquare(int num);
 int fileno(FILE *stream);
 
 /**************** validateParam ********************/
@@ -53,7 +54,7 @@ void checkDim(int dimension)
     // for now check that dimension is either 9 or 16
     if (dimension != 4 && dimension != 9 && dimension != 16)
     {
-        fprintf(stderr, "Dimension can be either 4, 9 or 16.\n");
+        fprintf(stderr, "Dimension must be a 4, 9, or 16.\n");
         exit(1);
     }
 }
@@ -106,35 +107,38 @@ int main(const int argc, char *argv[])
 */
 void createTable(char *difficulty, int dimensions)
 {
-    // generate a table
+    // create a table
     if (difficulty == NULL) {
         return;
     }
-    // generate sudoku tables based on difficulty
+    // create sudoku tables based on difficulty
     sudokuTable_t *sudoku;
     if (strcmp(difficulty, "easy") == 0)
     {
-        if (dimensions == 16) {
-            sudoku = generateUniqueTable(170, dimensions);
-        }
-        else {
-            sudoku = generateUniqueTable(37, dimensions);
+        if (dimensions == 4) {
+            sudoku = createUniqueTable(8, dimensions);
+        } else if (dimensions == 9) {
+            sudoku = createUniqueTable(37, dimensions);
+        } else {
+            sudoku = createUniqueTable(150, dimensions);
         }
     }
     else
     {
-        if (dimensions == 16) {
-            sudoku = generateUniqueTable(135, dimensions);
+        if (dimensions == 4) {
+            sudoku = createUniqueTable(5, dimensions);
+        } else if (dimensions == 9) {
+            sudoku = createUniqueTable(25, dimensions);
         }
         else {
-            sudoku = generateUniqueTable(25, dimensions);
+            sudoku = createUniqueTable(135, dimensions);
         }
     }
 
     // print it out
     if (isatty(fileno(stdout)))
-    { // print out generated line only if stdout is not a file
-        printf("Generated Table, %s difficulty: \n", difficulty);
+    { // print out created line only if stdout is not a file
+        printf("created Table, %s difficulty: \n", difficulty);
     }
     sudokuTable_print(stdout, sudoku);
     sudokuTable_delete(sudoku);
@@ -146,7 +150,7 @@ void createTable(char *difficulty, int dimensions)
  */
 void solveTable(int dimensions)
 {
-    // generate a table
+    // create a table
     sudokuTable_t *sudoku = sudokuTable_load(stdin, dimensions);
     if (sudoku == NULL) {
         return;
