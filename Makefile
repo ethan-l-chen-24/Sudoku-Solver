@@ -9,6 +9,7 @@ MAKE = make
 all: 
 	$(MAKE) -C libcs50
 	$(MAKE) -C sudoku
+	$(MAKE) -C server-client
 
 ############## valgrind all programs ##########
 valgrind: all
@@ -27,3 +28,4 @@ clean:
 	$(MAKE) -C libcs50 clean
 	$(MAKE) -C sudoku clean
 	$(MAKE) -C testing clean
+	$(MAKE) -C server-client clean
