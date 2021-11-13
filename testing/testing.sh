@@ -6,7 +6,7 @@ touch ../tables/hardTable.txt
 touch ../tables/valgrindTable.txt
 touch ../tables/easy16.txt
 touch ../tables/hard16.txt
-
+touch ../tables/hard4.txt
 
 # VALID TESTS
 # test 1:creating a board on easy mode
@@ -33,6 +33,11 @@ touch ../tables/hard16.txt
 # test 8: solving the board made by test 6
 ../sudoku/sudoku solve hard 16 < ../tables/hard16.txt
 
+# test 9: creating 4x4 board on hard mode
+../sudoku/sudoku create hard 4 > ../tables/hard4.txt
+
+# test 10: solving the board made by test 9
+../sudoku/sudoku solve hard 4 < ../tables/hard4.txt
 
 # INVALID INPUTS
 

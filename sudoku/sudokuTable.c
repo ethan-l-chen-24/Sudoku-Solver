@@ -154,6 +154,7 @@ sudokuTable_t * sudokuTable_load(FILE * fp, int dimension) {
             return NULL;
         }
 
+        // go to the next row if not at beginning of row
         if (col != 0) {
             row++;
         }
@@ -162,15 +163,24 @@ sudokuTable_t * sudokuTable_load(FILE * fp, int dimension) {
         prevChar = '\0'; // resetting prevChar to null character for new row
     }
 
+    // if we did not go through the required number of rows
     if (row != dimension) {
         sudokuTable_delete(sudoku);
         fprintf(stderr, "Error: format of input file is incorrect\n");
         return NULL;
     }
 
-    // check if received at least 25 numbers
-    if (numReceived < 25) {
+    // check if received at least 25 numbers for dimension 9
+    if (dimension == 9 && numReceived < 25) {
         fprintf(stderr, "Invalid board. Needs to have at least 25 starting numbers.\n");
+        return NULL;
+    } // check if received at least 135 numbers for dimension 16 
+    else if (dimension == 25 && numReceived < 135) {
+        fprintf(stderr, "Invalid board. Needs to have at least 135 starting numbers.\n");
+        return NULL;
+    } // check if received at least 5 numbers for dimension 4 
+    else if (numReceived < 5) {
+        fprintf(stderr, "Invalid board. Needs to have at least 5 starting numbers.\n");
         return NULL;
     }
     sudokuTable_setFormat(sudoku, format);
