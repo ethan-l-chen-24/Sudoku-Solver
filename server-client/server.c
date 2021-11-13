@@ -11,28 +11,20 @@
  *
  * updated by Xia Zhou, August 2016, 2017, 2018
  * updated by Temi Prioleau, 2020
+ * 
+ * updated by Ethan Chen, Jeffrey Jiang, and Bansharee Ireen, November 2021
  */
 
 #include <stdio.h>
-
 #include <stdlib.h>
-
 #include <stdbool.h>        // bool type
-
 #include <string.h>         // memcpy, memset
-
 #include <unistd.h>         // read, write, close, fork
-
 #include <arpa/inet.h>      // socket-related calls
-
 #include <signal.h>       // wait() and waitpid(), signal()
-
 #include <math.h>
-
 #include "creator.h"
-
 #include "solver.h"
-
 #include "../sudoku/sudokuTable.h"
 
 /**************** file-local constants ****************/
@@ -100,6 +92,9 @@ int main(const int argc, char * argv[]) {
                     if (bytes_read == 0)
                         printf("Ending connection\n");
                     else {
+
+                        /********* MESSAGE RECEIVED FROM CLIENT ************/
+
                         printf("Received %s", buf);
 
                         // handle input
@@ -118,9 +113,9 @@ int main(const int argc, char * argv[]) {
                         }
                     }
                 } while (bytes_read != 0);
-
                 close(comm_sock);
 
+                // end the thread and delete the sudoku board
                 printf("Connection ended\n");
                 if (sudoku != NULL) sudokuTable_delete(sudoku);
                 exit(0);
@@ -134,25 +129,36 @@ int main(const int argc, char * argv[]) {
      * the socket will be closed when the program is killed or terminates. */
 }
 
-/**
- *
+/***************** create ******************/
+/*
+ * creates a sudoku board on server, sends message to client
  */
 sudokuTable_t * create(int comm_sock) {
+
+    // create the sudoku board
     sudokuTable_t * sudoku = createUniqueTable(37, 9);
+
+    // write message to the client
     if (write(comm_sock, "\tsudoku table created\n", 22) < 0) {
         perror("writing on stream socket");
         exit(6);
+        return NULL;
     }
+
+    // print on server stdout
     printf("Created sudoku table: \n");
     sudokuTable_print(stdout, sudoku);
     printf("\n");
     return sudoku;
 }
 
-/**
- *
+/***************** create ******************/
+/*
+ * solves the client's sudoku board on the server, sends message to client
  */
 void solve(sudokuTable_t * sudoku, int comm_sock) {
+
+    // check if the board has yet been created
     if (sudoku == NULL) {
         printf("\tcan't solve, null\n");
         if (write(comm_sock, "\tcan't solve a sudoku table that hasn't been created!\n", 100) < 0) {
@@ -161,20 +167,30 @@ void solve(sudokuTable_t * sudoku, int comm_sock) {
         }
         return;
     }
+
+    // solve the sudoku table
     solveSudoku(sudoku, 1, 9);
+
+    // write message to client
     if (write(comm_sock, "\tsolved sudoku table\n", 21) < 0) {
         perror("writing on stream socket");
         exit(6);
     }
+
+    // print on server stdout
     printf("\tSolved sudoku table: \n");
     sudokuTable_print(stdout, sudoku);
     printf("\n");
 }
 
+/***************** print ******************/
 /**
- *
+ * formats a string with the sudoku table format
+ * and sends it to the client
  */
 void print(sudokuTable_t * sudoku, int comm_sock) {
+
+    // check if the board has yet been created 
     if (sudoku == NULL) {
         printf("\tcan't print, null\n");
         if (write(comm_sock, "\tcan't print a sudoku table that hasn't been created!\n", 100) < 0) {
@@ -184,12 +200,15 @@ void print(sudokuTable_t * sudoku, int comm_sock) {
         return;
     }
 
+    // get necessary numbers from server and client
     int dimension = sudokuTable_dimension(sudoku);
     int sqrtDimension = sqrt(dimension);
 
+    // create the string with a large initial buffer size
     char nums[BUFSIZE];
     sprintf(nums, "\t-");
 
+    // create the string
     for (int i = 0; i < sqrtDimension; i++) {
         for (int j = 0; j < sqrtDimension; j++) {
             strncat(nums, "---\0", 4);
@@ -227,9 +246,12 @@ void print(sudokuTable_t * sudoku, int comm_sock) {
         }
     }
 
+    // write the string to the client
     if (write(comm_sock, nums, 500) < 0) {
         perror("writing on stream socket");
         exit(6);
     }
+
+    // print to server's stdout
     printf("\tprinted table\n");
 }

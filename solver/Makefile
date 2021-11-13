@@ -2,7 +2,7 @@
 #
 # David Kotz, April 2016, 2017, 2019, 2021
 # updated by Xia Zhou, July 2016, 2018, January 2019
-# edited for common by Ethan Chen, Oct. 2021
+# edited for solver by Ethan Chen, Bansharee Ireen, and Jeffrey Jiang, November 2021
 
 OBJS = solver.o validator.o
 LIBS = 
