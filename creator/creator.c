@@ -42,6 +42,7 @@ sudokuTable_t *generateUniqueTable(int numFilled, int dimension)
         
         if(table[x][y]!=0){
             plucks++;
+            printf("%d\n", plucks);
             tmp = table[x][y];
             table[x][y]=0;
             if(checkUniqueness(sudokuTable, dimension)){

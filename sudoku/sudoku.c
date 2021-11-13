@@ -25,6 +25,7 @@
 void validateParam(char *mode, char *difficulty);
 void createTable(char *difficulty, int dimensions);
 void solveTable(int dimensions);
+bool perfectSquare(int num);
 int fileno(FILE *stream);
 
 /**************** validateParam ********************/
@@ -53,7 +54,7 @@ void checkDim(int dimension)
     // for now check that dimension is either 9 or 16
     if (dimension != 4 && dimension != 9 && dimension != 16)
     {
-        fprintf(stderr, "Dimension can be either 4, 9 or 16.\n");
+        fprintf(stderr, "Dimension must be a 4, 9, or 16.\n");
         exit(1);
     }
 }
@@ -114,20 +115,23 @@ void createTable(char *difficulty, int dimensions)
     sudokuTable_t *sudoku;
     if (strcmp(difficulty, "easy") == 0)
     {
-        if (dimensions == 16) {
-            sudoku = generateUniqueTable(160, dimensions);
-        }
-        else {
+        if (dimensions == 4) {
+            sudoku = generateUniqueTable(8, dimensions);
+        } else if (dimensions == 9) {
             sudoku = generateUniqueTable(37, dimensions);
+        } else {
+            sudoku = generateUniqueTable(135, dimensions);
         }
     }
     else
     {
-        if (dimensions == 16) {
-            sudoku = generateUniqueTable(135, dimensions);
+        if (dimensions == 4) {
+            sudoku = generateUniqueTable(5, dimensions);
+        } else if (dimensions == 9) {
+            sudoku = generateUniqueTable(25, dimensions);
         }
         else {
-            sudoku = generateUniqueTable(25, dimensions);
+            sudoku = generateUniqueTable(120, dimensions);
         }
     }
 
