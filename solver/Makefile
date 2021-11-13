@@ -4,7 +4,7 @@
 # updated by Xia Zhou, July 2016, 2018, January 2019
 # edited for common by Ethan Chen, Oct. 2021
 
-OBJS = solver.o
+OBJS = solver.o validator.o
 LIBS = 
 LIB = solver.a
 CFLAGS = -Wall -pedantic -std=c11 -ggdb
