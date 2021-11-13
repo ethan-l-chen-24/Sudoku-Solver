@@ -27,6 +27,7 @@
  */
 sudokuTable_t* createUniqueTable(int numFilled, int dimension);
 
+
 /******************* generate ******************/
 /* 
  * generates a sudoku table not necessarily with a unique solution
@@ -41,6 +42,7 @@ sudokuTable_t* createUniqueTable(int numFilled, int dimension);
  * all valid sudoku boards will have equal probability of being generated. 
  */
 sudokuTable_t* generate(int numFilled, int dimension);
+
 
 /******************* checkUniqueness ******************/
 /*
@@ -63,7 +65,6 @@ sudokuTable_t* generate(int numFilled, int dimension);
 bool checkUniqueness(sudokuTable_t* sudoku, int dimension);
 
 
-
 /******************* randomize ******************/
 /*
  * takes in array and randomizes the order of the array 
@@ -74,13 +75,11 @@ bool checkUniqueness(sudokuTable_t* sudoku, int dimension);
  * 
  * We return:
  *  nothing
- *  
  * 
  * We guarantee:
  *  the array will be shuffled 
  */
 void randomize(int* arr, int dimension);
-
 
 
 /******************* backtrackRand ******************/

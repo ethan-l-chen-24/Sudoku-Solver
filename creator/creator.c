@@ -10,35 +10,28 @@
  */
 
 #include <stdio.h>
-
 #include <stdlib.h>
-
 #include <string.h>
-
 #include <stdbool.h>
-
 #include <math.h>
-
 #include <time.h>
-
 #include <pthread.h>
-
 #include "creator.h"
-
 #include "validator.h"
-
+#include "solver.h"
 #include "../sudoku/sudokuTable.h"
 
-#include "solver.h"
-
-pthread_mutex_t mutexGenerate = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutexGenerate = PTHREAD_MUTEX_INITIALIZER; // mutex used for server-client multi-thread synchro
 
 /******************* generateUniqueTable() ******************/
 /* see creator.h for more information */
-sudokuTable_t * createUniqueTable(int numFilled, int dimension) {
-    pthread_mutex_lock( & mutexGenerate);
-    sudokuTable_t * sudokuTable = generate(numFilled, dimension);
-    int ** table = sudokuTable_board(sudokuTable);
+sudokuTable_t* createUniqueTable(int numFilled, int dimension) {
+    pthread_mutex_lock( & mutexGenerate); // synchronization
+
+    sudokuTable_t* sudokuTable = generate(numFilled, dimension); // generate a new table
+    int** table = sudokuTable_board(sudokuTable); // retrieve the board from the table
+
+    // initialize variables
     int check = 0;
     bool uniq = false;
     int x = 0;
@@ -47,6 +40,7 @@ sudokuTable_t * createUniqueTable(int numFilled, int dimension) {
     int plucks = 0;
     while (!uniq) {
 
+        // choose a random row and column
         x = rand() % dimension;
         y = rand() % dimension;
 
@@ -60,80 +54,94 @@ sudokuTable_t * createUniqueTable(int numFilled, int dimension) {
                 table[x][y] = tmp;
             }
 
-        } //end if
+        } 
 
+        // check if can't find any cells to pluck that will keep the board unique (aka if checking for too long)
         if (plucks >= 2 * (dimension * dimension)) {
+
+            // delete the board and start over
             sudokuTable_delete(sudokuTable);
             sudokuTable = generate(numFilled, dimension);
             table = sudokuTable_board(sudokuTable);
             plucks = 0;
             check = 0;
-        } //end if
+        } 
 
         if (check == (dimension * dimension) - numFilled) {
             uniq = true;
-        } //end if
+        } 
 
-    } //end while
+    } 
 
-    pthread_mutex_unlock( & mutexGenerate);
+    pthread_mutex_unlock(&mutexGenerate); // unlock the mutex so other threads can run
     return sudokuTable;
 } //end generateTable
 
 /******************* generate() ******************/
 /* see creator.h for more information */
-sudokuTable_t * generate(int numFilled, int dimension) {
-    sudokuTable_t * sudoku = sudokuTable_new(dimension, true);
+sudokuTable_t* generate(int numFilled, int dimension) {
+    // create a new table
+    sudokuTable_t* sudoku = sudokuTable_new(dimension, true);
     int sqrtDimension = sqrt(dimension);
 
     if (sudoku == NULL) {
         return NULL;
     }
 
-    int ** board = sudokuTable_board(sudoku);
-    validator_t * val = validator_new(dimension);
-    bool ** row = validator_getRow(val);
-    bool ** col = validator_getCol(val);
-    bool ** * boxes = validator_getBoxes(val);
+    // retrieve the arrays from 
+    int** board = sudokuTable_board(sudoku);
+    validator_t* val = validator_new(dimension);
+    bool** row = validator_getRow(val);
+    bool** col = validator_getCol(val);
+    bool*** boxes = validator_getBoxes(val);
 
-    //initalizing everything to false
+    //initalizing validator arrays to false
     for (int i = 0; i < dimension; i++) {
         for (int j = 0; j < dimension + 1; j++) {
             row[i][j] = false;
             col[i][j] = false;
-        } //end inner for
-    } //end for
+        } 
+    } 
 
-    //initalizing everything to false
+    //initalizing validator box matrix to false
     for (int i = 0; i < sqrtDimension; i++) {
         for (int j = 0; j < sqrtDimension; j++) {
             for (int k = 0; k < dimension + 1; k++) {
                 boxes[i][j][k] = false;
-            } //end inner for
+            } 
 
-        } //end middle for
+        } 
 
-    } //end outer for
+    } 
 
+    // create an array from 1-9 to represent each number
     int arr[dimension];
     for (int i = 1; i <= dimension; i++) {
         arr[i - 1] = i;
     }
+
+    // generate a random completely filled board
     randomize(arr, dimension);
-    backtrackRand(board, 0, 0, row, col, boxes, dimension, arr);
+    backtrackRand(board, 0, 0, row, col, boxes, dimension, arr); // backtrack and pluck out of that board
     validator_delete(val);
 
     return sudoku;
 }
 
-//returns true if sudoku board is unique
-//returns false if there are multiple solutions detected
-/* see creator.h for more information */
+
+/******************* checkUniqueness() ******************/
+/* 
+ * see creator.h for more information 
+ *
+ * returns true if sudoku board is unique
+ * returns false if there are multiple solutions detected
+*/
 bool checkUniqueness(sudokuTable_t * sudoku, int dimension) {
 
+    // validate sudoku arg
     if (sudoku == NULL) {
         return false;
-    } //end if
+    } 
 
     int ** table1 = sudokuTable_board(sudoku);
 
@@ -144,14 +152,14 @@ bool checkUniqueness(sudokuTable_t * sudoku, int dimension) {
         for (int j = 0; j < dimension; j++) {
             sudokuTable_set(s2, i, j, table1[i][j]);
             sudokuTable_set(s3, i, j, table1[i][j]);
-        } //end inner for
-    } //end for
+        } 
+    } 
 
     // grab the tables from those boards
     int ** table2 = sudokuTable_board(s2);
     int ** table3 = sudokuTable_board(s3);
 
-    //get two sudoku boards, one with foward and the other with rev backtrack
+    //get two sudoku boards, solve one with foward and the other with rev backtrack
     if (!solveSudoku(s3, 1, dimension)) {
         sudokuTable_delete(s2);
         sudokuTable_delete(s3);
@@ -172,8 +180,8 @@ bool checkUniqueness(sudokuTable_t * sudoku, int dimension) {
                 sudokuTable_delete(s3);
                 return false;
             }
-        } //end inner for
-    } //end outer for
+        } 
+    } 
 
     //otherwise they're the same
     sudokuTable_delete(s2);
@@ -182,8 +190,9 @@ bool checkUniqueness(sudokuTable_t * sudoku, int dimension) {
 
 } //end checkUniqueness
 
+/******************* checkUniqueness() ******************/
 /* see creator.h for more information */
-void randomize(int * arr, int dimension) {
+void randomize(int* arr, int dimension) {
     // randomize time
     srand(time(NULL));
 
@@ -191,18 +200,20 @@ void randomize(int * arr, int dimension) {
     int x = 0;
     int y = 0;
 
+    // randomize an array
     for (int i = 0; i < 20; i++) {
         x = rand() % dimension;
         y = rand() % dimension;
         tmp = arr[x];
         arr[x] = arr[y];
         arr[y] = tmp;
-    } //end for
+    } 
 
-} //end randomize
+} 
 
+/******************* backtrackRand() ******************/
 /* see creator.h for more information */
-bool backtrackRand(int ** board, int r, int c, bool ** row, bool ** col, bool ** * boxes, int dimension, int * arr) {
+bool backtrackRand(int** board, int r, int c, bool** row, bool** col, bool*** boxes, int dimension, int* arr) {
     //if we succesfully filled a whole column
     if (c == dimension) {
         c = 0;
@@ -212,9 +223,8 @@ bool backtrackRand(int ** board, int r, int c, bool ** row, bool ** col, bool **
         //we have all cols from the top left so we are done
         if (r == dimension) {
             return true;
-        } //end if
-
-    } //end if
+        } 
+    } 
 
     //if there is an empty space
     if (board[r][c] == 0) {
@@ -242,7 +252,7 @@ bool backtrackRand(int ** board, int r, int c, bool ** row, bool ** col, bool **
                 boxes[r / (int)(sqrt(dimension))][c / (int)(sqrt(dimension))][num] = false;
             }
         }
-    } //end if
+    } 
 
     //already a number so move on
     else {

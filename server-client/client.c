@@ -1,8 +1,8 @@
 /* 
  * inclient - an example Internet client.
  *
- * Makes a connection to the given host/port and sends a message 
- * to that socket.
+ * Makes a connection to the given host/port and sends and receives sudoku messages
+ * through that socket.
  * 
  * usage: inclient hostname port
  * 
@@ -11,16 +11,14 @@
  *
  * updated by Xia Zhou, August 2016, 2017, 2018
  * updated by Temi Prioleau, 2020
+ * 
+ * updated by Ethan Chen, Jeffrey Jiang, and Bansharee Ireen, November 2021
  */
 
 #include <stdio.h>
-
 #include <stdlib.h>
-
 #include <unistd.h>	      // read, write, close
-
 #include <string.h>	      // memcpy, memset
-
 #include <netdb.h>	      // socket-related structures
 
 /**************** file-local constants ****************/
@@ -67,10 +65,12 @@ main(const int argc, char * argv[]) {
         perror("connecting stream socket");
         exit(4);
     }
+
+    // print user options
     printf("Connected!\n");
     printf("Type \"create\" to request a sudoku board from the server\n");
     printf("Type \"solve\" to solve your current sudoku board\n");
-    printf("Type \"print\" to print the current solved or unsolved sudoku board\n");
+    printf("Type \"print\" to print the current solved or unsolved sudoku board\n\n");
 
     // 4. Read content from stdin (file descriptor = 0) and write to socket
     char buf[BUFSIZE];

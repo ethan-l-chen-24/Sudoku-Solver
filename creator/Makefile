@@ -1,8 +1,8 @@
-# Makefile for 'common' module
+# Makefile for 'creator' module
 #
 # David Kotz, April 2016, 2017, 2019, 2021
 # updated by Xia Zhou, July 2016, 2018, January 2019
-# edited for common by Ethan Chen, Oct. 2021
+# edited for creator by Ethan Chen, Bansharee Ireen, and Jeffrey Jiang, November 2021
 
 S = ../solver
 
@@ -11,7 +11,6 @@ LIBS = $S/solver.a
 LIB = creator.a
 CFLAGS = -Wall -pedantic -std=c11 -ggdb -I$S
 CC = gcc
-
 
 # build archive file
 $(LIB): $(OBJS) $(LIBS)

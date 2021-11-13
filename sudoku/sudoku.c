@@ -10,32 +10,23 @@
  */
 #pragma GCC target("avx2") // optimization to increase speed of solving
 #include <stdlib.h>
-
 #include <stdio.h>
-
 #include <string.h>
-
 #include <stdbool.h>
-
 #include <unistd.h>
-
 #include <time.h>
-
 #include <math.h>
-
 #include "creator.h"
-
 #include "solver.h"
-
 #include "sudokuTable.h"
 
 // function prototypes
 
-void validateParam(char * mode, char * difficulty);
-void createTable(char * difficulty, int dimensions);
+void validateParam(char* mode, char* difficulty);
+void createTable(char* difficulty, int dimensions);
 void solveTable(int dimensions);
 bool perfectSquare(int num);
-int fileno(FILE * stream);
+int fileno(FILE* stream);
 
 /**************** validateParam ********************/
 /*
@@ -77,8 +68,8 @@ int main(const int argc, char * argv[]) {
 
     // validates the parameters
     validateParam(argv[1], argv[2]);
-    char * mode = argv[1];
-    char * difficulty = argv[2];
+    char* mode = argv[1];
+    char* difficulty = argv[2];
 
     // set 9 as default dimensions
     int dimensions = 9;
