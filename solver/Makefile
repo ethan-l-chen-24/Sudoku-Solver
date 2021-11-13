@@ -4,7 +4,7 @@
 # updated by Xia Zhou, July 2016, 2018, January 2019
 # edited for common by Ethan Chen, Oct. 2021
 
-OBJS = solver.o
+OBJS = solver.o validator.o
 LIBS = 
 LIB = solver.a
 CFLAGS = -Wall -pedantic -std=c11 -ggdb
@@ -16,7 +16,7 @@ $(LIB): $(OBJS) $(LIBS)
 
 .PHONY: all clean sourcelist test
 
-all: creator.a
+all: solver.a
 
 # list all the sources and docs in this directory.
 sourcelist: Makefile *.md *.c *.h

@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 typedef struct validator {
     bool** row;
@@ -72,6 +73,7 @@ bool** validator_getRow(validator_t* val) {
     if (val != NULL) {
         return val->row;
     }
+    return NULL;
 }
 
 /*********** validator_getCol **************/
@@ -82,6 +84,7 @@ bool** validator_getCol(validator_t* val) {
     if (val != NULL) {
         return val->col;
     }
+    return NULL;
 }
 
 /*********** validator_getBoxes **************/
@@ -92,6 +95,7 @@ bool*** validator_getBoxes(validator_t* val) {
     if (val != NULL) {
         return val->boxes;
     }
+    return NULL;
 }
 
 
