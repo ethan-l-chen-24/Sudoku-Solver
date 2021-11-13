@@ -92,7 +92,7 @@ sudokuTable_t *generate(int numFilled, int dimension)
     validator_t* val = validator_new(dimension);
     bool** row = validator_getRow(val);
     bool** col = validator_getCol(val);
-    bool*** boxes = validator_getBoxes(boxes);
+    bool*** boxes = validator_getBoxes(val);
 
 
     //initalizing everything to false
