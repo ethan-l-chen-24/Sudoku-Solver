@@ -116,7 +116,6 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
 
                 // printf("num to insert 1: %d\n", insert);
 
-
                 if(col >= dimension || row >= dimension) {
                     sudokuTable_delete(sudoku);
                     fprintf(stderr, "Error: format of input file is incorrect\n");

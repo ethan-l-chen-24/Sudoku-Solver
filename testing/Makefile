@@ -4,11 +4,11 @@
 
 S = ../solver
 C = ../creator
-T = ../sudoku
+L = ../libcs50
 
-LIBS = $S/solver.a $C/creator.a 
+LIBS = $L/libcs50.a $S/solver.a $C/creator.a 
 
-CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I$S -I$C
+CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I$S -I$C -I$L
 CC = gcc
 MAKE = make
 

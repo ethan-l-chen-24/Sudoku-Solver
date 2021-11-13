@@ -16,7 +16,6 @@ all:
 
 ############## valgrind all programs ##########
 valgrind: all
-	$(MAKE) -C crawler valgrind
 	$(MAKE) -C sudoku valgrind
 	$(MAKE) -C testing valgrind
 
