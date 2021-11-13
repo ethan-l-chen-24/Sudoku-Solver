@@ -16,8 +16,8 @@
 #include <unistd.h>
 #include <time.h>
 #include <math.h>
-#include "../creator/creator.h"
-#include "../solver/solver.h"
+#include "creator.h"
+#include "solver.h"
 #include "sudokuTable.h"
 
 // function prototypes

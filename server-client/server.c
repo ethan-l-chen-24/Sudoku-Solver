@@ -22,8 +22,8 @@
 #include <signal.h>       // wait() and waitpid(), signal()
 #include <math.h>
 
-#include "../creator/creator.h"
-#include "../solver/solver.h"
+#include "creator.h"
+#include "solver.h"
 #include "../sudoku/sudokuTable.h"
 
 /**************** file-local constants ****************/
@@ -90,7 +90,7 @@ int main(const int argc, char *argv[])
 
             printf("Received %s", buf);
             if(strcmp(buf, "create\n") == 0) {
-              sudoku = generateUniqueTable(37, 9);
+              sudoku = createUniqueTable(37, 9);
               if (write(comm_sock, "\tsudoku table created\n", 22) < 0) {
                 perror("writing on stream socket");
                 exit(6);

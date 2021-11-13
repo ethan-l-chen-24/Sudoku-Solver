@@ -18,7 +18,7 @@
 #include <pthread.h>
 #include "creator.h"
 #include "../sudoku/sudokuTable.h"
-#include "../solver/solver.h"
+#include "solver.h"
 
 pthread_mutex_t mutexGenerate = PTHREAD_MUTEX_INITIALIZER;
 
