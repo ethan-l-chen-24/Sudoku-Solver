@@ -121,7 +121,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
                     fprintf(stderr, "Error: format of input file is incorrect\n");
                     return NULL;
                 }
-                // sudokuTable_set(sudoku, row, col, insert);
+
                 // increment if non-zero
                 if (insert != 0) numReceived++;
 
@@ -178,14 +178,6 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     sudokuTable_setFormat(sudoku, format);
     return sudoku;
 }
-
-// sudokuTable_t* bans_load(FILE* fp, int dimension) {
-//     char* num;
-//     char* rest;
-//     char c;
-
-//     while (fscanf(fp, "%d", ))
-// }
 
 /******************* sudokuTable_set ******************/
 /* see sudokuTable.h for more information */
