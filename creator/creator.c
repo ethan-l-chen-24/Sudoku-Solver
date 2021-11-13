@@ -17,7 +17,7 @@
 #include <time.h>
 #include <pthread.h>
 #include "creator.h"
-#include "validator.h"
+#include "../solver/validator.h"
 #include "../sudoku/sudokuTable.h"
 #include "solver.h"
 
