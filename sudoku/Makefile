@@ -25,16 +25,16 @@ all: sudoku sudokuTable.a
 
 # create mode
 create: sudoku
-	./sudoku create hard > ../tables/table1.txt
+	./sudoku create hard 4 > ../tables/table1.txt
 	
 # solve mode
 solve: sudoku
-	./sudoku solve hard < ../tables/table1.txt 
+	./sudoku solve hard 4 < ../tables/table1.txt 
 
 # valgrind
 valgrind: sudoku
-	$(VALGRIND) ./sudoku create easy > ../tables/valgrindTable.txt
-	$(VALGRIND) ./sudoku solve easy < ../tables/valgrindTable.txt
+	$(VALGRIND) ./sudoku create hard 4 > ../tables/valgrindTable.txt
+	$(VALGRIND) ./sudoku solve hard 4 < ../tables/valgrindTable.txt
 
 clean:
 	rm -rf *.dSYM  # MacOS debugger info
