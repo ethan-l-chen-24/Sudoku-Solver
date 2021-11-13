@@ -82,42 +82,36 @@ int sudokuTable_dimension(sudokuTable_t* sudoku) {
 sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     if(fp == NULL) return NULL;
 
-    char c;
+    char currCharr;         // the current character read from the file
+    char prevChar = '\0';   // tracks the previous character
+    char number[4];         // numerical string to insert into the board
+    int insert;             // the integer to insert into the board
+    
     int row = 0;
     int col = 0;
 
     int numReceived = 0;    // tracks the number of non-zero numbers
-
     bool format = false;
-    char prevChar = '\0';
-    char number[4];
-    int insert;
 
-    int test = 0;
 
     sudokuTable_t* sudoku = sudokuTable_new(dimension, false);
     while(!feof(fp)) {
-        while((c = fgetc(fp)) != '\n' && c != EOF) {
-            if (test == 3) exit(0);
-            printf("prevChar: %c, currChar: %c\n", prevChar, c);
-
-            if (isspace(c) && isdigit(prevChar)) {
-                printf("num to insert 2: %d\n", insert);
-
-                sudokuTable_set(sudoku, row, col, insert);
-                col++;
-                sudokuTable_print(stdout, sudoku);
-                // test++;
+        while((currCharr = fgetc(fp)) != '\n' && currCharr != EOF) {
+            // if there is a space after the last digit
+            // then this is the end of the number
+            if (isspace(currCharr) && isdigit(prevChar)) {
+                sudokuTable_set(sudoku, row, col, insert);      // add the number to the table
+                col++;                                          // move to the next column        
             }
 
-            else if(isdigit(c)) {
-                insert = (int) c - '0';
+            // if current char is a digit
+            else if(isdigit(currCharr)) {
+                insert = (int) currCharr - '0';                         // convert to integer
 
                 // if previous char was also a digit, this is a 2-digit number on a 16x16 board
                 if (isdigit(prevChar)) {
-                    sprintf(number, "%c%c", prevChar, c);
-                    // printf("string to insert: %s\n", number);
-                    insert = atoi(number);
+                    sprintf(number, "%c%c", prevChar, currCharr);       // concatenate the two digits
+                    insert = atoi(number);                      // set the two digit number to be the integer to insert
                 }
 
                 // printf("num to insert 1: %d\n", insert);
@@ -134,41 +128,41 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
 
                 //col++;
             } 
-            else if(isalpha(c)) {
+            // if there is an alphabet in the board
+            else if(isalpha(currCharr)) {
                 sudokuTable_delete(sudoku);
                 fprintf(stderr, "Error: format of input file is incorrect\n");
                 return NULL;
             } 
             else {
-                printf("format is true\n");
                 format = true;
             }
 
-            prevChar = c;
+            // update the previous character
+            prevChar = currCharr;
         } // end of row
 
-
-        // gets stuck if the num we need to add is a duplicate of the num we last added
-        if (!format && sudokuTable_get(sudoku, row, col-1) != insert) {
-            printf("%d", sudokuTable_get(sudoku, row, col-1));
+        // if following standard format and there is no space after the number
+        // then the number was not added above, so add it here
+        if (!format && !isspace(prevChar)) {
             sudokuTable_set(sudoku, row, col, insert);
             col++;
         }
 
         // it should have passed all columns in the row
         // if not, format is incorrect
-        printf("col at end of line %d\n", col);
         if (col != dimension && col != 0) {
             sudokuTable_delete(sudoku);
-            fprintf(stderr, "Error 1: format of input file is incorrect\n");
+            fprintf(stderr, "Error: format of input file is incorrect\n");
             return NULL;
         }
 
         if (col != 0) {
             row++;
         }
-        col = 0;
-        prevChar = '\0';
+
+        col = 0;                // resetting column number at new row
+        prevChar = '\0';        // resetting prevChar to null character for new row
     }
 
     if(row != dimension) {
