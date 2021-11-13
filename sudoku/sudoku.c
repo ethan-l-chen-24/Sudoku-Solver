@@ -120,7 +120,7 @@ void createTable(char *difficulty, int dimensions)
         } else if (dimensions == 9) {
             sudoku = createUniqueTable(37, dimensions);
         } else {
-            sudoku = createUniqueTable(135, dimensions);
+            sudoku = createUniqueTable(150, dimensions);
         }
     }
     else
@@ -131,7 +131,7 @@ void createTable(char *difficulty, int dimensions)
             sudoku = createUniqueTable(25, dimensions);
         }
         else {
-            sudoku = createUniqueTable(120, dimensions);
+            sudoku = createUniqueTable(135, dimensions);
         }
     }
 

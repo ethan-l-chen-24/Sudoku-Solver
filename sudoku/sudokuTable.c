@@ -82,40 +82,76 @@ int sudokuTable_dimension(sudokuTable_t* sudoku) {
 sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     if(fp == NULL) return NULL;
 
-    char c;
+    char currCharr;         // the current character read from the file
+    char prevChar = '\0';   // tracks the previous character
+    char number[4];         // numerical string to insert into the board
+    int insert;             // the integer to insert into the board
+    
     int row = 0;
     int col = 0;
 
     int numReceived = 0;    // tracks the number of non-zero numbers
-
     bool format = false;
 
 
-    sudokuTable_t* sudoku = sudokuTable_new(9, false);
+    sudokuTable_t* sudoku = sudokuTable_new(dimension, false);
     while(!feof(fp)) {
-        while((c = fgetc(fp)) != '\n' && c != EOF) {
-            if(isdigit(c)) {
+        while((currCharr = fgetc(fp)) != '\n' && currCharr != EOF) {
+            // if there is a space after the last digit
+            // then this is the end of the number
+            if (isspace(currCharr) && isdigit(prevChar)) {
+                sudokuTable_set(sudoku, row, col, insert);      // add the number to the table
+                col++;                                          // move to the next column        
+            }
+
+            // if current char is a digit
+            else if(isdigit(currCharr)) {
+                insert = (int) currCharr - '0';                         // convert to integer
+
+                // if previous char was also a digit, this is a 2-digit number on a 16x16 board
+                if (isdigit(prevChar)) {
+                    sprintf(number, "%c%c", prevChar, currCharr);       // concatenate the two digits
+                    insert = atoi(number);                      // set the two digit number to be the integer to insert
+                }
+
+                // printf("num to insert 1: %d\n", insert);
+
+
                 if(col >= dimension || row >= dimension) {
                     sudokuTable_delete(sudoku);
                     fprintf(stderr, "Error: format of input file is incorrect\n");
                     return NULL;
                 }
-                sudokuTable_set(sudoku, row, col, (int) c - '0');
+                // sudokuTable_set(sudoku, row, col, insert);
                 // increment if non-zero
-                if (((int) c - '0') != 0) numReceived++;
+                if (insert != 0) numReceived++;
 
-                col++;
-            } else if(isalpha(c)) {
+                //col++;
+            } 
+            // if there is an alphabet in the board
+            else if(isalpha(currCharr)) {
                 sudokuTable_delete(sudoku);
                 fprintf(stderr, "Error: format of input file is incorrect\n");
                 return NULL;
-            } else {
+            } 
+            else {
                 format = true;
             }
+
+            // update the previous character
+            prevChar = currCharr;
+        } // end of row
+
+        // if following standard format and there is no space after the number
+        // then the number was not added above, so add it here
+        if (!format && !isspace(prevChar)) {
+            sudokuTable_set(sudoku, row, col, insert);
+            col++;
         }
-        // if the line was not a bar, it should have passed 9 columns
+
+        // it should have passed all columns in the row
         // if not, format is incorrect
-        if(col != dimension && col != 0) {
+        if (col != dimension && col != 0) {
             sudokuTable_delete(sudoku);
             fprintf(stderr, "Error: format of input file is incorrect\n");
             return NULL;
@@ -124,7 +160,9 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
         if (col != 0) {
             row++;
         }
-        col = 0;
+
+        col = 0;                // resetting column number at new row
+        prevChar = '\0';        // resetting prevChar to null character for new row
     }
 
     if(row != dimension) {
@@ -141,6 +179,14 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension) {
     sudokuTable_setFormat(sudoku, format);
     return sudoku;
 }
+
+// sudokuTable_t* bans_load(FILE* fp, int dimension) {
+//     char* num;
+//     char* rest;
+//     char c;
+
+//     while (fscanf(fp, "%d", ))
+// }
 
 /******************* sudokuTable_set ******************/
 /* see sudokuTable.h for more information */
@@ -178,7 +224,7 @@ void sudokuTable_delete(sudokuTable_t* sudoku) {
     }
 }
 
-/******************* printTable() ******************/
+/******************* sudokuTable_print ******************/
 /* see sudokuTable.h for more information */
 void sudokuTable_print(FILE* fp, sudokuTable_t* sudoku) {
     if(sudoku == NULL) return;
@@ -253,7 +299,7 @@ static bool validInd(sudokuTable_t* sudoku, int ind) {
     return (ind >= 0 && ind < sudoku->dimension);
 }
 
-/******************* swapRow() ******************/
+/******************* printRowBar ******************/
 /* print a long row bar _______________________ */
 static void printRowBar(FILE* fp, int sqrtDimension) {
     fprintf(fp, "-");
@@ -266,7 +312,7 @@ static void printRowBar(FILE* fp, int sqrtDimension) {
     fprintf(fp, "\n");
 }
 
-/******************* swapRow() ******************/
+/******************* sudokuTable_setFormat ******************/
 /* changes the format param of a sudokuTable struct to the designated style */
 static void sudokuTable_setFormat(sudokuTable_t* sudoku, bool format) {
     if(sudoku == NULL) return;

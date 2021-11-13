@@ -4,47 +4,60 @@
 touch ../tables/easyTable.txt
 touch ../tables/hardTable.txt
 touch ../tables/valgrindTable.txt
+touch ../tables/easy16.txt
+touch ../tables/hard16.txt
 
 
 # VALID TESTS
 # test 1:creating a board on easy mode
-./sudoku create easy > ../tables/easyTable.txt
+../sudoku/sudoku create easy > ../tables/easyTable.txt
 
 # test 2: creating a board on hard mode
-./sudoku create hard > ../tables/hardTable.txt
+../sudoku/sudoku create hard > ../tables/hardTable.txt
 
 # test 3: solving the board made by test 1
-./sudoku solve easy < ../tables/easyTable.txt
+../sudoku/sudoku solve easy < ../tables/easyTable.txt
 
 # test 4: solving the board made by test 2
-./sudoku solve hard < ../tables/easyTable.txt
+../sudoku/sudoku solve hard < ../tables/easyTable.txt
+
+# test 5: creating 16x16 on easy board 
+../sudoku/sudoku create easy 16 > ../tables/easy16.txt
+
+# test 6: creating 16x16 board on hard mode
+../sudoku/sudoku create hard 16 > ../tables/hard16.txt
+
+# test 7: solving the board made by test 5
+../sudoku/sudoku solve easy 16 < ../tables/easy16.txt
+
+# test 8: solving the board made by test 6
+../sudoku/sudoku solve hard 16 < ../tables/hard16.txt
 
 
 # INVALID INPUTS
 
 # invalid mode
-./sudoku wrong easy
+../sudoku/sudoku wrong easy
 
 # invalid difficulty
-./sudoku create wrong
+../sudoku/sudoku create wrong
 
 # 3rd argument can only be dimension
-./sudoku create easy nonIntArg
+../sudoku/sudoku create easy nonIntArg
 
 # using invalid dimension
-./sudoku solve hard 10
+../sudoku/sudoku solve hard 10
 
 
 # SOLVABILITY
 # trying to solve a known unsolvable board
-./sudoku solve easy < ../tables/unsolvableTable.txt
+../sudoku/sudoku solve easy < ../tables/unsolvableTable.txt
 
 # VALGRIND TESTS
 # checking for memory leaks on create mode
-valgrind --leak-check=full --show-leak-kinds=all ./sudoku create easy > ../tables/valgrindTable.txt
+valgrind --leak-check=full --show-leak-kinds=all ../sudoku/sudoku create easy > ../tables/valgrindTable.txt
 
 # checking for memory leaks on solve mode
-valgrind --leak-check=full --show-leak-kinds=all ./sudoku solve easy < ../tables/valgrindTable.txt
+valgrind --leak-check=full --show-leak-kinds=all ../sudoku/sudoku solve easy < ../tables/valgrindTable.txt
 
-
-
+exit 0
