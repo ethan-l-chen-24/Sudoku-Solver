@@ -25,7 +25,7 @@
  * 
  * generates a completely solved sudoku until it is unique, then returns
  */
-sudokuTable_t* generateUniqueTable(int numFilled, int dimension);
+sudokuTable_t* createUniqueTable(int numFilled, int dimension);
 
 /******************* generate ******************/
 /* 

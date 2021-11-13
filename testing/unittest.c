@@ -48,10 +48,10 @@ int test_new()
     return failed;
 }
 
-int test_generate()
+int test_create()
 {
     int failed = 0;
-    sudokuTable_t *sudoku = generateUniqueTable(25, 9);
+    sudokuTable_t *sudoku = createUniqueTable(25, 9);
     sudokuTable_print(stdout, sudoku);
     if (sudoku == NULL) failed++;
 
@@ -86,7 +86,7 @@ int test_load()
     int failed = 0;
 
     // create a new sudoku table
-    sudokuTable_t *ogSudoku = generateUniqueTable(25, 9);
+    sudokuTable_t *ogSudoku = createUniqueTable(25, 9);
     if (ogSudoku == NULL)
     {
         failed++;
@@ -150,7 +150,7 @@ int test_uniqueness()
     sudokuTable_t *s;
     sudokuTable_t *s2;
 
-    s = generateUniqueTable(25, 9);
+    s = createUniqueTable(25, 9);
     s2 = sudokuTable_new(9, true);
     int **table = sudokuTable_board(s);
     for (int i = 0; i < 9; i++)
@@ -206,14 +206,14 @@ int main(int argc, char const *argv[])
     }
 
     failed = 0;
-    // failed += test_generate();
+    // failed += test_create();
     if (failed == 0)
     {
-        printf("Test generate passed\n");
+        printf("Test create passed\n");
     }
     else
     {
-        printf("Test generate failed!\n");
+        printf("Test create failed!\n");
         totalFailed++;
     }
 
