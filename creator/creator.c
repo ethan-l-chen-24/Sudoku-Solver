@@ -15,17 +15,19 @@
 #include <stdbool.h>
 #include <math.h>
 #include <time.h>
+#include <pthread.h>
 #include "creator.h"
 #include "../solver/validator.h"
 #include "../sudoku/sudokuTable.h"
-#include "../solver/solver.h"
+#include "solver.h"
 
+pthread_mutex_t mutexGenerate = PTHREAD_MUTEX_INITIALIZER;
 
 /******************* generateUniqueTable() ******************/
 /* see creator.h for more information */
-sudokuTable_t *generateUniqueTable(int numFilled, int dimension)
+sudokuTable_t *createUniqueTable(int numFilled, int dimension)
 {
-    
+    pthread_mutex_lock(&mutexGenerate);
     sudokuTable_t *sudokuTable = generate(numFilled, dimension);
     int** table = sudokuTable_board(sudokuTable);
     int check = 0;
@@ -70,7 +72,7 @@ sudokuTable_t *generateUniqueTable(int numFilled, int dimension)
         
     }//end while
     
-
+    pthread_mutex_unlock(&mutexGenerate);
     return sudokuTable;
 } //end generateTable
 

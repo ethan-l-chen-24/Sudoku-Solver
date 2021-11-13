@@ -1,10 +1,10 @@
 /* 
- * fuzztester.c - generates n unique, hard-level boards and solves them, checking for uniqueness and
+ * fuzztester.c - creates n unique, hard-level boards and solves them, checking for uniqueness and
  *                whether the solved board follows the rules of Sudoku or not
  *
  * usage: ./fuzztester n dimension
  * where, 
- *          n is the number of boards to generate
+ *          n is the number of boards to create
  *          dimension is the dimension for each of the n boards
  * 
  * Bansharee Ireen, Jeffrey Jiang, Ethan Chen
@@ -19,8 +19,8 @@
 #include <string.h>
 #include <math.h>
 #include "../sudoku/sudokuTable.h"
-#include "../creator/creator.h"
-#include "../solver/solver.h"
+#include "creator.h"
+#include "solver.h"
 
 // function prototypes
 bool changedNum(sudokuTable_t* created, sudokuTable_t* solved, int dimension);
@@ -44,7 +44,7 @@ int main(const int argc, char* argv[]) {
     sudokuTable_t* sudoku;
     for (int n = 0; n < num; n++) {
         // create n tables on hard mode, i.e. start with 25 given numbers
-        sudoku = generateUniqueTable(25, dimension);
+        sudoku = createUniqueTable(25, dimension);
 
         // print the original board for user to see
         printf("\nPrinting the created table...\n");

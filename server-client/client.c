@@ -74,6 +74,7 @@ main(const int argc, char *argv[])
   int bytes_read;       // #bytes read from socket
   memset(buf, 0, BUFSIZE); // clear up the buffer
   do {
+    fflush(stdout);
     if ((bytes_read = read(0, buf, BUFSIZE-1)) < 0) {
       perror("reading from stdin");
       exit(5);
@@ -90,10 +91,9 @@ main(const int argc, char *argv[])
         printf("Ending connection\n");
       } else {
         printf("%s", buf);
-        fflush(stdout);
       }
     }
-      
+    fflush(stdout);
   } while (bytes_read != 0);
   
   close(comm_sock);

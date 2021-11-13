@@ -20,13 +20,14 @@
 #include <unistd.h>         // read, write, close, fork
 #include <arpa/inet.h>      // socket-related calls
 #include <signal.h>       // wait() and waitpid(), signal()
+#include <math.h>
 
-#include "../creator/creator.h"
-#include "../solver/solver.h"
+#include "creator.h"
+#include "solver.h"
 #include "../sudoku/sudokuTable.h"
 
 /**************** file-local constants ****************/
-#define SERV_PORT 3000   // server port number 
+#define SERV_PORT 3001   // server port number 
 #define LISTEN_BACKLOG 5  // number of connections to keep waiting
 #define BUFSIZE 1024      // read/write buffer size
 
@@ -89,7 +90,7 @@ int main(const int argc, char *argv[])
 
             printf("Received %s", buf);
             if(strcmp(buf, "create\n") == 0) {
-              sudoku = generateUniqueTable(37, 9);
+              sudoku = createUniqueTable(37, 9);
               if (write(comm_sock, "\tsudoku table created\n", 22) < 0) {
                 perror("writing on stream socket");
                 exit(6);
@@ -126,20 +127,50 @@ int main(const int argc, char *argv[])
                 continue;
               }
 
+              int dimension = sudokuTable_dimension(sudoku);
+              int sqrtDimension = sqrt(dimension);
+
               char nums[BUFSIZE];
-              sprintf(nums, "%d ", sudokuTable_get(sudoku, 0, 0));
-              for(int i = 0; i < 9; i++) {
-                for(int j = 0; j < 9; j ++) {
-                  if(i == 0 && j == 0) continue;
-                  int val = sudokuTable_get(sudoku, i, j);
+              sprintf(nums, "\t-");
+
+              for(int i = 0; i < sqrtDimension; i ++) {
+                for(int j = 0; j < sqrtDimension; j ++) {
+                  strncat(nums, "---\0", 4);
+                }
+                strncat(nums, "--\0", 3);
+              }
+              strncat(nums, "\n\t\0", 2);
+              for(int row = 0; row < dimension; row++) {
+                for(int col = 0; col < dimension; col ++) {
+                  if(col % 3 == 0) {
+                      strncat(nums, "| \0", 3);
+                  }
+                  int val = sudokuTable_get(sudoku, row, col);
                   char temp[13];
-                  sprintf(temp, "%d ", val);
+                  sprintf(temp, "%2d ", val);
                   strncat(nums, temp, 13);
                 }
-                strncat(nums, "\n\0", 13);
+                strncat(nums, "| \0", 3);
+
+                if(((row + 1) % 3) == 0) {
+                  strncat(nums, "\n\t-\0", 3);
+                  for(int i = 0; i < sqrtDimension; i ++) {
+                    for(int j = 0; j < sqrtDimension; j ++) {
+                      strncat(nums, "---\0", 3);
+                    }
+                    strncat(nums, "--\0", 2);
+                  }
+                  if(row != 8) {
+                    strncat(nums, "\n\t\0", 2);
+                  } else {
+                    strncat(nums, "\n\0", 2);
+                  }
+                } else {
+                  strncat(nums, "\n\t\0", 2);
+                }
               }
 
-              if (write(comm_sock, nums, 200) < 0) {
+              if (write(comm_sock, nums, 500) < 0) {
                   perror("writing on stream socket");
                   exit(6);
                 }
