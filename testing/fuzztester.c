@@ -47,6 +47,7 @@ int main(const int argc, char * argv[]) {
     int dimension = atoi(argv[2]);
 
     sudokuTable_t * sudoku;
+    sudokuTable_t* solve;
     for (int n = 0; n < num; n++) {
         // create n tables on hard mode, i.e. start with 25 given numbers
         sudoku = createUniqueTable(25, dimension);
@@ -61,8 +62,8 @@ int main(const int argc, char * argv[]) {
         fclose(fp);
 
         // create a copy of the original board to solve
-        FILE * fp1 = fopen("../tables/table3.txt", "r");
-        sudokuTable_t * solve = sudokuTable_load(fp, dimension);
+        FILE * fp1 = fopen("../tables/table2.txt", "r");
+        solve = sudokuTable_load(fp1, dimension);
         fclose(fp1);
 
         // solve the copy
@@ -100,6 +101,7 @@ int main(const int argc, char * argv[]) {
         sudokuTable_delete(solve);
         printf("____________________________________\n");
     }
+    return 0;
 }
 
 bool changedNum(sudokuTable_t * created, sudokuTable_t * solved, int dimension) {
