@@ -100,7 +100,7 @@ void sudokuTable_set(sudokuTable_t* sudoku, int row, int col, int val);
  */
 int sudokuTable_get(sudokuTable_t* sudoku, int row, int col);
 
-/******************* sudokuTable_set ******************/
+/******************* sudokuTable_delete ******************/
 /*
  * Deletes a previously created sudoku table
  *
@@ -112,7 +112,7 @@ int sudokuTable_get(sudokuTable_t* sudoku, int row, int col);
  */
 void sudokuTable_delete(sudokuTable_t* sudoku);
 
-/******************* printTable() ******************/
+/******************* sudokuTable_print ******************/
 /*
  * Prints a hashtable to stdout
  * if in style mode, it stylizes the grid with | and _ to show the 3x3 boxes
