@@ -9,6 +9,9 @@
  * CS50 Fall, 2021
  */
 
+#ifndef __SUDOKUTABLE
+#define __SUDOKUTABLE
+
 #include <stdbool.h>
 
 typedef struct sudokuTable sudokuTable_t;
@@ -121,3 +124,5 @@ void sudokuTable_delete(sudokuTable_t* sudoku);
  *  valid pointer to a sudokuTable, a file to print to
 */
 void sudokuTable_print(FILE* fp, sudokuTable_t* sudoku);
+
+#endif

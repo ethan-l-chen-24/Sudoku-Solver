@@ -16,6 +16,7 @@
 #include <math.h>
 #include <time.h>
 #include "creator.h"
+#include "../solver/validator.h"
 #include "../sudoku/sudokuTable.h"
 #include "../solver/solver.h"
 
@@ -86,25 +87,10 @@ sudokuTable_t *generate(int numFilled, int dimension)
         
 
     int **board = sudokuTable_board(sudoku);
-    // allocate memory for the row matrix
-    bool** row = calloc(dimension, sizeof(bool*));
-    for(int i=0;i<dimension;i++){
-        row[i] = (bool*)calloc(dimension+1, sizeof(bool));
-    }
-
-    // allocate memory for the col matrix
-    bool** col = calloc(dimension, sizeof(bool*));
-    for(int i=0;i<dimension;i++){
-        col[i] = (bool*)calloc(dimension+1, sizeof(bool));
-    }
-
-    bool*** boxes = calloc(sqrtDimension, sizeof(bool**));
-    for(int i=0;i<sqrtDimension;i++){
-        boxes[i] = (bool**) calloc(sqrtDimension, sizeof(bool*));
-        for(int j=0;j<sqrtDimension;j++){
-            boxes[i][j] =(bool*) calloc(dimension+1, sizeof(bool));
-        }
-    }
+    validator_t* val = validator_new(dimension);
+    bool** row = validator_getRow(val);
+    bool** col = validator_getCol(val);
+    bool*** boxes = validator_getBoxes(boxes);
 
 
     //initalizing everything to false
