@@ -10,50 +10,54 @@
  */
 #pragma GCC target("avx2") // optimization to increase speed of solving
 #include <stdlib.h>
+
 #include <stdio.h>
+
 #include <string.h>
+
 #include <stdbool.h>
+
 #include <unistd.h>
+
 #include <time.h>
+
 #include <math.h>
+
 #include "creator.h"
+
 #include "solver.h"
+
 #include "sudokuTable.h"
 
 // function prototypes
 
-void validateParam(char *mode, char *difficulty);
-void createTable(char *difficulty, int dimensions);
+void validateParam(char * mode, char * difficulty);
+void createTable(char * difficulty, int dimensions);
 void solveTable(int dimensions);
 bool perfectSquare(int num);
-int fileno(FILE *stream);
+int fileno(FILE * stream);
 
 /**************** validateParam ********************/
 /*
  * ensures that the inputted arguments are of the correct format
  */
-void validateParam(char *mode, char *difficulty)
-{
+void validateParam(char * mode, char * difficulty) {
     // check for proper mode input
-    if (strcmp(mode, "create") != 0 && strcmp(mode, "solve") != 0)
-    {
+    if (strcmp(mode, "create") != 0 && strcmp(mode, "solve") != 0) {
         fprintf(stderr, "Please select a valid mode: create or solve.\n");
         exit(1);
     }
 
     // check for proper difficulty input
-    if (strcmp(difficulty, "easy") != 0 && strcmp(difficulty, "hard") != 0)
-    {
+    if (strcmp(difficulty, "easy") != 0 && strcmp(difficulty, "hard") != 0) {
         fprintf(stderr, "Please select a valid level of difficulty: easy or hard.\n");
         exit(2);
     }
 }
 
-void checkDim(int dimension)
-{
+void checkDim(int dimension) {
     // for now check that dimension is either 9 or 16
-    if (dimension != 4 && dimension != 9 && dimension != 16)
-    {
+    if (dimension != 4 && dimension != 9 && dimension != 16) {
         fprintf(stderr, "Dimension must be a 4, 9, or 16.\n");
         exit(1);
     }
@@ -63,26 +67,23 @@ void checkDim(int dimension)
 /*
  * validates arguments and then passes to create or solve depending on arguments
  */
-int main(const int argc, char *argv[])
-{
+int main(const int argc, char * argv[]) {
     srand(time(NULL));
     // for now, checks if number of command-line arguments is 3 or 4
-    if (argc != 3 && argc != 4)
-    {
+    if (argc != 3 && argc != 4) {
         fprintf(stderr, "Incorrect number of arguments. Usage: ./sudoku mode difficulty [dimensions]\n");
         return 1;
     }
 
     // validates the parameters
     validateParam(argv[1], argv[2]);
-    char *mode = argv[1];
-    char *difficulty = argv[2];
+    char * mode = argv[1];
+    char * difficulty = argv[2];
 
     // set 9 as default dimensions
     int dimensions = 9;
     // update dimensions if argument was provided
-    if (argc == 4)
-    {
+    if (argc == 4) {
         int dim = atoi(argv[3]);
         // check if the dimension argument is valid
         checkDim(dim);
@@ -90,13 +91,10 @@ int main(const int argc, char *argv[])
     }
 
     // if the mode is to create
-    if (strcmp(mode, "create") == 0)
-    {
+    if (strcmp(mode, "create") == 0) {
         // pass difficulty parameter to creator
         createTable(difficulty, dimensions);
-    }
-    else
-    {
+    } else {
         solveTable(dimensions);
     }
 }
@@ -104,17 +102,15 @@ int main(const int argc, char *argv[])
 /**************** createTable ********************/
 /*
  * creates a sudoku table and prints it to stdout
-*/
-void createTable(char *difficulty, int dimensions)
-{
+ */
+void createTable(char * difficulty, int dimensions) {
     // create a table
     if (difficulty == NULL) {
         return;
     }
     // create sudoku tables based on difficulty
-    sudokuTable_t *sudoku;
-    if (strcmp(difficulty, "easy") == 0)
-    {
+    sudokuTable_t * sudoku;
+    if (strcmp(difficulty, "easy") == 0) {
         if (dimensions == 4) {
             sudoku = createUniqueTable(8, dimensions);
         } else if (dimensions == 9) {
@@ -122,22 +118,18 @@ void createTable(char *difficulty, int dimensions)
         } else {
             sudoku = createUniqueTable(150, dimensions);
         }
-    }
-    else
-    {
+    } else {
         if (dimensions == 4) {
             sudoku = createUniqueTable(5, dimensions);
         } else if (dimensions == 9) {
             sudoku = createUniqueTable(25, dimensions);
-        }
-        else {
+        } else {
             sudoku = createUniqueTable(135, dimensions);
         }
     }
 
     // print it out
-    if (isatty(fileno(stdout)))
-    { // print out created line only if stdout is not a file
+    if (isatty(fileno(stdout))) { // print out created line only if stdout is not a file
         printf("created Table, %s difficulty: \n", difficulty);
     }
     sudokuTable_print(stdout, sudoku);
@@ -148,10 +140,9 @@ void createTable(char *difficulty, int dimensions)
 /*
  * loads a sudokuTable from stdin, solves it (if possible), and prints it to stdout
  */
-void solveTable(int dimensions)
-{
+void solveTable(int dimensions) {
     // create a table
-    sudokuTable_t *sudoku = sudokuTable_load(stdin, dimensions);
+    sudokuTable_t * sudoku = sudokuTable_load(stdin, dimensions);
     if (sudoku == NULL) {
         return;
     }
@@ -160,8 +151,7 @@ void solveTable(int dimensions)
     sudokuTable_print(stdout, sudoku);
 
     // solve the board
-    if (!solveSudoku(sudoku, 1, dimensions))
-    {
+    if (!solveSudoku(sudoku, 1, dimensions)) {
         fprintf(stderr, "Could not solve board\n");
         return;
     }

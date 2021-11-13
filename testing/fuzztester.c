@@ -15,19 +15,24 @@
  */
 
 #include <stdlib.h>
+
 #include <stdio.h>
+
 #include <string.h>
+
 #include <math.h>
+
 #include "../sudoku/sudokuTable.h"
+
 #include "creator.h"
+
 #include "solver.h"
 
 // function prototypes
-bool changedNum(sudokuTable_t* created, sudokuTable_t* solved, int dimension);
-bool isRepeat(sudokuTable_t* sudoku, int dimension);
+bool changedNum(sudokuTable_t * created, sudokuTable_t * solved, int dimension);
+bool isRepeat(sudokuTable_t * sudoku, int dimension);
 
-
-int main(const int argc, char* argv[]) {
+int main(const int argc, char * argv[]) {
 
     if (argc != 3) {
         fprintf(stderr, "Incorrect number of arguments. Usage: ./fuzztester n dimensions\n");
@@ -35,13 +40,13 @@ int main(const int argc, char* argv[]) {
     }
 
     // the number of boards to create
-    char* c = argv[1];
+    char * c = argv[1];
     int num = atoi(c);
 
     // the dimension
     int dimension = atoi(argv[2]);
 
-    sudokuTable_t* sudoku;
+    sudokuTable_t * sudoku;
     for (int n = 0; n < num; n++) {
         // create n tables on hard mode, i.e. start with 25 given numbers
         sudoku = createUniqueTable(25, dimension);
@@ -51,17 +56,17 @@ int main(const int argc, char* argv[]) {
         sudokuTable_print(stdout, sudoku);
 
         // print the original board to a file to be read by loading function
-        FILE* fp = fopen("../tables/table2.txt", "w");
+        FILE * fp = fopen("../tables/table2.txt", "w");
         sudokuTable_print(fp, sudoku);
         fclose(fp);
-        
+
         // create a copy of the original board to solve
-        FILE* fp1 = fopen("../tables/table3.txt", "r");
-        sudokuTable_t* solve = sudokuTable_load(fp, dimension);
+        FILE * fp1 = fopen("../tables/table3.txt", "r");
+        sudokuTable_t * solve = sudokuTable_load(fp, dimension);
         fclose(fp1);
 
         // solve the copy
-        if(!solveSudoku(solve, 1, 9)) {
+        if (!solveSudoku(solve, 1, 9)) {
             printf("END\n");
             return 1;
         }
@@ -97,10 +102,10 @@ int main(const int argc, char* argv[]) {
     }
 }
 
-bool changedNum(sudokuTable_t* created, sudokuTable_t* solved, int dimension) {
+bool changedNum(sudokuTable_t * created, sudokuTable_t * solved, int dimension) {
     // get boards for the original sudoku and the solved one
-    int** ogBoard = sudokuTable_board(created);
-    int** newBoard = sudokuTable_board(solved);
+    int ** ogBoard = sudokuTable_board(created);
+    int ** newBoard = sudokuTable_board(solved);
 
     // loop through the cells
     for (int i = 0; i < dimension; i++) {
@@ -119,37 +124,37 @@ bool changedNum(sudokuTable_t* created, sudokuTable_t* solved, int dimension) {
     return false;
 }
 
-bool isRepeat(sudokuTable_t* sudoku, int dimension) {
-    int** board = sudokuTable_board(sudoku);    
+bool isRepeat(sudokuTable_t * sudoku, int dimension) {
+    int ** board = sudokuTable_board(sudoku);
     //these will hold which numbers are in each row, col, and box. So if the number 5 is at coordinates (i, j), then row[i][5] = true denoting there is a 5 in row i. 
     //like wise, col[j][5] = true, and boxes[i/3][j/3][5] = true.
-    bool row[dimension][dimension+1];
-    bool col[dimension][dimension+1];
+    bool row[dimension][dimension + 1];
+    bool col[dimension][dimension + 1];
 
     // the square root of the dimension
     int sqrtDim = sqrt(dimension);
-    bool boxes[sqrtDim][sqrtDim][dimension+1];
-    int num=0;
+    bool boxes[sqrtDim][sqrtDim][dimension + 1];
+    int num = 0;
 
     //initalizing everything to false
-    for(int i = 0; i < dimension; i++){
-        for(int j = 0; j < dimension+1; j++){
-            row[i][j]=false;
-            col[i][j]=false;
+    for (int i = 0; i < dimension; i++) {
+        for (int j = 0; j < dimension + 1; j++) {
+            row[i][j] = false;
+            col[i][j] = false;
         }
     }
 
     //initalizing everything to false
-    for(int i = 0; i < sqrtDim; i++){
-        for(int j = 0; j < sqrtDim; j++){
-            for(int k = 0; k < dimension+1; k++){
-                boxes[i][j][k]=false;
-            }       
-        }       
+    for (int i = 0; i < sqrtDim; i++) {
+        for (int j = 0; j < sqrtDim; j++) {
+            for (int k = 0; k < dimension + 1; k++) {
+                boxes[i][j][k] = false;
+            }
+        }
     }
 
-    for(int i = 0; i < dimension; i++) {
-        for(int j = 0; j < dimension; j++) {
+    for (int i = 0; i < dimension; i++) {
+        for (int j = 0; j < dimension; j++) {
             if (board[i][j] == 0) continue;
 
             num = board[i][j];
@@ -157,20 +162,17 @@ bool isRepeat(sudokuTable_t* sudoku, int dimension) {
             if (row[i][num]) {
                 printf("%d already exists in row\n", num);
                 return true;
-            } 
-            else row[i][num] = true;
+            } else row[i][num] = true;
 
             if (col[j][num]) {
                 printf("%d already exists in col\n", num);
                 return true;
-            } 
-            else col[j][num] = true;
+            } else col[j][num] = true;
 
-            if (boxes[i/3][j/3][num]) {
+            if (boxes[i / 3][j / 3][num]) {
                 printf("%d already exists in box\n", num);
                 return true;
-            } 
-            else boxes[i/3][j/3][num] = true;
+            } else boxes[i / 3][j / 3][num] = true;
         }
     }
 
