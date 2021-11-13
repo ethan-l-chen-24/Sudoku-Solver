@@ -51,7 +51,7 @@ int main(const int argc, char* argv[]) {
         sudokuTable_print(stdout, sudoku);
 
         // print the original board to a file to be read by loading function
-        FILE* fp = fopen("../tables/table3.txt", "w");
+        FILE* fp = fopen("../tables/table2.txt", "w");
         sudokuTable_print(fp, sudoku);
         fclose(fp);
         
@@ -61,7 +61,10 @@ int main(const int argc, char* argv[]) {
         fclose(fp1);
 
         // solve the copy
-        solveSudoku(solve, 1, 9);
+        if(!solveSudoku(solve, 1, 9)) {
+            printf("END\n");
+            return 1;
+        }
         printf("\nPrinting the solved board...\n");
         sudokuTable_print(stdout, solve);
 

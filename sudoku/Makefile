@@ -19,7 +19,7 @@ VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 sudoku: $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
-.PHONY: all create solve clean
+.PHONY: all create solve valgrind clean
 
 all: sudoku sudokuTable.a
 
@@ -31,10 +31,13 @@ create: sudoku
 solve: sudoku
 	./sudoku solve hard < ../tables/table1.txt 
 
+# valgrind
+valgrind: sudoku
+	$(VALGRIND) ./sudoku create easy > ../tables/valgrindTable.txt
+	$(VALGRIND) ./sudoku solve easy < ../tables/valgrindTable.txt
+
 clean:
 	rm -rf *.dSYM  # MacOS debugger info
 	rm -f *~ *.o
 	rm -f core
 	rm -f sudoku
-	rm -f ../solver/solver.o
-	rm -f ../creator/creator.o

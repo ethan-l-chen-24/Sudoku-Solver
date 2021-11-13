@@ -46,8 +46,10 @@ touch ../tables/hard16.txt
 ../sudoku/sudoku create easy nonIntArg
 
 # using invalid dimension
-../sudoku/sudoku solve hard 10
+../sudoku/sudoku solve hard 10 
 
+# using invalid board
+../sudoku/sudoku solve easy < ../tables/invalidTable.txt
 
 # SOLVABILITY
 # trying to solve a known unsolvable board
@@ -59,5 +61,8 @@ valgrind --leak-check=full --show-leak-kinds=all ../sudoku/sudoku create easy > 
 
 # checking for memory leaks on solve mode
 valgrind --leak-check=full --show-leak-kinds=all ../sudoku/sudoku solve easy < ../tables/valgrindTable.txt
+
+# checking for memory leaks on necessary edge cases
+valgrind --leak-check=full --show-leak-kinds=all ../sudoku/sudoku solve easy < ../tables/invalidTable.txt
 
 exit 0
