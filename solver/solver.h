@@ -7,6 +7,9 @@
  * CS50, Fall 2021
  */
 
+#ifndef __SOLVER
+#define __SOLVER
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "../sudoku/sudokuTable.h"
@@ -80,3 +83,5 @@ bool backtrackRev(int** board, int r, int c,  bool** row, bool** col, bool*** bo
  *  boolean return type true if board is solved (no zeroes), false otherwise
  */
 bool isSolved(sudokuTable_t* sudoku, int dimension);
+
+#endif
