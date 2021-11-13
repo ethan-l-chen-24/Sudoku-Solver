@@ -16,7 +16,7 @@ $(LIB): $(OBJS) $(LIBS)
 
 .PHONY: all clean sourcelist test
 
-all: creator.a
+all: solver.a
 
 # list all the sources and docs in this directory.
 sourcelist: Makefile *.md *.c *.h

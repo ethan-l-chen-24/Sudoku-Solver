@@ -126,6 +126,7 @@ sudokuTable_t *generate(int numFilled, int dimension)
     }
     randomize(arr, dimension);
     backtrackRand(board,0,0,row,col,boxes, dimension, arr);
+    validator_delete(val);
  
     return sudoku;
 }
