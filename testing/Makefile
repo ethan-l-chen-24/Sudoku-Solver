@@ -2,29 +2,24 @@
 #
 # Ethan Chen, Bansharee Ireen, Jeffrey Jiang, November 2021
 
-OBJS = sudoku.o creator.o solver.o sudokuTable.o
-LIBS =
+S = ../solver
+C = ../creator
+T = ../sudoku
 
-# uncomment the following to turn on testing
-TESTING = 
+LIBS = $S/solver.a $C/creator.a 
 
-CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I../libcs50.a
+CFLAGS = -Wall -pedantic -std=c11 -ggdb $(TESTING) -I$S -I$C
 CC = gcc
 MAKE = make
 
 # for memory-leak tests
 VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 
-unittest: unittest.o ../creator/creator.o ../solver/solver.o ../sudoku/sudokuTable.o
+unittest: unittest.o ../sudoku/sudokuTable.o
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
 
-fuzztester: fuzztester.o ../creator/creator.o ../solver/solver.o ../sudoku/sudokuTable.o
+fuzztester: fuzztester.o ../sudoku/sudokuTable.o
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@ -lm
-
-../creator/creator.o: ../creator/creator.h ../sudoku/sudokuTable.h ../solver/solver.h 
-../solver/solver.o: ../solver/solver.h ../sudoku/sudokuTable.h 
-../sudoku/sudokuTable.o: ../sudoku/sudokuTable.h ../libcs50/file.h
-../sudoku/sudoku.o: ../creator/creator.h ../solver/solver.h ../sudoku/sudokuTable.h
 
 .PHONY: valgrind clean unit fuzz
 

@@ -15,7 +15,7 @@
 #include <ctype.h>
 #include <math.h>
 #include "sudokuTable.h"
-#include "../libcs50/file.h"
+#include "file.h"
 
 // local functions
 static bool validVal(sudokuTable_t* sudoku, int val);

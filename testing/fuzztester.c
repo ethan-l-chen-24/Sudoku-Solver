@@ -19,8 +19,8 @@
 #include <string.h>
 #include <math.h>
 #include "../sudoku/sudokuTable.h"
-#include "../creator/creator.h"
-#include "../solver/solver.h"
+#include "creator.h"
+#include "solver.h"
 
 // function prototypes
 bool changedNum(sudokuTable_t* created, sudokuTable_t* solved, int dimension);
