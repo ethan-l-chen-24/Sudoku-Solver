@@ -43,7 +43,7 @@ $(VALGRIND) ./unittest
 
 ### `unittest`
 
-`make unit` in the testing directory runs `unittest.c`. This can also be acheived using the following command: 
+`make unit` in the testing directory runs `unittest.c`. This can also be acheived using the following command:
 
 `./unittest`
 
