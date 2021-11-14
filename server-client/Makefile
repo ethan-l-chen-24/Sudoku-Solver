@@ -26,8 +26,6 @@ client: client.o $(LIBS)
 server: server.o $(LIBS)
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 
-server.o: ../creator/creator.h ../solver/solver.h ../sudoku/sudokuTable.h
-
 .PHONY: all valgrind 
 
 clean:
