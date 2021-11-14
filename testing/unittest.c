@@ -184,9 +184,15 @@ int test_uniqueness() {
         for (int j = 0; j < 9; j++) {
             if (t1[i][j] != t2[i][j] || t1[i][j] == 0) {
                 failed++;
+<<<<<<< HEAD
+            } 
+        } 
+    } 
+=======
             }
         }
     }
+>>>>>>> ac8bb07ed713b493d3a2f691d8c3a8f878131f9c
 
     if (failed == 0) {
         printf("found unique solution of \n");
