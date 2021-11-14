@@ -162,10 +162,9 @@ int test_uniqueness() {
         for (int j = 0; j < 9; j++) {
             if (t1[i][j] != t2[i][j] || t1[i][j] == 0) {
                 failed++;
-            } //end if
-
-        } //end inner for
-    } //end for
+            } 
+        } 
+    } 
 
     if (failed == 0) {
         printf("found unique solution of \n");
@@ -193,7 +192,7 @@ int main(int argc, char
     }
 
     failed = 0;
-    // failed += test_create();
+    failed += test_create();
     if (failed == 0) {
         printf("Test create passed\n");
     } else {
