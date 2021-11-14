@@ -25,7 +25,6 @@
 void validateParam(char* mode, char* difficulty);
 void createTable(char* difficulty, int dimensions);
 void solveTable(int dimensions);
-bool perfectSquare(int num);
 int fileno(FILE* stream);
 
 /**************** validateParam ********************/

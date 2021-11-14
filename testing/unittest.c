@@ -10,22 +10,20 @@
  */
 
 #include <stdio.h>
-
 #include <stdlib.h>
-
 #include <time.h>
-
 #include "creator.h"
-
 #include "solver.h"
-
 #include "../sudoku/sudokuTable.h"
 
-
 int test_new() {
+    // the number of errors
     int failed = 0;
 
+    // create a new table
     sudokuTable_t * sudoku = sudokuTable_new(9, true);
+
+    // set numbers to certain cells
     sudokuTable_set(sudoku, 0, 3, 3);
     sudokuTable_set(sudoku, 0, 4, 5);
     sudokuTable_set(sudoku, 0, 5, 7);
@@ -36,16 +34,23 @@ int test_new() {
     sudokuTable_set(sudoku, 2, 4, 1);
     sudokuTable_set(sudoku, 2, 5, 6);
 
+    // print the table
     sudokuTable_print(stdout, sudoku);
 
-    if (sudoku == NULL)
+    // check if sudoku is NULL
+    if (sudoku == NULL) {
+        failed++;       // if so, increment number of errors
+    }
+    // check if we can get back the numbers we inputted earlier
+    if (sudokuTable_get(sudoku, 0, 3) != 3) {
         failed++;
-    if (sudokuTable_get(sudoku, 0, 3) != 3)
+    }
+    if (sudokuTable_get(sudoku, 0, 4) != 5) {
         failed++;
-    if (sudokuTable_get(sudoku, 0, 4) != 5)
+    }
+    if (sudokuTable_get(sudoku, 2, 3) != 9) {
         failed++;
-    if (sudokuTable_get(sudoku, 2, 3) != 9)
-        failed++;
+    }
 
     sudokuTable_delete(sudoku);
 
@@ -54,10 +59,15 @@ int test_new() {
 
 int test_create() {
     int failed = 0;
+
+    // create a full table and print it
     sudokuTable_t * sudoku = createUniqueTable(25, 9);
     sudokuTable_print(stdout, sudoku);
+
+    // check if creation was successful
     if (sudoku == NULL) failed++;
 
+    // check if the number is in the row
     int randomCell = sudokuTable_get(sudoku, 0, 0);
     for (int i = 1; i < 9; i++) {
         if (sudokuTable_get(sudoku, 0, i) == randomCell) {
@@ -65,12 +75,14 @@ int test_create() {
         }
     }
 
+    // check if it is in the column
     for (int i = 1; i < 9; i++) {
         if (sudokuTable_get(sudoku, i, 0) == randomCell) {
             failed++;
         }
     }
 
+    // check if it is in the 3x3 box
     for (int i = 1; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             if (sudokuTable_get(sudoku, i, j) == randomCell) {
@@ -122,17 +134,23 @@ int test_load() {
 
     // compare the loaded table with the original table
     for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) { // if they are not the same
+        for (int j = 0; j < 9; j++) { 
+            // if they are not the same
             if (ogBoard[i][j] != loadedBoard[i][j]) {
                 printf("Failed load test! Loaded table is incorrect.\n");
+                
+                // delete the boards
                 sudokuTable_delete(ogSudoku);
                 sudokuTable_delete(loadedSudoku);
+
+                // increment number of errors
                 failed++;
                 return failed;
             }
         }
     }
 
+    // delete the boards
     sudokuTable_delete(ogSudoku);
     sudokuTable_delete(loadedSudoku);
 
@@ -148,23 +166,33 @@ int test_uniqueness() {
     s = createUniqueTable(25, 9);
     s2 = sudokuTable_new(9, true);
     int ** table = sudokuTable_board(s);
+
+    // create a copy of the table
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             sudokuTable_set(s2, i, j, table[i][j]);
         }
     }
 
+    // solve both boards
     solveSudoku(s, 1, 9);
     solveSudoku(s2, 0, 9);
     int ** t1 = sudokuTable_board(s);
     int ** t2 = sudokuTable_board(s2);
+    // check if the boards are the same, i.e. they had the same solution
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (t1[i][j] != t2[i][j] || t1[i][j] == 0) {
                 failed++;
+<<<<<<< HEAD
             } 
         } 
     } 
+=======
+            }
+        }
+    }
+>>>>>>> ac8bb07ed713b493d3a2f691d8c3a8f878131f9c
 
     if (failed == 0) {
         printf("found unique solution of \n");
@@ -176,13 +204,16 @@ int test_uniqueness() {
     return failed;
 }
 
-int main(int argc, char
-    const * argv[]) {
+int main(int argc, char const * argv[]) {
+    // randomize time
     srand(time(NULL));
+    // number of errors
     int totalFailed = 0;
     int failed = 0;
 
     printf("Welcome to Unit Testing\n");
+
+    // runs test on sudokuTable_new
     failed += test_new();
     if (failed == 0) {
         printf("Test new passed\n");
@@ -191,6 +222,7 @@ int main(int argc, char
         totalFailed++;
     }
 
+    // runs test on createUniqueTable
     failed = 0;
     failed += test_create();
     if (failed == 0) {
@@ -200,6 +232,7 @@ int main(int argc, char
         totalFailed++;
     }
 
+    // runs test on sudokuTable_load
     failed = 0;
     failed += test_load();
     if (failed == 0) {
@@ -209,6 +242,7 @@ int main(int argc, char
         totalFailed++;
     }
 
+    // runs test on checkUniqueness
     failed = 0;
     failed += test_uniqueness();
     if (failed == 0) {
@@ -218,6 +252,7 @@ int main(int argc, char
         totalFailed++;
     }
 
+    // the resulting errors
     if (totalFailed > 0) {
         fprintf(stderr, "Unit testing failed T_T\n");
         return 1;

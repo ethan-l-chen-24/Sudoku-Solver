@@ -6,13 +6,13 @@ touch ../tables/hardTable.txt
 touch ../tables/valgrindTable.txt
 touch ../tables/easy16.txt
 touch ../tables/hard16.txt
-
+touch ../tables/hard4.txt
 
 # VALID TESTS
-# test 1:creating a board on easy mode
+# test 1: creating 9x9 board on easy mode
 ../sudoku/sudoku create easy > ../tables/easyTable.txt
 
-# test 2: creating a board on hard mode
+# test 2: creating 9x9 board on hard mode
 ../sudoku/sudoku create hard > ../tables/hardTable.txt
 
 # test 3: solving the board made by test 1
@@ -33,36 +33,46 @@ touch ../tables/hard16.txt
 # test 8: solving the board made by test 6
 ../sudoku/sudoku solve hard 16 < ../tables/hard16.txt
 
+# test 9: creating 4x4 board on hard mode
+../sudoku/sudoku create hard 4 > ../tables/hard4.txt
+
+# test 10: solving the board made by test 9
+../sudoku/sudoku solve hard 4 < ../tables/hard4.txt
 
 # INVALID INPUTS
 
-# invalid mode
+# test 11: invalid mode
 ../sudoku/sudoku wrong easy
 
-# invalid difficulty
+# test 12: invalid difficulty
 ../sudoku/sudoku create wrong
 
-# 3rd argument can only be dimension
+# test 13: 3rd argument can only be dimension
 ../sudoku/sudoku create easy nonIntArg
 
-# using invalid dimension
+# test 14: using invalid dimension
 ../sudoku/sudoku solve hard 10 
 
-# using invalid board
+# test 15: using invalid board
 ../sudoku/sudoku solve easy < ../tables/invalidTable.txt
 
-# SOLVABILITY
-# trying to solve a known unsolvable board
+# test 16: too many arguments
+../sudoku/sudoku create easy 9 extraArg
+
+# test 17: trying to solve a known invalid board
 ../sudoku/sudoku solve easy < ../tables/unsolvableTable.txt
 
 # VALGRIND TESTS
-# checking for memory leaks on create mode
+# test 18: checking for memory leaks on create mode
 valgrind --leak-check=full --show-leak-kinds=all ../sudoku/sudoku create easy > ../tables/valgrindTable.txt
 
-# checking for memory leaks on solve mode
+
+# test 19: checking for memory leaks on solve mode
 valgrind --leak-check=full --show-leak-kinds=all ../sudoku/sudoku solve easy < ../tables/valgrindTable.txt
 
-# checking for memory leaks on necessary edge cases
+
+# test 20: checking for memory leaks on necessary edge cases
 valgrind --leak-check=full --show-leak-kinds=all ../sudoku/sudoku solve easy < ../tables/invalidTable.txt
+
 
 exit 0

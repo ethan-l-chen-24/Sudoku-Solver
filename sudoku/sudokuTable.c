@@ -82,15 +82,15 @@ int sudokuTable_dimension(sudokuTable_t * sudoku) {
 sudokuTable_t * sudokuTable_load(FILE * fp, int dimension) {
     if (fp == NULL) return NULL;
 
-    char currCharr; // the current character read from the file
-    char prevChar = '\0'; // tracks the previous character
-    char number[4]; // numerical string to insert into the board
-    int insert; // the integer to insert into the board
+    char currCharr;         // the current character read from the file
+    char prevChar = '\0';   // tracks the previous character
+    char number[4];         // numerical string to insert into the board
+    int insert;             // the integer to insert into the board
 
     int row = 0;
     int col = 0;
 
-    int numReceived = 0; // tracks the number of non-zero numbers
+    int numReceived = 0;    // tracks the number of non-zero numbers
     bool format = false;
 
     sudokuTable_t * sudoku = sudokuTable_new(dimension, false);
@@ -99,8 +99,8 @@ sudokuTable_t * sudokuTable_load(FILE * fp, int dimension) {
             // if there is a space after the last digit
             // then this is the end of the number
             if (isspace(currCharr) && isdigit(prevChar)) {
-                sudokuTable_set(sudoku, row, col, insert); // add the number to the table
-                col++; // move to the next column        
+                sudokuTable_set(sudoku, row, col, insert);  // add the number to the table
+                col++;                                      // move to the next column        
             }
 
             // if current char is a digit
@@ -109,11 +109,9 @@ sudokuTable_t * sudokuTable_load(FILE * fp, int dimension) {
 
                 // if previous char was also a digit, this is a 2-digit number on a 16x16 board
                 if (isdigit(prevChar)) {
-                    sprintf(number, "%c%c", prevChar, currCharr); // concatenate the two digits
-                    insert = atoi(number); // set the two digit number to be the integer to insert
+                    sprintf(number, "%c%c", prevChar, currCharr);   // concatenate the two digits
+                    insert = atoi(number);                          // set the two digit number to be the integer to insert
                 }
-
-                // printf("num to insert 1: %d\n", insert);
 
                 if (col >= dimension || row >= dimension) {
                     sudokuTable_delete(sudoku);
@@ -123,9 +121,8 @@ sudokuTable_t * sudokuTable_load(FILE * fp, int dimension) {
 
                 // increment if non-zero
                 if (insert != 0) numReceived++;
-
-                //col++;
             }
+
             // if there is an alphabet in the board
             else if (isalpha(currCharr)) {
                 sudokuTable_delete(sudoku);
@@ -137,7 +134,7 @@ sudokuTable_t * sudokuTable_load(FILE * fp, int dimension) {
 
             // update the previous character
             prevChar = currCharr;
-        } // end of row
+        }
 
         // if following standard format and there is no space after the number
         // then the number was not added above, so add it here
@@ -154,23 +151,33 @@ sudokuTable_t * sudokuTable_load(FILE * fp, int dimension) {
             return NULL;
         }
 
+        // go to the next row if not at beginning of row
         if (col != 0) {
             row++;
         }
 
-        col = 0; // resetting column number at new row
-        prevChar = '\0'; // resetting prevChar to null character for new row
+        col = 0;            // resetting column number at new row
+        prevChar = '\0';    // resetting prevChar to null character for new row
     }
 
+    // if we did not go through the required number of rows
     if (row != dimension) {
         sudokuTable_delete(sudoku);
         fprintf(stderr, "Error: format of input file is incorrect\n");
         return NULL;
     }
 
-    // check if received at least 25 numbers
-    if (numReceived < 25) {
+    // check if received at least 25 numbers for dimension 9
+    if (dimension == 9 && numReceived < 25) {
         fprintf(stderr, "Invalid board. Needs to have at least 25 starting numbers.\n");
+        return NULL;
+    } // check if received at least 135 numbers for dimension 16 
+    else if (dimension == 25 && numReceived < 135) {
+        fprintf(stderr, "Invalid board. Needs to have at least 135 starting numbers.\n");
+        return NULL;
+    } // check if received at least 5 numbers for dimension 4 
+    else if (numReceived < 4) {
+        fprintf(stderr, "Invalid board. Needs to have at least 5 starting numbers.\n");
         return NULL;
     }
     sudokuTable_setFormat(sudoku, format);
