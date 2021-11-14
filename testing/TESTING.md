@@ -110,3 +110,16 @@ Checks if any of the starting numbers on the original board were changed by the 
 `isRepeat`
 
 Checks if the solved board repeats a particular number on the row, column, or the box it is placed in.
+
+### Timed Runs
+Generate Easy: 0.008s, 0.010s, 0.011s, 0.007s, 0.009s
+Avg: 0.009s
+
+Generate Hard: 0.171s, 0.015s, 0.025s, 0.173s, 0.672s
+Avg: 0.221s
+
+Solve Easy: 0.003s, 0.003s, 0.001s, 0.002s, 0.004s
+Avg: 0.002s
+
+Solve Hard: 0.005s, 0.011s, 0.003s, 0.003s, 0.005s, 
+Avg: 0.005s
