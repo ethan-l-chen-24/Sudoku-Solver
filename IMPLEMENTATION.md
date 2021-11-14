@@ -1,5 +1,5 @@
 # Final Project - Jeffrey Jiang, Bansharee Ireen, Ethan Chen
-## Sudoku Solver, CS50 Fall 20221
+## Sudoku Solver, CS50 Fall 2021
 
 ## Data Structures Used
 
