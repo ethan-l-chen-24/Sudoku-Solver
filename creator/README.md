@@ -23,4 +23,4 @@ The creator directory holds all the modules used by the create mode of our Sudok
 
 `make create` in the sudoku directory creates a board using the following command:
 
-`./sudoku create hard 4 > ../tables/table1.txt`
+`./sudoku create hard 9 > ../tables/table1.txt`
