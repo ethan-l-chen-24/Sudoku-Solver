@@ -5,8 +5,11 @@
 
 This is a module that runs a server-client interface as an extension to the default Sudoku project. It contains `server.c` and `client.c`
 
+### Files
+
 * `server.c` - initializes a server at `port 3000` that a client can connect to
 * `client.c` - creates a new client and connects it to a port
+* `Makefile` - compiles both files
 
 ### server.c
 

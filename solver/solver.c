@@ -32,7 +32,7 @@ bool solveSudoku(sudokuTable_t * sudoku, int direction, int dimension) {
     int sqrtDimension = sqrt(dimension);
 
     if (sudoku == NULL) {
-        pthread_mutex_unlock( & mutexSolve);
+        pthread_mutex_unlock(&mutexSolve);
         return false;
     }
 
@@ -48,25 +48,6 @@ bool solveSudoku(sudokuTable_t * sudoku, int direction, int dimension) {
 
     int num = 0;
     bool invalid = false;
-
-    //initalizing everything to false
-    for (int i = 0; i < dimension; i++) {
-        for (int j = 0; j < dimension + 1; j++) {
-            row[i][j] = false;
-            col[i][j] = false;
-        } 
-    } 
-
-    //initalizing everything to false
-    for (int i = 0; i < sqrtDimension; i++) {
-        for (int j = 0; j < sqrtDimension; j++) {
-            for (int k = 0; k < dimension + 1; k++) {
-                boxes[i][j][k] = false;
-            } 
-
-        } 
-
-    } 
 
     //now we start setting numbers to true given what's already on the board. This will also check for invalid entries while it's filling in. 
     for (int i = 0; i < dimension; i++) {
@@ -106,18 +87,18 @@ bool solveSudoku(sudokuTable_t * sudoku, int direction, int dimension) {
 
         // if it is solved (cells are filled in) return true;
         if (!isSolved(sudoku, dimension)) {
-            pthread_mutex_unlock( & mutexSolve);
+            pthread_mutex_unlock(&mutexSolve);
             return false;
         }
 
-        pthread_mutex_unlock( & mutexSolve);
+        pthread_mutex_unlock(&mutexSolve);
         return true;
 
     } 
     else {
         validator_delete(val);
         fprintf(stderr, "Invalid board\n");
-        pthread_mutex_unlock( & mutexSolve);
+        pthread_mutex_unlock(&mutexSolve);
         return false;
     }
 } //end solve

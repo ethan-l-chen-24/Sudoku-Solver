@@ -57,6 +57,23 @@ validator_t* validator_new(int dimension) {
         }
     }
 
+    //initalizing validator arrays to false
+    for (int i = 0; i < dimension; i++) {
+        for (int j = 0; j < dimension + 1; j++) {
+            row[i][j] = false;
+            col[i][j] = false;
+        } 
+    } 
+
+    //initalizing validator box matrix to false
+    for (int i = 0; i < sqrtDimension; i++) {
+        for (int j = 0; j < sqrtDimension; j++) {
+            for (int k = 0; k < dimension + 1; k++) {
+                boxes[i][j][k] = false;
+            } 
+        } 
+    } 
+
     // set each matrix to its appropriate struct property
     val -> row = row;
     val -> col = col;
