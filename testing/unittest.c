@@ -166,16 +166,20 @@ int test_uniqueness() {
     s = createUniqueTable(25, 9);
     s2 = sudokuTable_new(9, true);
     int ** table = sudokuTable_board(s);
+
+    // create a copy of the table
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             sudokuTable_set(s2, i, j, table[i][j]);
         }
     }
 
+    // solve both boards
     solveSudoku(s, 1, 9);
     solveSudoku(s2, 0, 9);
     int ** t1 = sudokuTable_board(s);
     int ** t2 = sudokuTable_board(s2);
+    // check if the boards are the same, i.e. they had the same solution
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (t1[i][j] != t2[i][j] || t1[i][j] == 0) {
