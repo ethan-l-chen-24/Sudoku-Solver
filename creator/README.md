@@ -5,9 +5,11 @@
 
 The creator directory holds all the modules used by the create mode of our Sudoku program.
 
-`creator.c` - the module that handles the creation of sudoku boards
-`creator.h` - the header file describing the module functions
-`Makefile` - creates the creator.a file to store the object files
+## Files
+
+* `creator.c` - the module that handles the creation of sudoku boards
+* `creator.h` - the header file describing the module functions
+* `Makefile` - creates the creator.a file to store the object files
 
 ## Assumptions
 
