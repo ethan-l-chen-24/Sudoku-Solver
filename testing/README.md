@@ -7,8 +7,8 @@ The testing directory contains testing files and test result files. For more inf
 
 ## Files
 
-`unittest.c` - runs the unit testing
-`fuzztester.c` - handles automated testing
-`testing.sh` - integration testing
-`TESTING.md` - describes all testing in detail
-`Makefile` - runs commands for all kinds of testing
+* `unittest.c` - runs the unit testing
+* `fuzztester.c` - handles automated testing
+* `testing.sh` - integration testing
+* `TESTING.md` - describes all testing in detail
+* `Makefile` - runs commands for all kinds of testing
