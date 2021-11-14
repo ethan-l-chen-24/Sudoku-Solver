@@ -27,7 +27,7 @@ fuzztester: fuzztester.o ../sudoku/sudokuTable.o
 
 # fuzz testing
 fuzz: fuzztester
-	./fuzztester 4 16
+	./fuzztester 4 9
 
 unit: unittest
 	./unittest
