@@ -107,7 +107,8 @@ int main(const int argc, char * argv[]) {
     return 0;
 }
 
-bool changedNum(sudokuTable_t * created, sudokuTable_t * solved, int dimension) {
+// checks if any of the starting numbers on the unsolved board were changed by solver
+bool changedNum(sudokuTable_t* created, sudokuTable_t* solved, int dimension) {
     // get boards for the original sudoku and the solved one
     int** ogBoard = sudokuTable_board(created);
     int** newBoard = sudokuTable_board(solved);
@@ -129,6 +130,7 @@ bool changedNum(sudokuTable_t * created, sudokuTable_t * solved, int dimension) 
     return false;
 }
 
+// checks if any of the numbers added by the solver were repeats on the cell's row, column, or box
 bool isRepeat(sudokuTable_t* sudoku, int dimension) {
     int** board = sudokuTable_board(sudoku);
     bool row[dimension][dimension + 1];
