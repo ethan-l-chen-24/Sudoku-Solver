@@ -16,6 +16,7 @@
 #include "solver.h"
 #include "../sudoku/sudokuTable.h"
 
+// test for sudoku table struct
 int test_new() {
     // the number of errors
     int failed = 0;
@@ -57,11 +58,12 @@ int test_new() {
     return failed;
 }
 
+// test for creating a sudoku table
 int test_create() {
     int failed = 0;
 
     // create a full table and print it
-    sudokuTable_t * sudoku = createUniqueTable(25, 9);
+    sudokuTable_t* sudoku = createUniqueTable(25, 9);
     sudokuTable_print(stdout, sudoku);
 
     // check if creation was successful
@@ -96,6 +98,7 @@ int test_create() {
     return failed;
 }
 
+// test for loading a sudoku before solve
 int test_load() {
     int failed = 0;
 
@@ -157,6 +160,7 @@ int test_load() {
     return failed;
 }
 
+// testing that create creates a unique table
 int test_uniqueness() {
     int failed = 0;
 

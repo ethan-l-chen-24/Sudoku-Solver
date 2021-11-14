@@ -48,9 +48,10 @@ sudokuTable_t* createUniqueTable(int numFilled, int dimension) {
             plucks++;
             tmp = table[x][y];
             table[x][y] = 0;
+            // if the table is unique, move onto the next pluck
             if (checkUniqueness(sudokuTable, dimension)) {
                 check++;
-            } else {
+            } else { // otherwise try another number
                 table[x][y] = tmp;
             }
 
@@ -67,6 +68,7 @@ sudokuTable_t* createUniqueTable(int numFilled, int dimension) {
             check = 0;
         } 
 
+        // if only numFilled numbers left on the board and stil unique, we are done
         if (check == (dimension * dimension) - numFilled) {
             uniq = true;
         } 
@@ -82,7 +84,6 @@ sudokuTable_t* createUniqueTable(int numFilled, int dimension) {
 sudokuTable_t* generate(int numFilled, int dimension) {
     // create a new table
     sudokuTable_t* sudoku = sudokuTable_new(dimension, true);
-    int sqrtDimension = sqrt(dimension);
 
     if (sudoku == NULL) {
         return NULL;
@@ -94,25 +95,6 @@ sudokuTable_t* generate(int numFilled, int dimension) {
     bool** row = validator_getRow(val);
     bool** col = validator_getCol(val);
     bool*** boxes = validator_getBoxes(val);
-
-    //initalizing validator arrays to false
-    for (int i = 0; i < dimension; i++) {
-        for (int j = 0; j < dimension + 1; j++) {
-            row[i][j] = false;
-            col[i][j] = false;
-        } 
-    } 
-
-    //initalizing validator box matrix to false
-    for (int i = 0; i < sqrtDimension; i++) {
-        for (int j = 0; j < sqrtDimension; j++) {
-            for (int k = 0; k < dimension + 1; k++) {
-                boxes[i][j][k] = false;
-            } 
-
-        } 
-
-    } 
 
     // create an array from 1-9 to represent each number
     int arr[dimension];
@@ -136,14 +118,14 @@ sudokuTable_t* generate(int numFilled, int dimension) {
  * returns true if sudoku board is unique
  * returns false if there are multiple solutions detected
 */
-bool checkUniqueness(sudokuTable_t * sudoku, int dimension) {
+bool checkUniqueness(sudokuTable_t* sudoku, int dimension) {
 
     // validate sudoku arg
     if (sudoku == NULL) {
         return false;
     } 
 
-    int ** table1 = sudokuTable_board(sudoku);
+    int** table1 = sudokuTable_board(sudoku);
 
     // create two copies of the original board
     sudokuTable_t * s2 = sudokuTable_new(dimension, true);
@@ -156,8 +138,8 @@ bool checkUniqueness(sudokuTable_t * sudoku, int dimension) {
     } 
 
     // grab the tables from those boards
-    int ** table2 = sudokuTable_board(s2);
-    int ** table3 = sudokuTable_board(s3);
+    int** table2 = sudokuTable_board(s2);
+    int** table3 = sudokuTable_board(s3);
 
     //get two sudoku boards, solve one with foward and the other with rev backtrack
     if (!solveSudoku(s3, 1, dimension)) {

@@ -89,7 +89,7 @@ sudokuTable_t* sudokuTable_load(FILE* fp, int dimension);
 void sudokuTable_set(sudokuTable_t* sudoku, int row, int col, int val);
 
 
-/******************* sudokuTable_set ******************/
+/******************* sudokuTable_get ******************/
 /*
  * Returns the value of an individual cell
  *

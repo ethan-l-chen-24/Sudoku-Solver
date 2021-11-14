@@ -129,7 +129,7 @@ bool changedNum(sudokuTable_t * created, sudokuTable_t * solved, int dimension) 
     return false;
 }
 
-bool isRepeat(sudokuTable_t * sudoku, int dimension) {
+bool isRepeat(sudokuTable_t* sudoku, int dimension) {
     int** board = sudokuTable_board(sudoku);
     bool row[dimension][dimension + 1];
     bool col[dimension][dimension + 1];

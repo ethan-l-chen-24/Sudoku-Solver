@@ -90,7 +90,6 @@ void randomize(int* arr, int dimension);
  * Caller provides:
  *  nothing, this will be implicity called in solveSudoku
  *  
- * 
  * We return:
  *  boolean return type which does hold any significance, just for backtracking recursion. 
  * 
