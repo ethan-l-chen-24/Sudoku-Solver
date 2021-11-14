@@ -163,6 +163,7 @@ int test_uniqueness() {
     sudokuTable_t * s;
     sudokuTable_t * s2;
 
+    // create a unique table
     s = createUniqueTable(25, 9);
     s2 = sudokuTable_new(9, true);
     int ** table = sudokuTable_board(s);
@@ -188,10 +189,13 @@ int test_uniqueness() {
         }
     }
 
+    // if no errors occurred
     if (failed == 0) {
-        printf("found unique solution of \n");
+        printf("Found unique solution of \n");
         sudokuTable_print(stdout, s);
     }
+    
+    // delete the boards
     sudokuTable_delete(s);
     sudokuTable_delete(s2);
 
