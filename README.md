@@ -29,7 +29,8 @@ GitHub usernames: ethan-l-chen-24
 ├── creator
 │   ├── creator.c
 │   ├── creator.h
-│   └── Makefile
+│   ├── Makefile
+│   └── README.md
 ├── DESIGN.md
 ├── IMPLEMENTATION.md
 ├── libcs50
@@ -44,15 +45,18 @@ GitHub usernames: ethan-l-chen-24
 ├── server-client
 │   ├── client.c
 │   ├── Makefile
+│   ├── README.md
 │   └── server.c
 ├── solver
 │   ├── Makefile
+│   ├── README.md
 │   ├── solver.c
 │   ├── solver.h
 │   ├── validator.c
 │   └── validator.h
 ├── sudoku
 │   ├── Makefile
+│   ├── README.md
 │   ├── sudoku.c
 │   ├── sudokuTable.c
 │   └── sudokuTable.h
@@ -71,6 +75,7 @@ GitHub usernames: ethan-l-chen-24
 └── testing
     ├── fuzztester.c
     ├── Makefile
+    ├── README.md
     ├── TESTING.md
     ├── testing.out
     ├── testing.sh
@@ -92,6 +97,6 @@ We decided to implement two "toppings" which were considered extra to the standa
 2. We also included server-client functionality so the all the solving and generation is done on a server, and the client can interact with the server with various commands. To see more information about this, see the `README.md` in the server-client directory. 
 
 ### Sources
-The sources we primarily consulted were Wikipedia, Stack overflow, and the CS50 lectures and slides. However, we guarentee that we wrote all the code and did not copy it with the exception of server-client. See more about that in server-client directory. 
+The sources we primarily consulted were Wikipedia, Stack overflow, and the CS50 lectures and slides. However, we guarentee that we wrote all the code and did not copy it with the exception of server-client. See more about that in server-client directory in the README. 
 
 
