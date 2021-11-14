@@ -91,5 +91,7 @@ We decided to implement two "toppings" which were considered extra to the standa
 1. Our sudoku project extends beyond the standard 9x9 to include generation and solving for 4x4 and 16x16. 
 2. We also included server-client functionality so the all the solving and generation is done on a server, and the client can interact with the server with various commands. To see more information about this, see the `README.md` in the server-client directory. 
 
+### Sources
+The sources we primarily consulted were Wikipedia, Stack overflow, and the CS50 lectures and slides. However, we guarentee that we wrote all the code and did not copy it with the exception of server-client. See more about that in server-client directory. 
 
 
