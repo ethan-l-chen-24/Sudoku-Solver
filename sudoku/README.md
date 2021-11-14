@@ -5,9 +5,12 @@
 
 This is a module that handles the executable version of the sudoku project according to the design specs, and holds the code for the `struct sudokuTable` which is used in various modules. The module includes files `sudoku.c`, `sudokuTable.c`, and `sudokuTable.h`
 
+### Files
+
 * `sudoku.c` - an executable version to create and solve sudoku tables on the command line
 * `sudokuTable.c` - code for a struct that stores the sudoku table, as well as methods to manipulate and use it
 * `sudokuTable.h` - the header file for `sudokuTable.c`
+* `Makefile` - compiles the files
 
 ### sudoku
 
