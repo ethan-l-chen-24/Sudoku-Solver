@@ -23,7 +23,7 @@ A struct to hold three matrices, a `bool** row`, a `bool** col`, and a `bool*** 
     2. generate a new one
 3. return the struct
 
-`generate()`
+`generate`
 
 1. Loads in a sudoku table from sudoku struct
 2. Create `boolean` matrices `row`, `col`, and `boxes` to keep track of whether a particular cell contains a particular number
@@ -87,6 +87,8 @@ A struct to hold three matrices, a `bool** row`, a `bool** col`, and a `bool*** 
             3. Reset the `boolean` matrices to false for the cell
 3. Else, if the there is already a number at the cell, recursively move on to the next cell
 4. `return false`
+
+### Psuedocode for `validator.c`
 
 `validator_new`
 

@@ -24,8 +24,13 @@ Each thread/client will have its own sudoku board, therefore they can run concur
 
 ### Assumptions
 
-`server.c` and `client.c` both only implement the sudoku communication on a 9x9 board. Additionally, both files assume that `port 3000` is free to be connected to, otherwise errors may occur.
+1. `server.c` and `client.c` both only implement the sudoku communication on a 9x9 board. 
+2. Both files assume that `port 3000` is free to be connected to, otherwise errors may occur.
 
 ### Compilation
 
 To compile, just call `make`. This will compile the server and client file and create the `./server` and `./client` executables.
+
+### Sources
+
+This code was heavily borrowed from the server-client code given on the course webpage. Alterations were made to add the sudoku functionality on top of previously-working code that was not originally ours.
