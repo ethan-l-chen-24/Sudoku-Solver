@@ -101,7 +101,23 @@ We will also include a 4th module that will just store a library of methods (`su
 
 ### Visual Representation
 
-Our sudoku would produce and be able to read tables built with characters such as `|` and `_`.
+Our sudoku would produce and be able to read tables built with characters such as `|` and `_`. Each major group will be separated by these symbols to show the 9 3x3 cubes that make up a sudoku board. An example of this is
+
+```
+----------------------------------
+|  0  0  0 |  0  0  0 |  0  0  0 | 
+|  4  0  0 |  0  0  0 |  3  0  2 | 
+|  0  2  6 |  0  0  0 |  5  0  0 | 
+----------------------------------
+|  3  0  0 |  0  8  0 |  0  0  9 | 
+|  0  7  0 |  0  0  0 |  4  0  0 | 
+|  0  0  0 |  9  0  5 |  0  0  7 | 
+----------------------------------
+|  1  3  0 |  0  2  0 |  0  0  4 | 
+|  0  0  2 |  0  1  0 |  8  0  5 | 
+|  0  0  8 |  7  0  0 |  9  0  0 | 
+----------------------------------
+```
 
 Otherwise, the solve mode should be able to read from the standard format, i.e. every number in the puzzle is separated by a single space and 0s are used to represent missing numbers.
 
