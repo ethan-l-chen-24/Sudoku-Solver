@@ -11,7 +11,6 @@
 #include <ctype.h>
 #include "file.h"
 
-
 /**************** lines_in_file ****************/
 int
 lines_in_file(FILE *fp)
